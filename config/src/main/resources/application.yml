@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/callELPSYCONGROO/spring-cloud-demo
+          search-paths: cloud-config-repo
+      label: master
+#  rabbitmq:
+#    host:
+#    port:
+#    username:
+#    password:
+server:
+  port: 7700
+eureka:
+  client:
+    service-url: http://127.0.0.1:8801/eureka/
+#management:
+#  security:
+#    enabled: false

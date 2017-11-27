@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: gateway
+server:
+  port: 9988
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8801/eureka/
+zuul:
+  routes:
+    api1:
+      path:
+      serverId:
+    api2:
+      path:
+      serverId: 

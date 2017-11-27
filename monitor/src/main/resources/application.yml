@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: monitor
+server:
+  port: 7800
+turbine:
+  aggregator:
+    cluster-config: default
+  app-config-list:
+  cluster-name-expression: new String("default")
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8801/eureka
