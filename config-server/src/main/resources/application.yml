@@ -1,0 +1,16 @@
+server:
+  port: 7700
+spring:
+  application:
+    name: configserver
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/callELPSYCONGROO/spring-cloud-demo/
+          search-paths: cloud-config-repo
+      label: master
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8801/eureka/

@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.wuhenjian.aurora</groupId>
-	<artifactId>config</artifactId>
+	<artifactId>config-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>config</name>
+	<name>config-server</name>
 	<description>The Configuration of The Program</description>
 
 	<parent>

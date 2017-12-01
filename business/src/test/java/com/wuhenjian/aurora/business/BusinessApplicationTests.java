@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.config;
+package com.wuhenjian.aurora.business;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ConfigApplicationTests {
+public class BusinessApplicationTests {
 
 	@Test
 	public void contextLoads() {
