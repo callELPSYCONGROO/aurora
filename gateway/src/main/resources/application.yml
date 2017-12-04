@@ -9,9 +9,9 @@ eureka:
       defaultZone: http://127.0.0.1:8801/eureka/
 zuul:
   routes:
-    api1:
-      path:
-      serverId:
-    api2:
-      path:
-      serverId: 
+    member:
+      path: /api/member/**
+      serverId: member
+    game:
+      path: /api/game/**
+      serverId: game
