@@ -13,6 +13,8 @@ public class TestCtrl {
 	@Value("${yige}")
 	private String username;
 
+	private int test;
+
 	@RequestMapping("username")
 	public String getUsername() {
 		return username;
