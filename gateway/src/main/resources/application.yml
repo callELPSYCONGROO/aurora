@@ -8,7 +8,11 @@ eureka:
     service-url:
       defaultZone: http://127.0.0.1:8801/eureka/
 zuul:
+  ignored-services: configserver,business,monitor,ra          # 需要忽视的服务(配置后将不会被路由)
   routes:
-    business:
-      path: /api/business/**
-      serverId: business
+    member:                       # 可以随便写，在zuul上面唯一即可
+      path: /api/member/**        # 想要映射到的路径
+      serverId: member           # Eureka中的serviceId
+    game:
+      path: /api/game/**
+      serverId: game
