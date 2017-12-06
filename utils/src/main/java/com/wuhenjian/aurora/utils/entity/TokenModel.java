@@ -7,17 +7,17 @@ package com.wuhenjian.aurora.utils.entity;
  */
 public class TokenModel {
 
-	private String accountCode;
+	private Long accountCode;
 
 	private String uuid;
 
 	private String sign;
 
-	public String getAccountCode() {
+	public Long getAccountCode() {
 		return accountCode;
 	}
 
-	public void setAccountCode(String accountCode) {
+	public void setAccountCode(Long accountCode) {
 		this.accountCode = accountCode;
 	}
 
