@@ -13,7 +13,11 @@ public enum ResultStatus {
 	KEY_PARAM_IS_EMPTY(1002, "The key parameter of the request is empty"),
 	SIGN_ERROR(1003, "sign error"),
 
-	SHA256_ENCODE(5001, "sha256'encoding is NoSuchAlgorithm or UnsupportedEncoding");
+	PARAM_IS_EMPTY(2001, "input param is empty"),
+
+	SHA256_ENCODE(5001, "sha256'encoding is NoSuchAlgorithm or UnsupportedEncoding"),
+	BASE64_ENCODE(5002, "base64'encoding is UnsupportedEncoding"),
+	RSA_ERROR(5003, "rsa'encoding is InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException");
 
 	private Integer code;
 

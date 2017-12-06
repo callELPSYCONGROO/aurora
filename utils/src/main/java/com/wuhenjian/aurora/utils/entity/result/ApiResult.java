@@ -68,4 +68,13 @@ public class ApiResult implements Serializable {
 	public void setData(Object data) {
 		this.data = data;
 	}
+
+	/**
+	 * 得到对应类型的数据
+	 * @param cla 类型
+	 * @return 数据
+	 */
+	public Object getData(Class cla) {
+		return cla.cast(this.data);
+	}
 }
