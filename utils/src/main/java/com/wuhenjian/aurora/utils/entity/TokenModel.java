@@ -7,42 +7,46 @@ package com.wuhenjian.aurora.utils.entity;
  */
 public class TokenModel {
 
-	private Long accountCode;
+    private Long accountCode;
 
-	private String uuid;
+    private String uuid;
 
-	private String sign;
+    private String sign;
 
-	public Long getAccountCode() {
-		return accountCode;
-	}
+    public Long getAccountCode() {
+        return accountCode;
+    }
 
-	public void setAccountCode(Long accountCode) {
-		this.accountCode = accountCode;
-	}
+    public void setAccountCode(Long accountCode) {
+        this.accountCode = accountCode;
+    }
 
-	public String getUuid() {
-		return uuid;
-	}
+    public String getUuid() {
+        return uuid;
+    }
 
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
-	public String getSign() {
-		return sign;
-	}
+    public String getSign() {
+        return sign;
+    }
 
-	public void setSign(String sign) {
-		this.sign = sign;
-	}
+    public void setSign(String sign) {
+        this.sign = sign;
+    }
 
-	public String toStringByAccAndUuid() {
-		return this.accountCode + "_" + this.uuid;
-	}
+    /**
+     * 账号和uuid按照URL键值对格式组成字符串
+     * @return 字符串
+     */
+    public String toStringByAccAndUuid() {
+        return "accountCode=" + this.accountCode + "&uuid=" + this.uuid;
+    }
 
-	@Override
-	public String toString() {
-		return this.sign + "_" + this.accountCode + "_" + this.sign;
-	}
+    @Override
+    public String toString() {
+        return "accountCode=" + this.accountCode + "&sign=" + this.sign + "&uuid=" + this.uuid;
+    }
 }

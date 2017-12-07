@@ -16,19 +16,4 @@ import java.util.Map;
 @RestController
 public class MemberLoginController extends BaseController{
 
-    @Value("${my.message}")
-    private String yige;
-
-    @RequestMapping("yige")
-    public String gege() {
-        return yige;
-    }
-
-    @RequestMapping("login")
-    public ApiResult login(String name, String pwd) {
-        Map<String,Object> map = new HashMap<>();
-        map.put("name", name);
-        map.put("pwd", pwd);
-        return ApiResult.success(map);
-    }
 }

@@ -6,7 +6,6 @@ import com.wuhenjian.aurora.utils.entity.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -29,7 +28,7 @@ public class TokenAuthController {
 	 * @return 结果集
 	 */
 	@RequestMapping("create")
-	public ApiResult createToken(@RequestParam("accountCode") Long accountCode) {
+	public ApiResult createToken(Long accountCode) {
 		if (accountCode == null) {
 			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
 		}

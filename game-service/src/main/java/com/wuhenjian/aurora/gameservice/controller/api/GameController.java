@@ -12,11 +12,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GameController extends BaseController {
 
-    @Value("yige")
-    private String yige;
-
-    @RequestMapping("yige")
-    public String getYige() {
-        return yige;
-    }
 }
