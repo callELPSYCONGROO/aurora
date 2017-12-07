@@ -33,7 +33,12 @@ public class TokenAuthController {
 		if (accountCode == null) {
 			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
 		}
-		TokenInfo tokenInfo = tokenAuthService.createToken(accountCode);
+		TokenInfo tokenInfo;
+		try {
+			tokenInfo = tokenAuthService.createToken(accountCode);
+		} catch (BusinessException e) {
+			return ApiResult.fail(e.getRs());
+		}
 		return ApiResult.success(tokenInfo);
 	}
 
