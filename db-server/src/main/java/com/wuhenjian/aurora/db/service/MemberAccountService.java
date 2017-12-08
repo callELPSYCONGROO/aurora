@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.db.sql.service;
+package com.wuhenjian.aurora.db.service;
 
 /**
  * 用户账户相关
