@@ -1,8 +1,10 @@
-package com.wuhenjian.aurora.db.service;
+package com.wuhenjian.aurora.db.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.wuhenjian.aurora.db.dao.nosql.redis.RedisTemplateRepository;
+import com.wuhenjian.aurora.db.service.RedisService;
 import com.wuhenjian.aurora.utils.entity.MemberInfo;
+import com.wuhenjian.aurora.utils.entity.constant.CommonContant;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -12,7 +14,7 @@ import javax.annotation.Resource;
  * @date 2017/12/11 15:06
  */
 @Service("tokenService")
-public class TokenServiceImpl implements TokenService {
+public class RedisServiceImpl implements RedisService {
 
 	@Resource(name = "redisTemplateRepository")
 	private RedisTemplateRepository redisTemplateRepository;
@@ -21,13 +23,12 @@ public class TokenServiceImpl implements TokenService {
 	 * 缓存Token及对应用户信息
 	 * @param token token
 	 * @param memberInfo 用户信息
-	 * @param expire 过期时长（秒）
 	 */
 	@Override
-	public void setToken(String token, MemberInfo memberInfo, Integer expire) {
+	public void setToken(String token, MemberInfo memberInfo) {
 		String key = this.getTokenKey(token);
 		String value = JSON.toJSONString(memberInfo);
-		redisTemplateRepository.set(key, value, expire);
+		redisTemplateRepository.set(key, value, CommonContant.TOKEN_EXPIRE);
 	}
 
 	/**
@@ -49,10 +50,10 @@ public class TokenServiceImpl implements TokenService {
 	@Override
 	public void delToken(String token) {
 		String key = this.getTokenKey(token);
-
+		redisTemplateRepository.del(new String[]{key});
 	}
 
 	private String getTokenKey(String token) {
-		return TokenService.MEMBER_REDIS_PRE + TokenService.SEPARATOR + token;
+		return CommonContant.MEMBER_REDIS_PRE + CommonContant.SEPARATOR + token;
 	}
 }

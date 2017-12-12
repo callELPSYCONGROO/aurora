@@ -1,5 +1,7 @@
 package com.wuhenjian.aurora.utils.entity;
 
+import com.wuhenjian.aurora.utils.entity.constant.CommonContant;
+
 /**
  * 返回的Token
  * @author 無痕剑
@@ -9,12 +11,16 @@ public class TokenInfo {
 
 	private String token;
 
-	private Integer expire;
+	private Integer expire = CommonContant.TOKEN_EXPIRE;
 
 	public TokenInfo() {}
 
 	public TokenInfo(String token, Integer expire) {
 		this.expire = expire;
+		this.token = token;
+	}
+
+	public TokenInfo(String token) {
 		this.token = token;
 	}
 

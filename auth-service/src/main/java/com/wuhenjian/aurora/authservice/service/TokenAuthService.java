@@ -15,4 +15,11 @@ public interface TokenAuthService {
 	 * @return Token信息
 	 */
 	TokenInfo createToken(Long accountCode) throws BusinessException;
+
+	/**
+	 * 验证token
+	 * @param token token
+	 * @return 正确为true，错误为false
+	 */
+	boolean authToken(String token) throws BusinessException;
 }

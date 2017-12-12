@@ -1,6 +1,7 @@
 package com.wuhenjian.aurora.utils.exception;
 
 import com.wuhenjian.aurora.utils.entity.constant.ResultStatus;
+import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 
 /**
  * 业务处理异常
@@ -19,6 +20,7 @@ public class BusinessException extends Exception {
 		super(msg);
 		this.code = code;
 		this.msg = msg;
+		this.rs = ResultStatus.EMPTY_OBJECT;
 		this.rs.setCode(code);
 		this.rs.setMsg(msg);
 	}
@@ -28,6 +30,15 @@ public class BusinessException extends Exception {
 		this.msg = rs.getMsg();
 		this.code = rs.getCode();
 		this.rs = rs;
+	}
+
+	public BusinessException(ApiResult apiResult) {
+		super(apiResult.getMsg());
+		this.msg = apiResult.getMsg();
+		this.code = apiResult.getCode();
+		this.rs = ResultStatus.EMPTY_OBJECT;
+		this.rs.setCode(apiResult.getCode());
+		this.rs.setMsg(apiResult.getMsg());
 	}
 
 	public Integer getCode() {

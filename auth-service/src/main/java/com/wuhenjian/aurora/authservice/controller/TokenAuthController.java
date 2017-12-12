@@ -28,17 +28,17 @@ public class TokenAuthController {
 	 * @return 结果集
 	 */
 	@RequestMapping("create")
-	public ApiResult createToken(Long accountCode) {
+	public ApiResult createToken(Long accountCode) throws BusinessException {
 		if (accountCode == null) {
 			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
 		}
-		TokenInfo tokenInfo;
-		try {
-			tokenInfo = tokenAuthService.createToken(accountCode);
-		} catch (BusinessException e) {
-			return ApiResult.fail(e.getRs());
-		}
+		TokenInfo tokenInfo = tokenAuthService.createToken(accountCode);
 		return ApiResult.success(tokenInfo);
 	}
 
+	@RequestMapping("right")
+	public ApiResult right(String token) throws BusinessException {
+		boolean flag = tokenAuthService.authToken(token);
+		return flag ? ApiResult.success() : ApiResult.fail(ResultStatus.TOKEN_ISVALID);
+	}
 }

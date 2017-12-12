@@ -23,26 +23,38 @@ public class RedisClusterConfig {
 	@Value("${redis.cluster.pool.max-idle}")
 	private int maxIdle;
 
+	@Value("${redis.cluster.pool.max-total}")
+	private int maxTotal;
+
 	@Value("${redis.cluster.pool.max-wait}")
 	private long maxWaitMillis;
 
 	@Value("${redis.cluster.pool.min-idle}")
 	private int minIdle;
 
+	@Value("${redis.cluster.pool.time-out}")
+	private int timeout;
+
+	@Bean(name = "jedisPoolConfig")
+	public JedisPoolConfig jedisPoolConfig() {
+		JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+		jedisPoolConfig.setMaxTotal(maxTotal);
+		jedisPoolConfig.setMinIdle(minIdle);
+		jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
+		jedisPoolConfig.setMaxIdle(maxIdle);
+		return jedisPoolConfig;
+	}
+
 	@Bean(name = "jedisCluster")
-	public JedisCluster jedisClusterFactory() {
+	public JedisCluster jedisCluster() {
 		String[] split = nodes.trim().split(",");
-		Set<HostAndPort> set = new HashSet<>();
+		Set<HostAndPort> redisNodeSet = new HashSet<>();
 		for (String node : split) {
 			String[] hostAndPort = node.trim().split(":");
 			String host = hostAndPort[0];
 			int port = Integer.valueOf(hostAndPort[1]);
-			set.add(new HostAndPort(host, port));
+			redisNodeSet.add(new HostAndPort(host, port));
 		}
-		JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-		jedisPoolConfig.setMaxIdle(maxIdle);
-		jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
-		jedisPoolConfig.setMinIdle(minIdle);
-		return new JedisCluster(set, jedisPoolConfig);
+		return new JedisCluster(redisNodeSet, timeout, this.jedisPoolConfig());
 	}
 }
