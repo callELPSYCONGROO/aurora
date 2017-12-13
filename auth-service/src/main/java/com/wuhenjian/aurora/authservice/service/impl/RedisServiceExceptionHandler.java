@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.authservice.exceptionhandler;
+package com.wuhenjian.aurora.authservice.service.impl;
 
 import com.wuhenjian.aurora.authservice.service.RedisService;
 import com.wuhenjian.aurora.utils.entity.constant.ResultStatus;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @date 2017/12/12 15:59
  */
 @Component("feignServiceExceptionHandler")
-public class FeignServiceExceptionHandler implements RedisService {
+public class RedisServiceExceptionHandler implements RedisService {
 	@Override
 	public ApiResult setToken(String token) {
 		return this.exceptionResult();

@@ -5,6 +5,7 @@ import com.wuhenjian.aurora.utils.entity.MemberInfo;
 import com.wuhenjian.aurora.utils.entity.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +22,7 @@ public class RedisController {
 	@Resource(name = "tokenService")
 	private RedisService redisService;
 
-	@RequestMapping("/setToken")
+	@RequestMapping(value = "/setToken", method = RequestMethod.POST)
 	public ApiResult setToken(@RequestParam("token") String token) {
 		try {
 			redisService.setToken(token, null);
@@ -32,7 +33,7 @@ public class RedisController {
 		return ApiResult.success();
 	}
 
-	@RequestMapping("/getToken")
+	@RequestMapping(value = "/getToken", method = RequestMethod.GET)
 	public ApiResult getToken(@RequestParam("token") String token) {
 		MemberInfo memberInfo;
 		try {
@@ -44,7 +45,7 @@ public class RedisController {
 		return ApiResult.success(memberInfo);
 	}
 
-	@RequestMapping("/delToken")
+	@RequestMapping(value = "/delToken", method = RequestMethod.POST)
 	public ApiResult delToken(@RequestParam("token") String token) {
 		try {
 			redisService.delToken(token);

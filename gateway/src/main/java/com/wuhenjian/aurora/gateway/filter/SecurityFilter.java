@@ -2,13 +2,16 @@ package com.wuhenjian.aurora.gateway.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import com.wuhenjian.aurora.gateway.service.AuthService;
 import com.wuhenjian.aurora.utils.DateUtil;
 import com.wuhenjian.aurora.utils.JsonUtil;
 import com.wuhenjian.aurora.utils.StringUtil;
+import com.wuhenjian.aurora.utils.entity.TokenModel;
 import com.wuhenjian.aurora.utils.entity.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import com.wuhenjian.aurora.utils.security.SHA256;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +28,9 @@ import java.util.Map;
  */
 @Component
 public class SecurityFilter extends ZuulFilter {
+
+	@Autowired
+	private AuthService authService;
 
 	/**
 	 * 返回一个字符串代表过滤器的类型，在zuul中定义了四种不同生命周期的过滤器类型，具体如下：
@@ -62,15 +68,14 @@ public class SecurityFilter extends ZuulFilter {
 	public Object run() {
 		RequestContext context = RequestContext.getCurrentContext();
 		HttpServletRequest request = context.getRequest();
-		//TODO 调试的时候使用
+		//TODO 调试的时候使用debug参数
         String d = request.getParameter("d");
         if (StringUtil.isNotBlank(d) && "1".equals(d)) {
             return null;
         }
         String ts = request.getParameter("ts");//时间戳
 		String token = request.getParameter("token");//令牌
-		String sign = request.getParameter("sign");//签名
-		if (StringUtil.isBlank(ts) || StringUtil.isBlank(token) || StringUtil.isBlank(sign)) {//检查关键参数是否为空
+		if (StringUtil.isBlank(ts) || StringUtil.isBlank(token)) {//检查关键参数是否为空
 			this.response(context, ResultStatus.KEY_PARAM_IS_EMPTY);
 			return null;
 		}
@@ -79,16 +84,16 @@ public class SecurityFilter extends ZuulFilter {
 			this.response(context, ResultStatus.OUT_OF_TIME);
             return null;
 		}
-		String encode;
-		try {
-			encode = this.requestParam2Map(request);
-		} catch (BusinessException e) {
-			this.response(context, e.getRs());
-            return null;
+		//解析token
+		ApiResult apiResult = authService.getTokenModel(token);
+		if (apiResult.getCode() != 1000) {
+			this.response(context, ResultStatus.TOKEN_ISVALID_FILTER);
+			return null;
 		}
-		if (!sign.equals(encode)) {//验证签名是否正确
-			this.response(context, ResultStatus.SIGN_ERROR);
-		}
+		TokenModel tokenModel = (TokenModel) apiResult.getData();
+		//将accountCode和uuid放到request上去
+		request.setAttribute("accountCode", tokenModel.getAccountCode());
+		request.setAttribute("uuid", tokenModel.getUuid());
 		return null;
 	}
 
@@ -96,7 +101,6 @@ public class SecurityFilter extends ZuulFilter {
 	 * 设置拦截器响应
 	 * @param context 上下文
 	 * @param rs 响应值
-	 * @return 响应值Json字符串
 	 */
 	private void response(RequestContext context, ResultStatus rs) {
 		context.setSendZuulResponse(false);
@@ -109,24 +113,4 @@ public class SecurityFilter extends ZuulFilter {
             e.printStackTrace();
         }
     }
-
-	/**
-	 * 将请求参数进行签名
-	 * @param request 请求
-	 * @return 签名
-	 * @throws BusinessException 签名异常
-	 */
-	private String requestParam2Map(HttpServletRequest request) throws BusinessException {
-		Map<String,String> map = new HashMap<>();
-		Enumeration<String> parameterNames = request.getParameterNames();
-		while (parameterNames.hasMoreElements()) {
-			String key = parameterNames.nextElement();
-			if ("sign".equals(key)) {//跳过sign参数
-				continue;
-			}
-			String value = request.getParameter(key);
-			map.put(key, value);
-		}
-		return SHA256.encode(map);
-	}
 }

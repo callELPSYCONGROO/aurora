@@ -1,6 +1,7 @@
 package com.wuhenjian.aurora.authservice.service;
 
 import com.wuhenjian.aurora.utils.entity.TokenInfo;
+import com.wuhenjian.aurora.utils.entity.TokenModel;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 
 /**
@@ -21,5 +22,13 @@ public interface TokenAuthService {
 	 * @param token token
 	 * @return 正确为true，错误为false
 	 */
-	boolean authToken(String token) throws BusinessException;
+	boolean authToken(String token);
+
+	/**
+	 * 根据token获取accountCode和uuid
+	 * @param token token
+	 * @return 用户账户和uuid
+	 * @throws BusinessException 发生异常
+	 */
+	TokenModel getTokenModel(String token) throws BusinessException;
 }

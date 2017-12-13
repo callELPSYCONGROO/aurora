@@ -1,5 +1,7 @@
 package com.wuhenjian.aurora.utils.entity.constant;
 
+import com.wuhenjian.aurora.utils.entity.result.ApiResult;
+
 /**
  * 错误码和错误信息
  * @author 無痕剑
@@ -14,10 +16,11 @@ public enum ResultStatus {
 	OUT_OF_TIME(1001, "timestamp is out of time"),
 	KEY_PARAM_IS_EMPTY(1002, "The key parameter of the request is empty"),
 	SIGN_ERROR(1003, "sign error"),
-	TOKEN_ISVALID(1004, "token is invalid"),
+	TOKEN_ISVALID_FILTER(1004, "token is invalid"),
 
 	PARAM_IS_EMPTY(2001, "input param is empty"),
 	SYSTEM_EXCEPTION(2002, "system exception"),
+	TOKEN_ISVALID_CTRL(2003, "token is invalid"),
 
 	REMOTE_SERVICE_REDIS(3001, "Remote call redis services are exceptions"),
 

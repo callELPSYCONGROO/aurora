@@ -9,6 +9,7 @@ import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import com.wuhenjian.aurora.utils.security.Base64Util;
 import com.wuhenjian.aurora.utils.security.RSAUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class TokenAuthServiceImpl implements TokenAuthService {
 	@Value("${rsa.key.public}")
 	private String publicKey;
 
-	@Resource(name = "redisService")
+	@Autowired
 	private RedisService redisService;
 
 	/**
@@ -57,10 +58,7 @@ public class TokenAuthServiceImpl implements TokenAuthService {
 	 * @return 正确为true，错误为false
 	 */
 	@Override
-	public boolean authToken(String token) throws BusinessException {
-		if (token == null) {
-			return false;
-		}
+	public boolean authToken(String token) {
 		try {
 			String decrypt = RSAUtil.decrypt(token, privateKey);
 			String accAndUuid = Base64Util.decode2Str(decrypt);
@@ -70,5 +68,18 @@ public class TokenAuthServiceImpl implements TokenAuthService {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * 根据token获取accountCode和uuid
+	 * @param token token
+	 * @return 用户账户和uuid
+	 * @throws BusinessException 发生异常
+	 */
+	@Override
+	public TokenModel getTokenModel(String token) throws BusinessException {
+		String decrypt = RSAUtil.decrypt(token, privateKey);
+		String accAndUuid = Base64Util.decode2Str(decrypt);
+		return TokenModel.accuuid2Obj(accAndUuid);
 	}
 }
