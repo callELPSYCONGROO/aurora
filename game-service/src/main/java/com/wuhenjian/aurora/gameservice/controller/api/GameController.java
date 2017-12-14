@@ -7,6 +7,5 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2017/12/5 0:02
  */
 @RestController
-public class GameController {
-
+public class GameController extends BaseController {
 }
