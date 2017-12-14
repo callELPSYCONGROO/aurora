@@ -19,4 +19,14 @@ public class JsonUtil {
 	public static String obj2Json(Object obj) {
 		return JSON.toJSONString(obj);
 	}
+
+	/**
+	 * 将Json字符串转换成对象
+	 * @param jsonString json字符串
+	 * @param cla 对象类型
+	 * @return 对象
+	 */
+	public static Object json2Obj(String jsonString, Class cla) {
+		return JSON.parseObject(jsonString, cla);
+	}
 }

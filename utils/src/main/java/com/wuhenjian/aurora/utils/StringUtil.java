@@ -26,7 +26,7 @@ public class StringUtil {
 	}
 
 	public static boolean isNotBlank(String string) {
-		return isBlank(string);
+		return !isBlank(string);
 	}
 
 	/**

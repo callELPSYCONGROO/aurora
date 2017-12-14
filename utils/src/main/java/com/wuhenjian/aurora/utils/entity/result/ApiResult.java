@@ -1,6 +1,7 @@
 package com.wuhenjian.aurora.utils.entity.result;
 
 import com.wuhenjian.aurora.utils.entity.constant.ResultStatus;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 
 import java.io.Serializable;
 
@@ -31,6 +32,10 @@ public class ApiResult implements Serializable {
 
 	public static ApiResult fail(ResultStatus rs) {
 		return new ApiResult(rs, null);
+	}
+
+	public static ApiResult fail(BusinessException be) {
+		return new ApiResult(be.getCode(), be.getMsg(), null);
 	}
 
 	public static ApiResult success() {
