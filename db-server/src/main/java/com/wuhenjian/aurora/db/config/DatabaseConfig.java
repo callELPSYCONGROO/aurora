@@ -152,6 +152,8 @@ public class DatabaseConfig {
 		ssfb.setMapperLocations(mmlResources);
 		ssfb.setTypeAliasesPackage(typeAliasesPackage);
 		//TODO PageHelper插件配置，配置文件连接路径
+		//http://blog.csdn.net/xiao______xin/article/details/52156550
+		//https://www.cnblogs.com/icewee/articles/6927945.html
 		return ssfb;
 	}
 
