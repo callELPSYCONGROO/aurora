@@ -85,15 +85,14 @@ public class SecurityFilter extends ZuulFilter {
             return null;
 		}
 		//解析token
-		ApiResult apiResult = authService.getTokenModel(token);
+		ApiResult apiResult = authService.decodeToken(token);
 		if (apiResult.getCode() != 1000) {
 			this.response(context, ResultStatus.TOKEN_ISVALID_FILTER);
 			return null;
 		}
-		TokenModel tokenModel = (TokenModel) apiResult.getData();
-		//将accountCode和uuid放到request上去
-		request.setAttribute("accountCode", tokenModel.getAccountCode());
-		request.setAttribute("uuid", tokenModel.getUuid());
+		String uuid = (String) apiResult.getData();
+		//将uuid放到request上去
+		request.setAttribute("uuid", uuid);
 		return null;
 	}
 

@@ -39,12 +39,7 @@ public class TokenAuthServiceImpl implements TokenAuthService {
 	@Override
 	public TokenInfo createToken(Long accountCode) throws BusinessException {
 		String uuid = UUIDUtil.getUuid();//获取uuid
-		TokenModel tokenModel = new TokenModel();
-		tokenModel.setAccountCode(accountCode);
-		tokenModel.setUuid(uuid);
-		String accAndUuid = tokenModel.toStringByAccAndUuid();//拼接uuid和accountCode
-		String base64 = Base64Util.encode2Str(accAndUuid);//转码
-		String token = RSAUtil.encrypt(base64, this.publicKey);//RSA加密得到Token
+		String token = RSAUtil.encrypt(uuid, this.publicKey);//RSA加密得到Token
 		ApiResult apiResult = redisService.setToken(token);
 		if (apiResult.getCode() != 1000) {
 			throw new BusinessException(apiResult);
@@ -60,9 +55,8 @@ public class TokenAuthServiceImpl implements TokenAuthService {
 	@Override
 	public boolean authToken(String token) {
 		try {
-			String decrypt = RSAUtil.decrypt(token, privateKey);
-			String accAndUuid = Base64Util.decode2Str(decrypt);
-			TokenModel.accuuid2Obj(accAndUuid);
+			String decode2Str = Base64Util.decode2Str(token);
+			RSAUtil.decrypt(decode2Str, privateKey);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -71,15 +65,14 @@ public class TokenAuthServiceImpl implements TokenAuthService {
 	}
 
 	/**
-	 * 根据token获取accountCode和uuid
+	 * 根据token获取uuid
 	 * @param token token
-	 * @return 用户账户和uuid
+	 * @return uuid
 	 * @throws BusinessException 发生异常
 	 */
 	@Override
-	public TokenModel getTokenModel(String token) throws BusinessException {
-		String decrypt = RSAUtil.decrypt(token, privateKey);
-		String accAndUuid = Base64Util.decode2Str(decrypt);
-		return TokenModel.accuuid2Obj(accAndUuid);
+	public String decodeToken(String token) throws BusinessException {
+		String decode2Str = Base64Util.decode2Str(token);
+		return RSAUtil.decrypt(decode2Str, privateKey);
 	}
 }

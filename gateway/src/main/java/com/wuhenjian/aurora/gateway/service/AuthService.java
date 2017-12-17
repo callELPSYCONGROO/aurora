@@ -18,6 +18,6 @@ public interface AuthService {
 	 * @param token token
 	 * @return 用户账户和uuid
 	 */
-	@RequestMapping(value = "/auth/token/getTokenModel", method = RequestMethod.GET)
-	ApiResult getTokenModel(String token);
+	@RequestMapping(value = "/auth/token/decodeToken", method = RequestMethod.GET)
+	ApiResult decodeToken(String token);
 }

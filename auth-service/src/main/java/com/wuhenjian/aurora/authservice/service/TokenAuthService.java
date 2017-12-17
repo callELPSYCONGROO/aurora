@@ -25,10 +25,10 @@ public interface TokenAuthService {
 	boolean authToken(String token);
 
 	/**
-	 * 根据token获取accountCode和uuid
+	 * 根据token获取uuid
 	 * @param token token
-	 * @return 用户账户和uuid
+	 * @return uuid
 	 * @throws BusinessException 发生异常
 	 */
-	TokenModel getTokenModel(String token) throws BusinessException;
+	String decodeToken(String token) throws BusinessException;
 }

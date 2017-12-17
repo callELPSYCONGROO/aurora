@@ -55,17 +55,17 @@ public class TokenAuthController {
 	}
 
 	/**
-	 * 解密token获取用户账户和uuid
+	 * 解密token获取用uuid
 	 * @param token token
-	 * @return 用户帐户、uuid对象
+	 * @return uuid
 	 * @throws BusinessException 解密异常
 	 */
-	@RequestMapping(value = "getTokenModel", method = RequestMethod.GET)
-	public ApiResult getTokenModel(String token) throws BusinessException {
+	@RequestMapping(value = "decodeToken", method = RequestMethod.GET)
+	public ApiResult decodeToken(String token) throws BusinessException {
 		if (token == null) {
 			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
 		}
-		TokenModel tokenModel = tokenAuthService.getTokenModel(token);
-		return ApiResult.success(tokenModel);
+		String uuid = tokenAuthService.decodeToken(token);
+		return ApiResult.success(uuid);
 	}
 }
