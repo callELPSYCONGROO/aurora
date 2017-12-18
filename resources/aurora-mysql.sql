@@ -51,18 +51,6 @@ CREATE TABLE `t_member_comment`(
 )ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '用户建议';
 
 
-CREATE TABLE `t_member_picture`(
-    `mpId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `maId` BIGINT NOT NULL COMMENT '账号密码表id',
-    `pType` INT(2) DEFAULT 1 COMMENT '图片类型：1.游戏问题，2.给开发者',
-    `picAddress` VARCHAR(256) DEFAULT NULL COMMENT '图片地址',
-    `content` TEXT DEFAULT NULL COMMENT '内容',
-    `createTime` DATETIME DEFAULT NULL COMMENT '创建时间',
-    
-    PRIMARY KEY (`mpId`)
-)ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '用户图片表';
-
-
 CREATE TABLE `t_member_friend`(
     `mfId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
     `ownerId` BIGINT NOT NULL COMMENT '主人ID',
@@ -70,11 +58,21 @@ CREATE TABLE `t_member_friend`(
     `createTime` DATETIME DEFAULT NULL COMMENT '添加时间',
     
     PRIMARY KEY (`mfId`),
-	UNIQUE KEY (`ownerId`, `guestId`)
+    UNIQUE KEY (`ownerId`, `guestId`)
 )ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '用户好友';
 
 
-
+CREATE TABLE `t_member_info_push_service`(
+    `msId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `maId` BIGINT NOT NULL COMMENT '账号密码表id',
+    `phone` INT(2) DEFAULT 1 COMMENT '手机广告，0-禁止，1-接收',
+    `email` INT(2) DEFAULT 1 COMMENT '邮件广告，0-禁止，1-接收',
+    `updateTime` DATETIME DEFAULT NULL COMMENT '修改时间',
+    `createTime` DATETIME DEFAULT NULL COMMENT '添加时间',
+    
+    PRIMARY KEY (`msId`),
+    UNIQUE KEY (`maId`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '用户信息推送服务';
 
 
 
@@ -83,8 +81,8 @@ CREATE TABLE `t_game_match_info`(
     `gmiId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
     `offensive` BIGINT NOT NULL COMMENT '进攻方ID',
     `defensive` BIGINT NOT NULL COMMENT '防守方ID',
-	`totalRound` INT(3) DEFAULT 0 COMMENT '总轮数',
-	`finalResult` INT(2) DEFAULT 3 COMMENT '结果，0-未开局，1-进攻方赢，2-防守方赢，3-平局，4-进攻方逃跑，5-防守方逃跑',
+    `totalRound` INT(3) DEFAULT 0 COMMENT '总轮数',
+    `finalResult` INT(2) DEFAULT 3 COMMENT '结果，0-未开局，1-进攻方赢，2-防守方赢，3-平局，4-进攻方逃跑，5-防守方逃跑',
     `startTime` DATETIME DEFAULT NULL COMMENT '开始时间',
     `endTime` DATETIME DEFAULT NULL COMMENT '结束时间',
     `winScore` INT(3) DEFAULT 0 COMMENT '胜利分数',
@@ -95,28 +93,53 @@ CREATE TABLE `t_game_match_info`(
 )ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '游戏对局信息';
 
 
-CREATE TABLE `t_game_match_info`(
-    `gmiId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `offensive` BIGINT NOT NULL COMMENT '进攻方ID',
-    `defensive` BIGINT NOT NULL COMMENT '防守方ID',
-	`totalRound` INT(3) DEFAULT 0 COMMENT '总轮数',
-	`finalResult` INT(2) DEFAULT 3 COMMENT '结果，0-未开局，1-进攻方赢，2-防守方赢，3-平局，4-进攻方逃跑，5-防守方逃跑',
-    `startTime` DATETIME DEFAULT NULL COMMENT '开始时间',
-    `endTime` DATETIME DEFAULT NULL COMMENT '结束时间',
-    `winScore` INT(3) DEFAULT 0 COMMENT '胜利分数',
-    `lostScore` INT(3) DEFAULT 0 COMMENT '失败分数',
-    `createTime` DATETIME DEFAULT NULL COMMENT '创建时间',
+CREATE TABLE `t_game_score`(
+    `gsId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `maId` BIGINT NOT NULL COMMENT '用户账号密码表id',
+    `score` INT DEFAULT 0 COMMENT '总分数',
+    `playGameTotalTime` BIGINT DEFAULT 0 COMMENT '游戏时长',
+    `totalTimes` INT DEFAULT 0 COMMENT '总共对局次数',
+    `winCount` INT DEFAULT 0 COMMENT '胜率次数',
+    `lostCount` INT DEFAULT 0 COMMENT '失败次数',
+    `drawCount` INT DEFAULT 0 COMMENT '平局次数',
+    `fleeCount` INT DEFAULT 0 COMMENT '逃跑次数',
+    `lastPlayTime` DATETIME DEFAULT NULL COMMENT '上次游戏时间',
+    `lastDeviceType` INT(2) DEFAULT 0 COMMENT '发布设备：0-未知，1-web，2-IOS，3-Andriod',
+    `lastLogonIP` VARCHAR(30) DEFAULT NULL COMMENT '上次登录IP',
     
-    PRIMARY KEY (`gmiId`)
-)ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '游戏对局信息';
+    PRIMARY KEY (`gsId`),
+    UNIQUE KEY (`maId`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '用户游戏分数';
 
 
 
 
 
 
+CREATE TABLE `t_common_ad`(
+    `caId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `adType` INT(2) NOT NULL COMMENT '类型',
+    `adTitle` VARCHAR(50) DEFAULT NULL COMMENT '标题',
+    `adContent` TEXT DEFAULT NULL COMMENT '内容',
+    `imageId` BIGINT DEFAULT NULL COMMENT '图片id',
+    `imageLink` VARCHAR(256) DEFAULT NULL COMMENT '图片外链接',
+    `updateTime` DATETIME DEFAULT NULL COMMENT '更新时间',
+    `createTime` DATETIME DEFAULT NULL COMMENT '创建时间',
+    `createUser` BIGINT NOT NULL COMMENT '创建人',
+    
+    PRIMARY KEY (`caId`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '广告';
 
 
+CREATE TABLE `t_common_picture`(
+    `cpId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `pType` INT(2) DEFAULT 1 COMMENT '图片类型，1-用户头像，2-广告',
+    `picAddress` VARCHAR(256) DEFAULT NULL COMMENT '图片地址',
+    `createTime` DATETIME DEFAULT NULL COMMENT '创建时间',
+    `isShow` INT(2) DEFAULT 1 COMMENT '是否展示，0-不展示，1-展示',
+    
+    PRIMARY KEY (`cpId`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '图片表';
 
 
 
