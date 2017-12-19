@@ -62,15 +62,15 @@ CREATE TABLE `t_member_friend`(
 )ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '用户好友';
 
 
-CREATE TABLE `t_member_info_push_service`(
-    `msId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+CREATE TABLE `t_member_push`(
+    `mpId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
     `maId` BIGINT NOT NULL COMMENT '账号密码表id',
     `phone` INT(2) DEFAULT 1 COMMENT '手机广告，0-禁止，1-接收',
     `email` INT(2) DEFAULT 1 COMMENT '邮件广告，0-禁止，1-接收',
     `updateTime` DATETIME DEFAULT NULL COMMENT '修改时间',
     `createTime` DATETIME DEFAULT NULL COMMENT '添加时间',
     
-    PRIMARY KEY (`msId`),
+    PRIMARY KEY (`mpId`),
     UNIQUE KEY (`maId`)
 )ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '用户信息推送服务';
 

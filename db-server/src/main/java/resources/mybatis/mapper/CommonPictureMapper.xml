@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wuhenjian.aurora.db.dao.sql.CommonPictureMapper" >
+  <resultMap id="BaseResultMap" type="com.wuhenjian.aurora.utils.entity.dao.CommonPicture" >
+    <id column="cpId" property="cpId" jdbcType="BIGINT" />
+    <result column="pType" property="pType" jdbcType="INTEGER" />
+    <result column="picAddress" property="picAddress" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="isShow" property="isShow" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Criteria_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Criteria_Where_Clause" >
+    <where >
+      <foreach collection="criteria.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    cpId, pType, picAddress, createTime, isShow
+  </sql>
+  <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.CommonPictureCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_common_picture
+    <if test="_parameter != null" >
+      <include refid="Criteria_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_common_picture
+    where cpId = #{cpId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_common_picture
+    where cpId = #{cpId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wuhenjian.aurora.utils.entity.dao.CommonPicture" >
+    <selectKey resultType="java.lang.Long" keyProperty="cpId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_common_picture (pType, picAddress, createTime, 
+      isShow)
+    values (#{pType,jdbcType=INTEGER}, #{picAddress,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{isShow,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.CommonPicture" >
+    <selectKey resultType="java.lang.Long" keyProperty="cpId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_common_picture
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pType != null" >
+        pType,
+      </if>
+      <if test="picAddress != null" >
+        picAddress,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="isShow != null" >
+        isShow,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pType != null" >
+        #{pType,jdbcType=INTEGER},
+      </if>
+      <if test="picAddress != null" >
+        #{picAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isShow != null" >
+        #{isShow,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByCriteriaSelective" parameterType="map" >
+    update t_common_picture
+    <set >
+      <if test="record.cpId != null" >
+        cpId = #{record.cpId,jdbcType=BIGINT},
+      </if>
+      <if test="record.pType != null" >
+        pType = #{record.pType,jdbcType=INTEGER},
+      </if>
+      <if test="record.picAddress != null" >
+        picAddress = #{record.picAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isShow != null" >
+        isShow = #{record.isShow,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByCriteria" parameterType="map" >
+    update t_common_picture
+    set cpId = #{record.cpId,jdbcType=BIGINT},
+      pType = #{record.pType,jdbcType=INTEGER},
+      picAddress = #{record.picAddress,jdbcType=VARCHAR},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      isShow = #{record.isShow,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.CommonPicture" >
+    update t_common_picture
+    <set >
+      <if test="pType != null" >
+        pType = #{pType,jdbcType=INTEGER},
+      </if>
+      <if test="picAddress != null" >
+        picAddress = #{picAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isShow != null" >
+        isShow = #{isShow,jdbcType=INTEGER},
+      </if>
+    </set>
+    where cpId = #{cpId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wuhenjian.aurora.utils.entity.dao.CommonPicture" >
+    update t_common_picture
+    set pType = #{pType,jdbcType=INTEGER},
+      picAddress = #{picAddress,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      isShow = #{isShow,jdbcType=INTEGER}
+    where cpId = #{cpId,jdbcType=BIGINT}
+  </update>
+  <sql id="Model_Where_Clause" >
+    <where >
+      <if test="cpId != null" >
+         and cpId=#{cpId}
+      </if>
+      <if test="pType != null" >
+         and pType=#{pType}
+      </if>
+      <if test="picAddress != null" >
+         and picAddress=#{picAddress}
+      </if>
+      <if test="createTime != null" >
+         and createTime=#{createTime}
+      </if>
+      <if test="isShow != null" >
+         and isShow=#{isShow}
+      </if>
+    </where>
+  </sql>
+  <select id="countByModel" parameterType="com.wuhenjian.aurora.utils.entity.dao.CommonPicture" resultType="java.lang.Integer" >
+    select count(*) from t_common_picture
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByModel" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.CommonPicture" >
+    select
+    <include refid="Base_Column_List" />
+    from t_common_picture
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+  <cache />
+</mapper>

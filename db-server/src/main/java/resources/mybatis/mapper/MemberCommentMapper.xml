@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wuhenjian.aurora.db.dao.sql.MemberCommentMapper" >
+  <resultMap id="BaseResultMap" type="com.wuhenjian.aurora.utils.entity.dao.MemberComment" >
+    <id column="mcId" property="mcId" jdbcType="BIGINT" />
+    <result column="maId" property="maId" jdbcType="BIGINT" />
+    <result column="commentType" property="commentType" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="commentDevice" property="commentDevice" jdbcType="INTEGER" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.wuhenjian.aurora.utils.entity.dao.MemberComment" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Criteria_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Criteria_Where_Clause" >
+    <where >
+      <foreach collection="criteria.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    mcId, maId, commentType, title, commentDevice, createTime
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByCriteriaWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberCommentCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_member_comment
+    <if test="_parameter != null" >
+      <include refid="Criteria_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberCommentCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_member_comment
+    <if test="_parameter != null" >
+      <include refid="Criteria_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_member_comment
+    where mcId = #{mcId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_member_comment
+    where mcId = #{mcId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberComment" >
+    <selectKey resultType="java.lang.Long" keyProperty="mcId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_member_comment (maId, commentType, title, 
+      commentDevice, createTime, content
+      )
+    values (#{maId,jdbcType=BIGINT}, #{commentType,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{commentDevice,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberComment" >
+    <selectKey resultType="java.lang.Long" keyProperty="mcId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_member_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="maId != null" >
+        maId,
+      </if>
+      <if test="commentType != null" >
+        commentType,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="commentDevice != null" >
+        commentDevice,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="maId != null" >
+        #{maId,jdbcType=BIGINT},
+      </if>
+      <if test="commentType != null" >
+        #{commentType,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="commentDevice != null" >
+        #{commentDevice,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByCriteriaSelective" parameterType="map" >
+    update t_member_comment
+    <set >
+      <if test="record.mcId != null" >
+        mcId = #{record.mcId,jdbcType=BIGINT},
+      </if>
+      <if test="record.maId != null" >
+        maId = #{record.maId,jdbcType=BIGINT},
+      </if>
+      <if test="record.commentType != null" >
+        commentType = #{record.commentType,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentDevice != null" >
+        commentDevice = #{record.commentDevice,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByCriteriaWithBLOBs" parameterType="map" >
+    update t_member_comment
+    set mcId = #{record.mcId,jdbcType=BIGINT},
+      maId = #{record.maId,jdbcType=BIGINT},
+      commentType = #{record.commentType,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      commentDevice = #{record.commentDevice,jdbcType=INTEGER},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByCriteria" parameterType="map" >
+    update t_member_comment
+    set mcId = #{record.mcId,jdbcType=BIGINT},
+      maId = #{record.maId,jdbcType=BIGINT},
+      commentType = #{record.commentType,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      commentDevice = #{record.commentDevice,jdbcType=INTEGER},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberComment" >
+    update t_member_comment
+    <set >
+      <if test="maId != null" >
+        maId = #{maId,jdbcType=BIGINT},
+      </if>
+      <if test="commentType != null" >
+        commentType = #{commentType,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="commentDevice != null" >
+        commentDevice = #{commentDevice,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where mcId = #{mcId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberComment" >
+    update t_member_comment
+    set maId = #{maId,jdbcType=BIGINT},
+      commentType = #{commentType,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      commentDevice = #{commentDevice,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where mcId = #{mcId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberComment" >
+    update t_member_comment
+    set maId = #{maId,jdbcType=BIGINT},
+      commentType = #{commentType,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      commentDevice = #{commentDevice,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP}
+    where mcId = #{mcId,jdbcType=BIGINT}
+  </update>
+  <sql id="Model_Where_Clause" >
+    <where >
+      <if test="mcId != null" >
+         and mcId=#{mcId}
+      </if>
+      <if test="maId != null" >
+         and maId=#{maId}
+      </if>
+      <if test="commentType != null" >
+         and commentType=#{commentType}
+      </if>
+      <if test="title != null" >
+         and title=#{title}
+      </if>
+      <if test="commentDevice != null" >
+         and commentDevice=#{commentDevice}
+      </if>
+      <if test="createTime != null" >
+         and createTime=#{createTime}
+      </if>
+    </where>
+  </sql>
+  <select id="countByModel" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberComment" resultType="java.lang.Integer" >
+    select count(*) from t_member_comment
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByModelWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberComment" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_member_comment
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByModel" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberComment" >
+    select
+    <include refid="Base_Column_List" />
+    from t_member_comment
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+  <cache />
+</mapper>

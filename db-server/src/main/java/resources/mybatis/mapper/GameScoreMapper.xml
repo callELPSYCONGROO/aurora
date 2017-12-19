@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wuhenjian.aurora.db.dao.sql.GameScoreMapper" >
+  <resultMap id="BaseResultMap" type="com.wuhenjian.aurora.utils.entity.dao.GameScore" >
+    <id column="gsId" property="gsId" jdbcType="BIGINT" />
+    <result column="maId" property="maId" jdbcType="BIGINT" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="playGameTotalTime" property="playGameTotalTime" jdbcType="BIGINT" />
+    <result column="totalTimes" property="totalTimes" jdbcType="INTEGER" />
+    <result column="winCount" property="winCount" jdbcType="INTEGER" />
+    <result column="lostCount" property="lostCount" jdbcType="INTEGER" />
+    <result column="drawCount" property="drawCount" jdbcType="INTEGER" />
+    <result column="fleeCount" property="fleeCount" jdbcType="INTEGER" />
+    <result column="lastPlayTime" property="lastPlayTime" jdbcType="TIMESTAMP" />
+    <result column="lastDeviceType" property="lastDeviceType" jdbcType="INTEGER" />
+    <result column="lastLogonIP" property="lastLogonIP" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Criteria_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Criteria_Where_Clause" >
+    <where >
+      <foreach collection="criteria.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    gsId, maId, score, playGameTotalTime, totalTimes, winCount, lostCount, drawCount, 
+    fleeCount, lastPlayTime, lastDeviceType, lastLogonIP
+  </sql>
+  <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.GameScoreCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_game_score
+    <if test="_parameter != null" >
+      <include refid="Criteria_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_game_score
+    where gsId = #{gsId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_game_score
+    where gsId = #{gsId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wuhenjian.aurora.utils.entity.dao.GameScore" >
+    <selectKey resultType="java.lang.Long" keyProperty="gsId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_game_score (maId, score, playGameTotalTime, 
+      totalTimes, winCount, lostCount, 
+      drawCount, fleeCount, lastPlayTime, 
+      lastDeviceType, lastLogonIP)
+    values (#{maId,jdbcType=BIGINT}, #{score,jdbcType=INTEGER}, #{playGameTotalTime,jdbcType=BIGINT}, 
+      #{totalTimes,jdbcType=INTEGER}, #{winCount,jdbcType=INTEGER}, #{lostCount,jdbcType=INTEGER}, 
+      #{drawCount,jdbcType=INTEGER}, #{fleeCount,jdbcType=INTEGER}, #{lastPlayTime,jdbcType=TIMESTAMP}, 
+      #{lastDeviceType,jdbcType=INTEGER}, #{lastLogonIP,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.GameScore" >
+    <selectKey resultType="java.lang.Long" keyProperty="gsId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_game_score
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="maId != null" >
+        maId,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="playGameTotalTime != null" >
+        playGameTotalTime,
+      </if>
+      <if test="totalTimes != null" >
+        totalTimes,
+      </if>
+      <if test="winCount != null" >
+        winCount,
+      </if>
+      <if test="lostCount != null" >
+        lostCount,
+      </if>
+      <if test="drawCount != null" >
+        drawCount,
+      </if>
+      <if test="fleeCount != null" >
+        fleeCount,
+      </if>
+      <if test="lastPlayTime != null" >
+        lastPlayTime,
+      </if>
+      <if test="lastDeviceType != null" >
+        lastDeviceType,
+      </if>
+      <if test="lastLogonIP != null" >
+        lastLogonIP,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="maId != null" >
+        #{maId,jdbcType=BIGINT},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="playGameTotalTime != null" >
+        #{playGameTotalTime,jdbcType=BIGINT},
+      </if>
+      <if test="totalTimes != null" >
+        #{totalTimes,jdbcType=INTEGER},
+      </if>
+      <if test="winCount != null" >
+        #{winCount,jdbcType=INTEGER},
+      </if>
+      <if test="lostCount != null" >
+        #{lostCount,jdbcType=INTEGER},
+      </if>
+      <if test="drawCount != null" >
+        #{drawCount,jdbcType=INTEGER},
+      </if>
+      <if test="fleeCount != null" >
+        #{fleeCount,jdbcType=INTEGER},
+      </if>
+      <if test="lastPlayTime != null" >
+        #{lastPlayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastDeviceType != null" >
+        #{lastDeviceType,jdbcType=INTEGER},
+      </if>
+      <if test="lastLogonIP != null" >
+        #{lastLogonIP,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByCriteriaSelective" parameterType="map" >
+    update t_game_score
+    <set >
+      <if test="record.gsId != null" >
+        gsId = #{record.gsId,jdbcType=BIGINT},
+      </if>
+      <if test="record.maId != null" >
+        maId = #{record.maId,jdbcType=BIGINT},
+      </if>
+      <if test="record.score != null" >
+        score = #{record.score,jdbcType=INTEGER},
+      </if>
+      <if test="record.playGameTotalTime != null" >
+        playGameTotalTime = #{record.playGameTotalTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.totalTimes != null" >
+        totalTimes = #{record.totalTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.winCount != null" >
+        winCount = #{record.winCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.lostCount != null" >
+        lostCount = #{record.lostCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.drawCount != null" >
+        drawCount = #{record.drawCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.fleeCount != null" >
+        fleeCount = #{record.fleeCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastPlayTime != null" >
+        lastPlayTime = #{record.lastPlayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastDeviceType != null" >
+        lastDeviceType = #{record.lastDeviceType,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastLogonIP != null" >
+        lastLogonIP = #{record.lastLogonIP,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByCriteria" parameterType="map" >
+    update t_game_score
+    set gsId = #{record.gsId,jdbcType=BIGINT},
+      maId = #{record.maId,jdbcType=BIGINT},
+      score = #{record.score,jdbcType=INTEGER},
+      playGameTotalTime = #{record.playGameTotalTime,jdbcType=BIGINT},
+      totalTimes = #{record.totalTimes,jdbcType=INTEGER},
+      winCount = #{record.winCount,jdbcType=INTEGER},
+      lostCount = #{record.lostCount,jdbcType=INTEGER},
+      drawCount = #{record.drawCount,jdbcType=INTEGER},
+      fleeCount = #{record.fleeCount,jdbcType=INTEGER},
+      lastPlayTime = #{record.lastPlayTime,jdbcType=TIMESTAMP},
+      lastDeviceType = #{record.lastDeviceType,jdbcType=INTEGER},
+      lastLogonIP = #{record.lastLogonIP,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.GameScore" >
+    update t_game_score
+    <set >
+      <if test="maId != null" >
+        maId = #{maId,jdbcType=BIGINT},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="playGameTotalTime != null" >
+        playGameTotalTime = #{playGameTotalTime,jdbcType=BIGINT},
+      </if>
+      <if test="totalTimes != null" >
+        totalTimes = #{totalTimes,jdbcType=INTEGER},
+      </if>
+      <if test="winCount != null" >
+        winCount = #{winCount,jdbcType=INTEGER},
+      </if>
+      <if test="lostCount != null" >
+        lostCount = #{lostCount,jdbcType=INTEGER},
+      </if>
+      <if test="drawCount != null" >
+        drawCount = #{drawCount,jdbcType=INTEGER},
+      </if>
+      <if test="fleeCount != null" >
+        fleeCount = #{fleeCount,jdbcType=INTEGER},
+      </if>
+      <if test="lastPlayTime != null" >
+        lastPlayTime = #{lastPlayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastDeviceType != null" >
+        lastDeviceType = #{lastDeviceType,jdbcType=INTEGER},
+      </if>
+      <if test="lastLogonIP != null" >
+        lastLogonIP = #{lastLogonIP,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where gsId = #{gsId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wuhenjian.aurora.utils.entity.dao.GameScore" >
+    update t_game_score
+    set maId = #{maId,jdbcType=BIGINT},
+      score = #{score,jdbcType=INTEGER},
+      playGameTotalTime = #{playGameTotalTime,jdbcType=BIGINT},
+      totalTimes = #{totalTimes,jdbcType=INTEGER},
+      winCount = #{winCount,jdbcType=INTEGER},
+      lostCount = #{lostCount,jdbcType=INTEGER},
+      drawCount = #{drawCount,jdbcType=INTEGER},
+      fleeCount = #{fleeCount,jdbcType=INTEGER},
+      lastPlayTime = #{lastPlayTime,jdbcType=TIMESTAMP},
+      lastDeviceType = #{lastDeviceType,jdbcType=INTEGER},
+      lastLogonIP = #{lastLogonIP,jdbcType=VARCHAR}
+    where gsId = #{gsId,jdbcType=BIGINT}
+  </update>
+  <sql id="Model_Where_Clause" >
+    <where >
+      <if test="gsId != null" >
+         and gsId=#{gsId}
+      </if>
+      <if test="maId != null" >
+         and maId=#{maId}
+      </if>
+      <if test="score != null" >
+         and score=#{score}
+      </if>
+      <if test="playGameTotalTime != null" >
+         and playGameTotalTime=#{playGameTotalTime}
+      </if>
+      <if test="totalTimes != null" >
+         and totalTimes=#{totalTimes}
+      </if>
+      <if test="winCount != null" >
+         and winCount=#{winCount}
+      </if>
+      <if test="lostCount != null" >
+         and lostCount=#{lostCount}
+      </if>
+      <if test="drawCount != null" >
+         and drawCount=#{drawCount}
+      </if>
+      <if test="fleeCount != null" >
+         and fleeCount=#{fleeCount}
+      </if>
+      <if test="lastPlayTime != null" >
+         and lastPlayTime=#{lastPlayTime}
+      </if>
+      <if test="lastDeviceType != null" >
+         and lastDeviceType=#{lastDeviceType}
+      </if>
+      <if test="lastLogonIP != null" >
+         and lastLogonIP=#{lastLogonIP}
+      </if>
+    </where>
+  </sql>
+  <select id="countByModel" parameterType="com.wuhenjian.aurora.utils.entity.dao.GameScore" resultType="java.lang.Integer" >
+    select count(*) from t_game_score
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByModel" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.GameScore" >
+    select
+    <include refid="Base_Column_List" />
+    from t_game_score
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+  <cache />
+</mapper>

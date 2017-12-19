@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.db.controller;
+package com.wuhenjian.aurora.db.controller.nosql;
 
 import com.wuhenjian.aurora.db.service.RedisService;
 import com.wuhenjian.aurora.utils.entity.MemberInfo;
@@ -16,7 +16,7 @@ import javax.annotation.Resource;
  * @date 2017/12/8 16:34
  */
 @RestController
-@RequestMapping("/redis")
+@RequestMapping("/nosql/redis")
 public class RedisController {
 
 	@Resource(name = "tokenService")
@@ -25,7 +25,7 @@ public class RedisController {
 	@RequestMapping(value = "/setToken", method = RequestMethod.POST)
 	public ApiResult setToken(@RequestParam("token") String token) {
 		try {
-			redisService.setToken(token, null);
+			redisService.setToken(token, null);//TODO 设置用户信息
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ApiResult.fail(ResultStatus.SYSTEM_EXCEPTION.getCode(), e.getMessage());

@@ -4,7 +4,6 @@ import com.wuhenjian.aurora.authservice.service.RedisService;
 import com.wuhenjian.aurora.authservice.service.TokenAuthService;
 import com.wuhenjian.aurora.utils.UUIDUtil;
 import com.wuhenjian.aurora.utils.entity.TokenInfo;
-import com.wuhenjian.aurora.utils.entity.TokenModel;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import com.wuhenjian.aurora.utils.security.Base64Util;
@@ -12,8 +11,6 @@ import com.wuhenjian.aurora.utils.security.RSAUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 /**
  * @author 無痕剑

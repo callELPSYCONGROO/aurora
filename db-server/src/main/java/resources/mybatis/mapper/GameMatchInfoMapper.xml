@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wuhenjian.aurora.db.dao.sql.GameMatchInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.wuhenjian.aurora.utils.entity.dao.GameMatchInfo" >
+    <id column="gmiId" property="gmiId" jdbcType="BIGINT" />
+    <result column="offensive" property="offensive" jdbcType="BIGINT" />
+    <result column="defensive" property="defensive" jdbcType="BIGINT" />
+    <result column="totalRound" property="totalRound" jdbcType="INTEGER" />
+    <result column="finalResult" property="finalResult" jdbcType="INTEGER" />
+    <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="winScore" property="winScore" jdbcType="INTEGER" />
+    <result column="lostScore" property="lostScore" jdbcType="INTEGER" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Criteria_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Criteria_Where_Clause" >
+    <where >
+      <foreach collection="criteria.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    gmiId, offensive, defensive, totalRound, finalResult, startTime, endTime, winScore, 
+    lostScore, createTime
+  </sql>
+  <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.GameMatchInfoCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_game_match_info
+    <if test="_parameter != null" >
+      <include refid="Criteria_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_game_match_info
+    where gmiId = #{gmiId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_game_match_info
+    where gmiId = #{gmiId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wuhenjian.aurora.utils.entity.dao.GameMatchInfo" >
+    <selectKey resultType="java.lang.Long" keyProperty="gmiId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_game_match_info (offensive, defensive, totalRound, 
+      finalResult, startTime, endTime, 
+      winScore, lostScore, createTime
+      )
+    values (#{offensive,jdbcType=BIGINT}, #{defensive,jdbcType=BIGINT}, #{totalRound,jdbcType=INTEGER}, 
+      #{finalResult,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{winScore,jdbcType=INTEGER}, #{lostScore,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.GameMatchInfo" >
+    <selectKey resultType="java.lang.Long" keyProperty="gmiId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_game_match_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="offensive != null" >
+        offensive,
+      </if>
+      <if test="defensive != null" >
+        defensive,
+      </if>
+      <if test="totalRound != null" >
+        totalRound,
+      </if>
+      <if test="finalResult != null" >
+        finalResult,
+      </if>
+      <if test="startTime != null" >
+        startTime,
+      </if>
+      <if test="endTime != null" >
+        endTime,
+      </if>
+      <if test="winScore != null" >
+        winScore,
+      </if>
+      <if test="lostScore != null" >
+        lostScore,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="offensive != null" >
+        #{offensive,jdbcType=BIGINT},
+      </if>
+      <if test="defensive != null" >
+        #{defensive,jdbcType=BIGINT},
+      </if>
+      <if test="totalRound != null" >
+        #{totalRound,jdbcType=INTEGER},
+      </if>
+      <if test="finalResult != null" >
+        #{finalResult,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="winScore != null" >
+        #{winScore,jdbcType=INTEGER},
+      </if>
+      <if test="lostScore != null" >
+        #{lostScore,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByCriteriaSelective" parameterType="map" >
+    update t_game_match_info
+    <set >
+      <if test="record.gmiId != null" >
+        gmiId = #{record.gmiId,jdbcType=BIGINT},
+      </if>
+      <if test="record.offensive != null" >
+        offensive = #{record.offensive,jdbcType=BIGINT},
+      </if>
+      <if test="record.defensive != null" >
+        defensive = #{record.defensive,jdbcType=BIGINT},
+      </if>
+      <if test="record.totalRound != null" >
+        totalRound = #{record.totalRound,jdbcType=INTEGER},
+      </if>
+      <if test="record.finalResult != null" >
+        finalResult = #{record.finalResult,jdbcType=INTEGER},
+      </if>
+      <if test="record.startTime != null" >
+        startTime = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null" >
+        endTime = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.winScore != null" >
+        winScore = #{record.winScore,jdbcType=INTEGER},
+      </if>
+      <if test="record.lostScore != null" >
+        lostScore = #{record.lostScore,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByCriteria" parameterType="map" >
+    update t_game_match_info
+    set gmiId = #{record.gmiId,jdbcType=BIGINT},
+      offensive = #{record.offensive,jdbcType=BIGINT},
+      defensive = #{record.defensive,jdbcType=BIGINT},
+      totalRound = #{record.totalRound,jdbcType=INTEGER},
+      finalResult = #{record.finalResult,jdbcType=INTEGER},
+      startTime = #{record.startTime,jdbcType=TIMESTAMP},
+      endTime = #{record.endTime,jdbcType=TIMESTAMP},
+      winScore = #{record.winScore,jdbcType=INTEGER},
+      lostScore = #{record.lostScore,jdbcType=INTEGER},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.GameMatchInfo" >
+    update t_game_match_info
+    <set >
+      <if test="offensive != null" >
+        offensive = #{offensive,jdbcType=BIGINT},
+      </if>
+      <if test="defensive != null" >
+        defensive = #{defensive,jdbcType=BIGINT},
+      </if>
+      <if test="totalRound != null" >
+        totalRound = #{totalRound,jdbcType=INTEGER},
+      </if>
+      <if test="finalResult != null" >
+        finalResult = #{finalResult,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        startTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        endTime = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="winScore != null" >
+        winScore = #{winScore,jdbcType=INTEGER},
+      </if>
+      <if test="lostScore != null" >
+        lostScore = #{lostScore,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where gmiId = #{gmiId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wuhenjian.aurora.utils.entity.dao.GameMatchInfo" >
+    update t_game_match_info
+    set offensive = #{offensive,jdbcType=BIGINT},
+      defensive = #{defensive,jdbcType=BIGINT},
+      totalRound = #{totalRound,jdbcType=INTEGER},
+      finalResult = #{finalResult,jdbcType=INTEGER},
+      startTime = #{startTime,jdbcType=TIMESTAMP},
+      endTime = #{endTime,jdbcType=TIMESTAMP},
+      winScore = #{winScore,jdbcType=INTEGER},
+      lostScore = #{lostScore,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP}
+    where gmiId = #{gmiId,jdbcType=BIGINT}
+  </update>
+  <sql id="Model_Where_Clause" >
+    <where >
+      <if test="gmiId != null" >
+         and gmiId=#{gmiId}
+      </if>
+      <if test="offensive != null" >
+         and offensive=#{offensive}
+      </if>
+      <if test="defensive != null" >
+         and defensive=#{defensive}
+      </if>
+      <if test="totalRound != null" >
+         and totalRound=#{totalRound}
+      </if>
+      <if test="finalResult != null" >
+         and finalResult=#{finalResult}
+      </if>
+      <if test="startTime != null" >
+         and startTime=#{startTime}
+      </if>
+      <if test="endTime != null" >
+         and endTime=#{endTime}
+      </if>
+      <if test="winScore != null" >
+         and winScore=#{winScore}
+      </if>
+      <if test="lostScore != null" >
+         and lostScore=#{lostScore}
+      </if>
+      <if test="createTime != null" >
+         and createTime=#{createTime}
+      </if>
+    </where>
+  </sql>
+  <select id="countByModel" parameterType="com.wuhenjian.aurora.utils.entity.dao.GameMatchInfo" resultType="java.lang.Integer" >
+    select count(*) from t_game_match_info
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByModel" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.GameMatchInfo" >
+    select
+    <include refid="Base_Column_List" />
+    from t_game_match_info
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+  <cache />
+</mapper>

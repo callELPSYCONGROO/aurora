@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wuhenjian.aurora.db.dao.sql.MemberAuthMapper" >
+  <resultMap id="BaseResultMap" type="com.wuhenjian.aurora.utils.entity.dao.MemberAuth" >
+    <id column="maId" property="maId" jdbcType="BIGINT" />
+    <result column="accountCode" property="accountCode" jdbcType="BIGINT" />
+    <result column="memberPhone" property="memberPhone" jdbcType="VARCHAR" />
+    <result column="memberEmail" property="memberEmail" jdbcType="VARCHAR" />
+    <result column="authSalt" property="authSalt" jdbcType="VARCHAR" />
+    <result column="memberPassword" property="memberPassword" jdbcType="VARCHAR" />
+    <result column="authFail" property="authFail" jdbcType="INTEGER" />
+    <result column="currentStatus" property="currentStatus" jdbcType="INTEGER" />
+    <result column="registerTime" property="registerTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Criteria_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Criteria_Where_Clause" >
+    <where >
+      <foreach collection="criteria.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    maId, accountCode, memberPhone, memberEmail, authSalt, memberPassword, authFail, 
+    currentStatus, registerTime, updateTime
+  </sql>
+  <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberAuthCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_member_auth
+    <if test="_parameter != null" >
+      <include refid="Criteria_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_member_auth
+    where maId = #{maId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_member_auth
+    where maId = #{maId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberAuth" >
+    <selectKey resultType="java.lang.Long" keyProperty="maId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_member_auth (accountCode, memberPhone, memberEmail, 
+      authSalt, memberPassword, authFail, 
+      currentStatus, registerTime, updateTime
+      )
+    values (#{accountCode,jdbcType=BIGINT}, #{memberPhone,jdbcType=VARCHAR}, #{memberEmail,jdbcType=VARCHAR}, 
+      #{authSalt,jdbcType=VARCHAR}, #{memberPassword,jdbcType=VARCHAR}, #{authFail,jdbcType=INTEGER}, 
+      #{currentStatus,jdbcType=INTEGER}, #{registerTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberAuth" >
+    <selectKey resultType="java.lang.Long" keyProperty="maId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_member_auth
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="accountCode != null" >
+        accountCode,
+      </if>
+      <if test="memberPhone != null" >
+        memberPhone,
+      </if>
+      <if test="memberEmail != null" >
+        memberEmail,
+      </if>
+      <if test="authSalt != null" >
+        authSalt,
+      </if>
+      <if test="memberPassword != null" >
+        memberPassword,
+      </if>
+      <if test="authFail != null" >
+        authFail,
+      </if>
+      <if test="currentStatus != null" >
+        currentStatus,
+      </if>
+      <if test="registerTime != null" >
+        registerTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="accountCode != null" >
+        #{accountCode,jdbcType=BIGINT},
+      </if>
+      <if test="memberPhone != null" >
+        #{memberPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="memberEmail != null" >
+        #{memberEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="authSalt != null" >
+        #{authSalt,jdbcType=VARCHAR},
+      </if>
+      <if test="memberPassword != null" >
+        #{memberPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="authFail != null" >
+        #{authFail,jdbcType=INTEGER},
+      </if>
+      <if test="currentStatus != null" >
+        #{currentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="registerTime != null" >
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByCriteriaSelective" parameterType="map" >
+    update t_member_auth
+    <set >
+      <if test="record.maId != null" >
+        maId = #{record.maId,jdbcType=BIGINT},
+      </if>
+      <if test="record.accountCode != null" >
+        accountCode = #{record.accountCode,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberPhone != null" >
+        memberPhone = #{record.memberPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberEmail != null" >
+        memberEmail = #{record.memberEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authSalt != null" >
+        authSalt = #{record.authSalt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberPassword != null" >
+        memberPassword = #{record.memberPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authFail != null" >
+        authFail = #{record.authFail,jdbcType=INTEGER},
+      </if>
+      <if test="record.currentStatus != null" >
+        currentStatus = #{record.currentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.registerTime != null" >
+        registerTime = #{record.registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByCriteria" parameterType="map" >
+    update t_member_auth
+    set maId = #{record.maId,jdbcType=BIGINT},
+      accountCode = #{record.accountCode,jdbcType=BIGINT},
+      memberPhone = #{record.memberPhone,jdbcType=VARCHAR},
+      memberEmail = #{record.memberEmail,jdbcType=VARCHAR},
+      authSalt = #{record.authSalt,jdbcType=VARCHAR},
+      memberPassword = #{record.memberPassword,jdbcType=VARCHAR},
+      authFail = #{record.authFail,jdbcType=INTEGER},
+      currentStatus = #{record.currentStatus,jdbcType=INTEGER},
+      registerTime = #{record.registerTime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberAuth" >
+    update t_member_auth
+    <set >
+      <if test="accountCode != null" >
+        accountCode = #{accountCode,jdbcType=BIGINT},
+      </if>
+      <if test="memberPhone != null" >
+        memberPhone = #{memberPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="memberEmail != null" >
+        memberEmail = #{memberEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="authSalt != null" >
+        authSalt = #{authSalt,jdbcType=VARCHAR},
+      </if>
+      <if test="memberPassword != null" >
+        memberPassword = #{memberPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="authFail != null" >
+        authFail = #{authFail,jdbcType=INTEGER},
+      </if>
+      <if test="currentStatus != null" >
+        currentStatus = #{currentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="registerTime != null" >
+        registerTime = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where maId = #{maId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberAuth" >
+    update t_member_auth
+    set accountCode = #{accountCode,jdbcType=BIGINT},
+      memberPhone = #{memberPhone,jdbcType=VARCHAR},
+      memberEmail = #{memberEmail,jdbcType=VARCHAR},
+      authSalt = #{authSalt,jdbcType=VARCHAR},
+      memberPassword = #{memberPassword,jdbcType=VARCHAR},
+      authFail = #{authFail,jdbcType=INTEGER},
+      currentStatus = #{currentStatus,jdbcType=INTEGER},
+      registerTime = #{registerTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where maId = #{maId,jdbcType=BIGINT}
+  </update>
+  <sql id="Model_Where_Clause" >
+    <where >
+      <if test="maId != null" >
+         and maId=#{maId}
+      </if>
+      <if test="accountCode != null" >
+         and accountCode=#{accountCode}
+      </if>
+      <if test="memberPhone != null" >
+         and memberPhone=#{memberPhone}
+      </if>
+      <if test="memberEmail != null" >
+         and memberEmail=#{memberEmail}
+      </if>
+      <if test="authSalt != null" >
+         and authSalt=#{authSalt}
+      </if>
+      <if test="memberPassword != null" >
+         and memberPassword=#{memberPassword}
+      </if>
+      <if test="authFail != null" >
+         and authFail=#{authFail}
+      </if>
+      <if test="currentStatus != null" >
+         and currentStatus=#{currentStatus}
+      </if>
+      <if test="registerTime != null" >
+         and registerTime=#{registerTime}
+      </if>
+      <if test="updateTime != null" >
+         and updateTime=#{updateTime}
+      </if>
+    </where>
+  </sql>
+  <select id="countByModel" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberAuth" resultType="java.lang.Integer" >
+    select count(*) from t_member_auth
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByModel" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberAuth" >
+    select
+    <include refid="Base_Column_List" />
+    from t_member_auth
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+  <cache />
+</mapper>

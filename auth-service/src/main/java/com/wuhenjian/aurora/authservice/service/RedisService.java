@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(value = "db", fallback = RedisServiceExceptionHandler.class)
 public interface RedisService {
 
-	@RequestMapping(value = "/redis/setToken", method = RequestMethod.POST)
+	@RequestMapping(value = "/nosql/redis/setToken", method = RequestMethod.POST)
 	ApiResult setToken(String token);
 
-	@RequestMapping(value = "/redis/getToken", method = RequestMethod.GET)
+	@RequestMapping(value = "/nosql/redis/getToken", method = RequestMethod.GET)
 	ApiResult getToken(String token);
 
-	@RequestMapping(value = "/redis/delToken", method = RequestMethod.POST)
+	@RequestMapping(value = "/nosql/redis/delToken", method = RequestMethod.POST)
 	ApiResult delToken(String token);
 }
