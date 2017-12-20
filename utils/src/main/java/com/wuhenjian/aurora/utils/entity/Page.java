@@ -13,6 +13,8 @@ public class Page {
 	/** 排序 */
 	private String orderBy;
 
+	public  Page(){}
+
 	public Page(Integer num, Integer size, String orderBy) {
 		this.num = num;
 		this.size = size;
@@ -41,5 +43,9 @@ public class Page {
 
 	public void setOrderBy(String orderBy) {
 		this.orderBy = orderBy;
+	}
+
+	public boolean isNull() {
+		return this.num == null || this.size == null;
 	}
 }

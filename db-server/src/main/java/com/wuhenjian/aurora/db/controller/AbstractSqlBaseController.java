@@ -1,78 +1,32 @@
 package com.wuhenjian.aurora.db.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.wuhenjian.aurora.db.dao.BaseMapper;
 import com.wuhenjian.aurora.utils.entity.Page;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * @author 無痕剑
  * @date 2017/12/19 16:24
  */
-public abstract class AbstractSqlBaseController<M,Q,Y extends BaseMapper<M,Q>> implements SqlBaseController<M,Q> {
+public abstract class AbstractSqlBaseController<M,Q> {
+	public final static String BASE_PATH = "/sql";
 
-	private Y mapper;
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public abstract ApiResult deleteByPrimaryKey(Long id);
 
-	@Override
-	public ApiResult deleteByPrimaryKey(Long id) {
-		mapper.deleteByPrimaryKey(id);
-		return ApiResult.success();
-	}
+	@RequestMapping(value = "/insert", method = RequestMethod.POST)
+	public abstract ApiResult insertSelective(M record);
 
-	@Override
-	public ApiResult insertSelective(M record) {
-		mapper.insertSelective(record);
-		return ApiResult.success(record);
-	}
+	@RequestMapping(value = "/selectByQuery", method = RequestMethod.GET)
+	public abstract ApiResult selectByCriteria(Q criteria, Page page);
 
-	@Override
-	public ApiResult selectByCriteria(Q criteria, Page page) {
-		if (page != null) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
-		}
-		List<M> list = mapper.selectByCriteria(criteria);
-		if (page != null) {
-			PageInfo<M> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
-	}
+	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
+	public abstract ApiResult selectByPrimaryKey(Long id);
 
-	@Override
-	public ApiResult selectByPrimaryKey(Long id) {
-		M m = mapper.selectByPrimaryKey(id);
-		return ApiResult.success(m);
-	}
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public abstract ApiResult updateByPrimaryKeySelective(M record);
 
-	@Override
-	public ApiResult updateByPrimaryKeySelective(M record) {
-		mapper.updateByPrimaryKeySelective(record);
-		return ApiResult.success();
-	}
-
-	@Override
-	public ApiResult selectByModel(M model, Page page) {
-		if (page != null) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
-		}
-		List<M> list = mapper.selectByModel(model);
-		if (page != null) {
-			PageInfo<M> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
-	}
-
-	public Y getMapper() {
-		return mapper;
-	}
-
-	public void setMapper(Y mapper) {
-		this.mapper = mapper;
-	}
+	@RequestMapping(value = "/selectByModel", method = RequestMethod.GET)
+	public abstract ApiResult selectByModel(M model, Page page);
 }

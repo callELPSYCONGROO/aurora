@@ -1,17 +1,9 @@
 package com.wuhenjian.aurora.db.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.github.pagehelper.PageInterceptor;
-import org.apache.ibatis.plugin.Interceptor;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import java.sql.SQLException;
 
@@ -20,7 +12,7 @@ import java.sql.SQLException;
  * @date 2017/12/15 14:48
  */
 @Configuration
-public class DatabaseConfig {
+public class DruidDataSourceConfig {
 
     @Value("${mysql.datasource.driver}")
     private String driverName;
@@ -78,12 +70,6 @@ public class DatabaseConfig {
 
     @Value("${druid.logSlowSql}")
     private String logSlowSql;
-    /** mybatis mapper.xml 路径 */
-    @Value("${mybatis.mapper-locations}")
-    private String mybatisMapperLocations;
-    /** mybatis mapper.java 路径 */
-    @Value("${mybatis.mapper-java-locations}")
-    private String mybatisMapperJavaLocations;
 
     @Bean(name = "druidDataSource")
     public DruidDataSource druidDataSource() throws SQLException {
@@ -113,28 +99,4 @@ public class DatabaseConfig {
         return dds;
     }
 
-    @Bean(name = "sqlSessionFactoryBean")
-    public SqlSessionFactoryBean sqlSessionFactoryBean() throws Exception {
-        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] mmlResources = resolver.getResources(this.mybatisMapperLocations);
-        Interceptor[] interceptors = {new PageInterceptor()};
-        SqlSessionFactoryBean ssfb = new SqlSessionFactoryBean();
-        ssfb.setDataSource(this.druidDataSource());//数据源
-        ssfb.setMapperLocations(mmlResources);//mapper.xml文件路径
-        ssfb.setPlugins(interceptors);
-        return ssfb;
-    }
-
-    @Bean(name = "mapperScannerConfigurer")
-    public MapperScannerConfigurer mapperScannerConfigurer() {
-        MapperScannerConfigurer msc = new MapperScannerConfigurer();
-        msc.setSqlSessionFactoryBeanName("sqlSessionFactoryBean");
-        msc.setBasePackage(this.mybatisMapperJavaLocations);
-        return msc;
-    }
-
-    @Bean(name = "dataSourceTransactionManager")
-    public DataSourceTransactionManager dataSourceTransactionManager() throws SQLException {
-        return new DataSourceTransactionManager(this.druidDataSource());
-    }
 }

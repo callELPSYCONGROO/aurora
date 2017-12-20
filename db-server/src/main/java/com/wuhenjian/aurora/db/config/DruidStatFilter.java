@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.db.config.druid;
+package com.wuhenjian.aurora.db.config;
 
 import com.alibaba.druid.support.http.WebStatFilter;
 
