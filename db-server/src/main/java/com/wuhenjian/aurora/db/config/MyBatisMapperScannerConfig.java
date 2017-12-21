@@ -17,7 +17,7 @@ public class MyBatisMapperScannerConfig {
 	public MapperScannerConfigurer mapperScannerConfigurer() {
 		MapperScannerConfigurer msc = new MapperScannerConfigurer();
 		msc.setSqlSessionFactoryBeanName("sqlSessionFactoryBean");
-		msc.setBasePackage("com.wuhenjian.aurora.db.dao.sql");
+		msc.setBasePackage("com.wuhenjian.aurora.db.mapper.sql");
 		return msc;
 	}
 }

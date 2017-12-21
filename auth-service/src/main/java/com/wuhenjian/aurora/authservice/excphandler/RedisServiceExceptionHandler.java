@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.authservice.service.impl;
+package com.wuhenjian.aurora.authservice.excphandler;
 
 import com.wuhenjian.aurora.authservice.service.RedisService;
 import com.wuhenjian.aurora.utils.entity.constant.ResultStatus;
@@ -27,6 +27,6 @@ public class RedisServiceExceptionHandler implements RedisService {
 	}
 
 	private ApiResult exceptionResult() {
-		return ApiResult.fail(ResultStatus.REMOTE_SERVICE_REDIS);
+		return ApiResult.fail(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 }

@@ -1,6 +1,6 @@
 package com.wuhenjian.aurora.authservice.service;
 
-import com.wuhenjian.aurora.authservice.service.impl.RedisServiceExceptionHandler;
+import com.wuhenjian.aurora.authservice.excphandler.RedisServiceExceptionHandler;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Service;
@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(value = "db", fallback = RedisServiceExceptionHandler.class)
 public interface RedisService {
 
-	@RequestMapping(value = "/nosql/redis/setToken", method = RequestMethod.POST)
+	String BASE_PATH = "/nosql/redis";
+
+	@RequestMapping(value = BASE_PATH + "/setToken", method = RequestMethod.POST)
 	ApiResult setToken(String token);
 
-	@RequestMapping(value = "/nosql/redis/getToken", method = RequestMethod.GET)
+	@RequestMapping(value = BASE_PATH + "/getToken", method = RequestMethod.GET)
 	ApiResult getToken(String token);
 
-	@RequestMapping(value = "/nosql/redis/delToken", method = RequestMethod.POST)
+	@RequestMapping(value = BASE_PATH + "/delToken", method = RequestMethod.POST)
 	ApiResult delToken(String token);
 }

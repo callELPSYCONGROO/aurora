@@ -1,5 +1,6 @@
 package com.wuhenjian.aurora.gateway.service;
 
+import com.wuhenjian.aurora.gateway.excphandler.TokenAuthServiceExceptionHandler;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Service;
@@ -11,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @date 2017/12/13 11:42
  */
 @Service
-@FeignClient(value = "auth")
-public interface AuthService {
+@FeignClient(value = "auth", fallback = TokenAuthServiceExceptionHandler.class)
+public interface TokenAuthService {
 	/**
 	 * 解析token获得用户账户和uuid
 	 * @param token token

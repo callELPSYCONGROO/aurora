@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wuhenjian.aurora.db.dao.sql.MemberPushMapper" >
+<mapper namespace="com.wuhenjian.aurora.db.mapper.sql.MemberPushMapper" >
   <resultMap id="BaseResultMap" type="com.wuhenjian.aurora.utils.entity.dao.MemberPush" >
     <id column="mpId" property="mpId" jdbcType="BIGINT" />
     <result column="maId" property="maId" jdbcType="BIGINT" />
@@ -251,5 +251,4 @@
       <include refid="Model_Where_Clause" />
     </if>
   </select>
-  <cache />
 </mapper>

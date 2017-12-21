@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.db.dao.sql;
+package com.wuhenjian.aurora.db.mapper.sql;
 
 import com.wuhenjian.aurora.utils.entity.dao.MemberComment;
 import com.wuhenjian.aurora.utils.entity.dao.MemberCommentCriteria;

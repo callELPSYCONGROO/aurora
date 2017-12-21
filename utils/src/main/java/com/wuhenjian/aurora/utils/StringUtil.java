@@ -19,14 +19,21 @@ public class StringUtil {
 			return true;
 		} else if (string.isEmpty()) {
 			return true;
-		} else if (string.matches("^[ ]+$")) {
-			return true;
 		}
-		return false;
+		return string.matches("^[ ]+$");
 	}
 
 	public static boolean isNotBlank(String string) {
 		return !isBlank(string);
+	}
+
+	public static boolean hasBlank(String[] strings) {
+		for (String string : strings) {
+			if (isBlank(string)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -36,5 +43,23 @@ public class StringUtil {
 	 */
 	public static Long str2Long(String s) {
 		return Long.valueOf(s);
+	}
+
+	/**
+	 * 检查字符串是否为手机号格式
+	 * @param string 字符串
+	 */
+	public static boolean isPhone(String string) {
+		String reg = "^1[345678]\\d{9}$";
+		return string.matches(reg);
+	}
+
+	/**
+	 * 检查字符串是否为Email格式
+	 * @param string 字符串
+	 */
+	public static boolean isEmail(String string) {
+		String reg = "^\\w+((-\\w+)|(\\.\\w+))*@[A-Za-z0-9]+(([.\\-])[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
+		return string.matches(reg);
 	}
 }

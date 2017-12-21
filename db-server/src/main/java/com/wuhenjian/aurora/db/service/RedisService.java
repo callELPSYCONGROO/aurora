@@ -1,6 +1,6 @@
 package com.wuhenjian.aurora.db.service;
 
-import com.wuhenjian.aurora.utils.entity.MemberInfo;
+import com.wuhenjian.aurora.utils.entity.MemberAcctInfo;
 
 /**
  * @author 無痕剑
@@ -11,16 +11,16 @@ public interface RedisService {
 	/**
 	 * 缓存Token及对应用户信息
 	 * @param token token
-	 * @param memberInfo 用户信息
+	 * @param memberAcctInfo 用户信息
 	 */
-	void setToken(String token, MemberInfo memberInfo);
+	void setToken(String token, MemberAcctInfo memberAcctInfo);
 
 	/**
 	 * 获取Token对应的用户信息
 	 * @param token token
 	 * @return 用户信息
 	 */
-	MemberInfo getToken(String token);
+	MemberAcctInfo getToken(String token);
 
 	/**
 	 * 删除Token缓存

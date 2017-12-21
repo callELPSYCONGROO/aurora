@@ -12,18 +12,22 @@ public enum ResultStatus {
 	EMPTY_OBJECT(0, ""),
 
 	SUCCESS(1000, "success"),
-
+	//filter
 	OUT_OF_TIME(1001, "timestamp is out of time"),
 	KEY_PARAM_IS_EMPTY(1002, "The key parameter of the request is empty"),
 	SIGN_ERROR(1003, "sign error"),
 	TOKEN_ISVALID_FILTER(1004, "token is invalid"),
-
+	//controller
 	PARAM_IS_EMPTY(2001, "input param is empty"),
-	SYSTEM_EXCEPTION(2002, "system exception"),
+	SYSTEM_EXCEPTION(2002, "system excphandler"),
 	TOKEN_ISVALID_CTRL(2003, "token is invalid"),
-
-	REMOTE_SERVICE_REDIS(3001, "Remote call redis services are exceptions"),
-
+	//service
+	REMOTE_SERVICE_EXCEPTION(3001, "Remote call services are exceptions"),
+	ACCOUNT_FORMAT_ERROR(3002, "account format error"),
+	LOGIN_TYPE_ERROR(3003, "loginType is non-existent"),
+	ACCOUNT_NOT_EXIST(3004, "account is non-existent"),
+	PASSWORD_ISVALID(3005, "password is invalid"),
+	//other
 	SHA256_ENCODE(5001, "sha256'encoding is NoSuchAlgorithm or UnsupportedEncoding"),
 	BASE64_ENCODE(5002, "base64'encoding is UnsupportedEncoding"),
 	RSA_ERROR(5003, "rsa'encoding is InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException"),

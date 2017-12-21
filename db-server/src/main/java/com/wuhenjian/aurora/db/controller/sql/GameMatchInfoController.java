@@ -3,7 +3,7 @@ package com.wuhenjian.aurora.db.controller.sql;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wuhenjian.aurora.db.controller.AbstractSqlBaseController;
-import com.wuhenjian.aurora.db.dao.sql.GameMatchInfoMapper;
+import com.wuhenjian.aurora.db.mapper.sql.GameMatchInfoMapper;
 import com.wuhenjian.aurora.utils.entity.Page;
 import com.wuhenjian.aurora.utils.entity.dao.GameMatchInfo;
 import com.wuhenjian.aurora.utils.entity.dao.GameMatchInfoCriteria;

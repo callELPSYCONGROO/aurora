@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wuhenjian.aurora.db.dao.sql.CommonPictureMapper" >
+<mapper namespace="com.wuhenjian.aurora.db.mapper.sql.CommonPictureMapper" >
   <resultMap id="BaseResultMap" type="com.wuhenjian.aurora.utils.entity.dao.CommonPicture" >
     <id column="cpId" property="cpId" jdbcType="BIGINT" />
     <result column="pType" property="pType" jdbcType="INTEGER" />
@@ -233,5 +233,4 @@
       <include refid="Model_Where_Clause" />
     </if>
   </select>
-  <cache />
 </mapper>

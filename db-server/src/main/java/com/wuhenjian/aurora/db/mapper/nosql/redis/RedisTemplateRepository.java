@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.db.dao.nosql.redis;
+package com.wuhenjian.aurora.db.mapper.nosql.redis;
 
 import org.springframework.stereotype.Repository;
 import redis.clients.jedis.JedisCluster;

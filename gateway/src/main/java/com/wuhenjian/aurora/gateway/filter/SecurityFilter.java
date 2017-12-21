@@ -2,24 +2,18 @@ package com.wuhenjian.aurora.gateway.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import com.wuhenjian.aurora.gateway.service.AuthService;
+import com.wuhenjian.aurora.gateway.service.TokenAuthService;
 import com.wuhenjian.aurora.utils.DateUtil;
 import com.wuhenjian.aurora.utils.JsonUtil;
 import com.wuhenjian.aurora.utils.StringUtil;
-import com.wuhenjian.aurora.utils.entity.TokenModel;
 import com.wuhenjian.aurora.utils.entity.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
-import com.wuhenjian.aurora.utils.exception.BusinessException;
-import com.wuhenjian.aurora.utils.security.SHA256;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * API接口安全验证
@@ -30,7 +24,7 @@ import java.util.Map;
 public class SecurityFilter extends ZuulFilter {
 
 	@Autowired
-	private AuthService authService;
+	private TokenAuthService tokenAuthService;
 
 	/**
 	 * 返回一个字符串代表过滤器的类型，在zuul中定义了四种不同生命周期的过滤器类型，具体如下：
@@ -85,7 +79,7 @@ public class SecurityFilter extends ZuulFilter {
             return null;
 		}
 		//解析token
-		ApiResult apiResult = authService.decodeToken(token);
+		ApiResult apiResult = tokenAuthService.decodeToken(token);
 		if (apiResult.getCode() != 1000) {
 			this.response(context, ResultStatus.TOKEN_ISVALID_FILTER);
 			return null;

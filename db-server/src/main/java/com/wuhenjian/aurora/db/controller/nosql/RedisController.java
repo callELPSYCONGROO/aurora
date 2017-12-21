@@ -1,7 +1,7 @@
 package com.wuhenjian.aurora.db.controller.nosql;
 
 import com.wuhenjian.aurora.db.service.RedisService;
-import com.wuhenjian.aurora.utils.entity.MemberInfo;
+import com.wuhenjian.aurora.utils.entity.MemberAcctInfo;
 import com.wuhenjian.aurora.utils.entity.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,14 +35,14 @@ public class RedisController {
 
 	@RequestMapping(value = "/getToken", method = RequestMethod.GET)
 	public ApiResult getToken(@RequestParam("token") String token) {
-		MemberInfo memberInfo;
+		MemberAcctInfo memberAcctInfo;
 		try {
-			memberInfo = redisService.getToken(token);
+			memberAcctInfo = redisService.getToken(token);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ApiResult.fail(ResultStatus.SYSTEM_EXCEPTION.getCode(), e.getMessage());
 		}
-		return ApiResult.success(memberInfo);
+		return ApiResult.success(memberAcctInfo);
 	}
 
 	@RequestMapping(value = "/delToken", method = RequestMethod.POST)

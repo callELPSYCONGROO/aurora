@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wuhenjian.aurora.db.dao.sql.MemberAuthMapper" >
+<mapper namespace="com.wuhenjian.aurora.db.mapper.sql.MemberAuthMapper" >
   <resultMap id="BaseResultMap" type="com.wuhenjian.aurora.utils.entity.dao.MemberAuth" >
     <id column="maId" property="maId" jdbcType="BIGINT" />
     <result column="accountCode" property="accountCode" jdbcType="BIGINT" />
@@ -328,5 +328,20 @@
       <include refid="Model_Where_Clause" />
     </if>
   </select>
-  <cache />
+  <select id="selectByPhone" resultType="com.wuhenjian.aurora.utils.entity.dao.MemberAuth">
+    SELECT
+      <include refid="Base_Column_List"/>
+    FROM
+      t_member_auth
+    WHERE
+      memberPhone = #{phone}
+  </select>
+  <select id="selectByEmail" resultType="com.wuhenjian.aurora.utils.entity.dao.MemberAuth">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM
+    t_member_auth
+    WHERE
+    memberEmail = #{email}
+  </select>
 </mapper>

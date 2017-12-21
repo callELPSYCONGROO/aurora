@@ -1,9 +1,9 @@
 package com.wuhenjian.aurora.db.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.wuhenjian.aurora.db.dao.nosql.redis.RedisTemplateRepository;
+import com.wuhenjian.aurora.db.mapper.nosql.redis.RedisTemplateRepository;
 import com.wuhenjian.aurora.db.service.RedisService;
-import com.wuhenjian.aurora.utils.entity.MemberInfo;
+import com.wuhenjian.aurora.utils.entity.MemberAcctInfo;
 import com.wuhenjian.aurora.utils.entity.constant.CommonContant;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +22,12 @@ public class RedisServiceImpl implements RedisService {
 	/**
 	 * 缓存Token及对应用户信息
 	 * @param token token
-	 * @param memberInfo 用户信息
+	 * @param memberAcctInfo 用户信息
 	 */
 	@Override
-	public void setToken(String token, MemberInfo memberInfo) {
+	public void setToken(String token, MemberAcctInfo memberAcctInfo) {
 		String key = this.getTokenKey(token);
-		String value = JSON.toJSONString(memberInfo);
+		String value = JSON.toJSONString(memberAcctInfo);
 		redisTemplateRepository.set(key, value, CommonContant.TOKEN_EXPIRE);
 	}
 
@@ -37,10 +37,10 @@ public class RedisServiceImpl implements RedisService {
 	 * @return 用户信息
 	 */
 	@Override
-	public MemberInfo getToken(String token) {
+	public MemberAcctInfo getToken(String token) {
 		String key = this.getTokenKey(token);
 		String value = redisTemplateRepository.get(key);
-		return JSON.parseObject(value, MemberInfo.class);
+		return JSON.parseObject(value, MemberAcctInfo.class);
 	}
 
 	/**

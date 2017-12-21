@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.db.dao.sql;
+package com.wuhenjian.aurora.db.mapper.sql;
 
 import com.wuhenjian.aurora.utils.entity.dao.CommonAd;
 import com.wuhenjian.aurora.utils.entity.dao.CommonAdCriteria;

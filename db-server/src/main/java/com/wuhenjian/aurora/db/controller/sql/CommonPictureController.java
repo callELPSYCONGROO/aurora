@@ -3,7 +3,7 @@ package com.wuhenjian.aurora.db.controller.sql;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wuhenjian.aurora.db.controller.AbstractSqlBaseController;
-import com.wuhenjian.aurora.db.dao.sql.CommonPictureMapper;
+import com.wuhenjian.aurora.db.mapper.sql.CommonPictureMapper;
 import com.wuhenjian.aurora.utils.entity.Page;
 import com.wuhenjian.aurora.utils.entity.dao.CommonPicture;
 import com.wuhenjian.aurora.utils.entity.dao.CommonPictureCriteria;

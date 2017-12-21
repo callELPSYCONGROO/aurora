@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.db.dao.sql;
+package com.wuhenjian.aurora.db.mapper.sql;
 
 import com.wuhenjian.aurora.utils.entity.dao.MemberAuth;
 import com.wuhenjian.aurora.utils.entity.dao.MemberAuthCriteria;
@@ -31,4 +31,8 @@ public interface MemberAuthMapper {
 	int countByModel(MemberAuth model);
 
 	List<MemberAuth> selectByModel(MemberAuth model);
+
+	MemberAuth selectByPhone(@Param("phone") String phone);
+
+	MemberAuth selectByEmail(@Param("email") String email);
 }

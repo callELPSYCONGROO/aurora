@@ -12,10 +12,9 @@ public interface TokenAuthService {
 
 	/**
 	 * 创建Token
-	 * @param accountCode 用户账号
 	 * @return Token信息
 	 */
-	TokenInfo createToken(Long accountCode) throws BusinessException;
+	TokenInfo createToken() throws BusinessException;
 
 	/**
 	 * 验证token

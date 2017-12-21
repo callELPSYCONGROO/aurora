@@ -30,11 +30,10 @@ public class TokenAuthServiceImpl implements TokenAuthService {
 
 	/**
 	 * 创建Token
-	 * @param accountCode 用户账号
 	 * @return Token信息
 	 */
 	@Override
-	public TokenInfo createToken(Long accountCode) throws BusinessException {
+	public TokenInfo createToken() throws BusinessException {
 		String uuid = UUIDUtil.getUuid();//获取uuid
 		String token = RSAUtil.encrypt(uuid, this.publicKey);//RSA加密得到Token
 		ApiResult apiResult = redisService.setToken(token);

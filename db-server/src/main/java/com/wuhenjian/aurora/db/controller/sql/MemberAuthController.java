@@ -3,12 +3,13 @@ package com.wuhenjian.aurora.db.controller.sql;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wuhenjian.aurora.db.controller.AbstractSqlBaseController;
-import com.wuhenjian.aurora.db.dao.sql.MemberAuthMapper;
+import com.wuhenjian.aurora.db.mapper.sql.MemberAuthMapper;
 import com.wuhenjian.aurora.utils.entity.Page;
 import com.wuhenjian.aurora.utils.entity.dao.MemberAuth;
 import com.wuhenjian.aurora.utils.entity.dao.MemberAuthCriteria;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -75,5 +76,17 @@ public class MemberAuthController extends AbstractSqlBaseController<MemberAuth,M
 		} else {
 			return ApiResult.success(list);
 		}
+	}
+
+	@RequestMapping(value = "/selectByPhone", method = RequestMethod.GET)
+	public ApiResult selectByPhone(String phone) {
+		MemberAuth memberAuth = mapper.selectByPhone(phone);
+		return ApiResult.success(memberAuth);
+	}
+
+	@RequestMapping(value = "/selectByEmail", method = RequestMethod.GET)
+	public ApiResult selectByEmail(String email) {
+		MemberAuth memberAuth = mapper.selectByEmail(email);
+		return ApiResult.success(memberAuth);
 	}
 }

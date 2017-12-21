@@ -6,7 +6,7 @@ import java.util.Date;
  * @author 無痕剑
  * @date 2017/12/11 14:47
  */
-public class MemberInfo {
+public class MemberAcctInfo {
 
 	private Long miId;
 
