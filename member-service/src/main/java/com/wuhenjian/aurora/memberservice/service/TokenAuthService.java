@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface TokenAuthService {
 	String BASE_PATH = "/auth/token";
 
-	@RequestMapping(value = BASE_PATH + "create", method = RequestMethod.POST)
+	@RequestMapping(value = BASE_PATH + "/create", method = RequestMethod.POST)
 	ApiResult createToken();
 
-	@RequestMapping(value = BASE_PATH + "right", method = RequestMethod.GET)
+	@RequestMapping(value = BASE_PATH + "/authToken", method = RequestMethod.GET)
 	ApiResult authToken(String token);
 
-	@RequestMapping(value = BASE_PATH + "decodeToken", method = RequestMethod.GET)
+	@RequestMapping(value = BASE_PATH + "/decodeToken", method = RequestMethod.GET)
 	ApiResult decodeToken(String token);
 }

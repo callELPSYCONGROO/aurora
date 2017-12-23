@@ -20,15 +20,46 @@ public class RedisServiceImpl implements RedisService {
 	private RedisTemplateRepository redisTemplateRepository;
 
 	/**
+	 * set存放key-value
+	 * @param key   关键字
+	 * @param value 值
+	 * @param expire 缓存时间
+	 */
+	@Override
+	public void set(String key, String value, Integer expire) {
+		redisTemplateRepository.set(key, value, expire);
+	}
+
+	/**
+	 * 获取关键字对应的值
+	 * @param key 关键字
+	 * @return 值
+	 */
+	@Override
+	public String get(String key) {
+		return redisTemplateRepository.get(key);
+	}
+
+	/**
+	 * 删除key-value
+	 * @param key key
+	 */
+	@Override
+	public void del(String key) {
+		String redisKey = this.getMemberInfoKey(key);
+		redisTemplateRepository.del(redisKey);
+	}
+
+	/**
 	 * 缓存Token及对应用户信息
 	 * @param token token
 	 * @param memberAcctInfo 用户信息
 	 */
 	@Override
 	public void setToken(String token, MemberAcctInfo memberAcctInfo) {
-		String key = this.getTokenKey(token);
+		String key = this.getMemberInfoKey(token);
 		String value = JSON.toJSONString(memberAcctInfo);
-		redisTemplateRepository.set(key, value, CommonContant.TOKEN_EXPIRE);
+		this.set(key, value, CommonContant.TOKEN_EXPIRE);
 	}
 
 	/**
@@ -38,22 +69,18 @@ public class RedisServiceImpl implements RedisService {
 	 */
 	@Override
 	public MemberAcctInfo getToken(String token) {
-		String key = this.getTokenKey(token);
-		String value = redisTemplateRepository.get(key);
-		return JSON.parseObject(value, MemberAcctInfo.class);
+		String key = this.getMemberInfoKey(token);
+		String value = this.get(key);
+		return value == null ? null : JSON.parseObject(value, MemberAcctInfo.class);
 	}
+
 
 	/**
-	 * 删除Token缓存
-	 * @param token token
+	 * 用户信息redis key前缀
+	 * @param key key
+	 * @return redis缓存key
 	 */
-	@Override
-	public void delToken(String token) {
-		String key = this.getTokenKey(token);
-		redisTemplateRepository.del(new String[]{key});
-	}
-
-	private String getTokenKey(String token) {
-		return CommonContant.MEMBER_REDIS_PRE + CommonContant.SEPARATOR + token;
+	private String getMemberInfoKey(String key) {
+		return CommonContant.MEMBER_REDIS_PRE + CommonContant.SEPARATOR + key;
 	}
 }

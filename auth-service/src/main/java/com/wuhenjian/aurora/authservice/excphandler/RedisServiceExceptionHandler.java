@@ -22,7 +22,7 @@ public class RedisServiceExceptionHandler implements RedisService {
 	}
 
 	@Override
-	public ApiResult delToken(String token) {
+	public ApiResult del(String key) {
 		return this.exceptionResult();
 	}
 

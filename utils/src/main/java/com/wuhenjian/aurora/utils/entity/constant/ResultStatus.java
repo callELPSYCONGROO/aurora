@@ -1,7 +1,5 @@
 package com.wuhenjian.aurora.utils.entity.constant;
 
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
-
 /**
  * 错误码和错误信息
  * @author 無痕剑
@@ -17,6 +15,7 @@ public enum ResultStatus {
 	KEY_PARAM_IS_EMPTY(1002, "The key parameter of the request is empty"),
 	SIGN_ERROR(1003, "sign error"),
 	TOKEN_ISVALID_FILTER(1004, "token is invalid"),
+	TOKEN_OVERDUE(1005, "token is overdue"),
 	//controller
 	PARAM_IS_EMPTY(2001, "input param is empty"),
 	SYSTEM_EXCEPTION(2002, "system excphandler"),
@@ -27,6 +26,10 @@ public enum ResultStatus {
 	LOGIN_TYPE_ERROR(3003, "loginType is non-existent"),
 	ACCOUNT_NOT_EXIST(3004, "account is non-existent"),
 	PASSWORD_ISVALID(3005, "password is invalid"),
+	MEMBER_AUTH_OVERTIME(3006, "More than 5 times the number of user authentication"),
+	MEMBER_LOCKED_BY_ADMIN(3007, "member is locked by admin"),
+	LOGIN_SIGN_ERROR(3008, "signature verification failed;"),
+	PASSWORD_REPASSWORD_DIFFERENT(3009, "password and repassword is different"),
 	//other
 	SHA256_ENCODE(5001, "sha256'encoding is NoSuchAlgorithm or UnsupportedEncoding"),
 	BASE64_ENCODE(5002, "base64'encoding is UnsupportedEncoding"),

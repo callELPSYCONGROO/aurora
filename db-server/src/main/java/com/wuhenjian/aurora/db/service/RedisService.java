@@ -23,8 +23,23 @@ public interface RedisService {
 	MemberAcctInfo getToken(String token);
 
 	/**
-	 * 删除Token缓存
-	 * @param token token
+	 * 删除key-value
+	 * @param key key
 	 */
-	void delToken(String token);
+	void del(String key);
+
+	/**
+	 * set存放key-value
+	 * @param key 关键字
+	 * @param value 值
+	 * @param expire 缓存时间
+	 */
+	void set(String key, String value, Integer expire);
+
+	/**
+	 * 获取关键字对应的值
+	 * @param key 关键字
+	 * @return 值
+	 */
+	String get(String key);
 }

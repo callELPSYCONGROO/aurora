@@ -2,13 +2,14 @@ package com.wuhenjian.aurora.db.controller.sql;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.wuhenjian.aurora.db.controller.AbstractSqlBaseController;
 import com.wuhenjian.aurora.db.mapper.sql.MemberInfoMapper;
+import com.wuhenjian.aurora.utils.entity.MemberAcctInfo;
 import com.wuhenjian.aurora.utils.entity.Page;
 import com.wuhenjian.aurora.utils.entity.dao.MemberInfo;
 import com.wuhenjian.aurora.utils.entity.dao.MemberInfoCriteria;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -75,5 +76,11 @@ public class MemberInfoController extends AbstractSqlBaseController<MemberInfo,M
 		} else {
 			return ApiResult.success(list);
 		}
+	}
+
+	@RequestMapping(value = "selectByMaid", method = RequestMethod.GET)
+	public ApiResult selectByMaid(Long maId) {
+		MemberAcctInfo memberAcctInfo = mapper.selectByMaid(maId);
+		return ApiResult.success(memberAcctInfo);
 	}
 }

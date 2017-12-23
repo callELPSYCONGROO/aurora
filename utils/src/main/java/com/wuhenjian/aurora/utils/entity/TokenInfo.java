@@ -15,13 +15,17 @@ public class TokenInfo {
 
 	public TokenInfo() {}
 
+	public TokenInfo(String token) {
+		this.token = token;
+	}
+
 	public TokenInfo(String token, Integer expire) {
 		this.expire = expire;
 		this.token = token;
 	}
 
-	public TokenInfo(String token) {
-		this.token = token;
+	public static TokenInfo defaultInstance(String token) {
+		return new TokenInfo(token);
 	}
 
 	public String getToken() {

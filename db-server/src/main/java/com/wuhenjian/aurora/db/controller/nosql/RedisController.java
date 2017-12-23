@@ -23,9 +23,9 @@ public class RedisController {
 	private RedisService redisService;
 
 	@RequestMapping(value = "/setToken", method = RequestMethod.POST)
-	public ApiResult setToken(@RequestParam("token") String token) {
+	public ApiResult setToken(@RequestParam("token") String token, MemberAcctInfo memberAcctInfo) {
 		try {
-			redisService.setToken(token, null);//TODO 设置用户信息
+			redisService.setToken(token, memberAcctInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ApiResult.fail(ResultStatus.SYSTEM_EXCEPTION.getCode(), e.getMessage());
@@ -45,14 +45,39 @@ public class RedisController {
 		return ApiResult.success(memberAcctInfo);
 	}
 
-	@RequestMapping(value = "/delToken", method = RequestMethod.POST)
-	public ApiResult delToken(@RequestParam("token") String token) {
+	@RequestMapping(value = "/del", method = RequestMethod.POST)
+	public ApiResult del(@RequestParam("key") String key) {
 		try {
-			redisService.delToken(token);
+			redisService.del(key);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ApiResult.fail(ResultStatus.SYSTEM_EXCEPTION.getCode(), e.getMessage());
 		}
 		return ApiResult.success();
+	}
+
+	@RequestMapping(value = "set", method = RequestMethod.POST)
+	public ApiResult set(@RequestParam("key") String key,
+						 @RequestParam("value") String value,
+						 @RequestParam(value = "expire", required = false) Integer expire) {
+		try {
+			redisService.set(key, value, expire);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiResult.fail(ResultStatus.SYSTEM_EXCEPTION.getCode(), e.getMessage());
+		}
+		return ApiResult.success();
+	}
+
+	@RequestMapping(value = "/get", method = RequestMethod.GET)
+	public ApiResult get(@RequestParam("key") String key) {
+		String value;
+		try {
+			value = redisService.get(key);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiResult.fail(ResultStatus.SYSTEM_EXCEPTION.getCode(), e.getMessage());
+		}
+		return ApiResult.success(value);
 	}
 }

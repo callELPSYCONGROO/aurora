@@ -38,7 +38,7 @@ public class RedisTemplateRepository {
 	 * 删除对象
 	 * @param key 关键字
 	 */
-	public void del(String[] key) {
+	public void del(String key) {
 		jedisCluster.del(key);
 	}
 

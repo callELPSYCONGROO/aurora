@@ -10,4 +10,6 @@ import com.wuhenjian.aurora.utils.exception.BusinessException;
 public interface MemberLoginService {
 
 	TokenInfo login(String loginType, String memberAccount, String memberPassword, String paramSign) throws BusinessException;
+
+	void register(String registerType, String memberAccount, String memberPassword, String reMemberPassword, String paramSign) throws BusinessException;
 }

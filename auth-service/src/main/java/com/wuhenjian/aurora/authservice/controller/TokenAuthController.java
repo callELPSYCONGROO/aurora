@@ -29,7 +29,7 @@ public class TokenAuthController {
 	 * @return 结果集
 	 * @throws BusinessException 发生异常
 	 */
-	@RequestMapping(value = "create", method = RequestMethod.POST)
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public ApiResult createToken() throws BusinessException {
 		TokenInfo tokenInfo = tokenAuthService.createToken();
 		return ApiResult.success(tokenInfo);
@@ -40,7 +40,7 @@ public class TokenAuthController {
 	 * @param token token
 	 * @return 返回code=1000为合法
 	 */
-	@RequestMapping(value = "right", method = RequestMethod.GET)
+	@RequestMapping(value = "/authToken", method = RequestMethod.GET)
 	public ApiResult authToken(String token) {
 		if (token == null) {
 			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
@@ -55,7 +55,7 @@ public class TokenAuthController {
 	 * @return uuid
 	 * @throws BusinessException 解密异常
 	 */
-	@RequestMapping(value = "decodeToken", method = RequestMethod.GET)
+	@RequestMapping(value = "/decodeToken", method = RequestMethod.GET)
 	public ApiResult decodeToken(String token) throws BusinessException {
 		if (token == null) {
 			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);

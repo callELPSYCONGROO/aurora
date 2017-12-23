@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.db.controller;
+package com.wuhenjian.aurora.db.controller.sql;
 
 import com.wuhenjian.aurora.utils.entity.Page;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;

@@ -20,15 +20,24 @@ import javax.annotation.Resource;
 @RequestMapping("/member")
 public class MemberLoginController {
 
-	@Resource(name = "memberLoginService")
-	private MemberLoginService memberLoginService;
+    @Resource(name = "memberLoginService")
+    private MemberLoginService memberLoginService;
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ApiResult login(String loginType, String memberAccount, String memberPassword, String paramSign) throws BusinessException {
-		if (StringUtil.hasBlank(new String[]{loginType, memberAccount, memberPassword, paramSign})) {
-			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
-		}
-		TokenInfo tokenInfo = memberLoginService.login(loginType, memberAccount, memberPassword, paramSign);
-		return ApiResult.success(tokenInfo);
-	}
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ApiResult login(String loginType, String memberAccount, String memberPassword, String paramSign) throws BusinessException {
+        if (StringUtil.hasBlank(new String[]{loginType, memberAccount, memberPassword, paramSign})) {
+            return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
+        }
+        TokenInfo tokenInfo = memberLoginService.login(loginType, memberAccount, memberPassword, paramSign);
+        return ApiResult.success(tokenInfo);
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ApiResult register(String registerType, String memberAccount, String memberPassword, String reMemberPassword, String paramSign) throws BusinessException {
+        if (StringUtil.hasBlank(new String[]{registerType, memberAccount, memberPassword, reMemberPassword, registerType, paramSign})) {
+            return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
+        }
+        memberLoginService.register(registerType, memberAccount, memberPassword, reMemberPassword, paramSign);
+        return ApiResult.success();
+    }
 }

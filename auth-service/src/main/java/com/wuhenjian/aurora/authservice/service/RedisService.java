@@ -23,6 +23,6 @@ public interface RedisService {
 	@RequestMapping(value = BASE_PATH + "/getToken", method = RequestMethod.GET)
 	ApiResult getToken(String token);
 
-	@RequestMapping(value = BASE_PATH + "/delToken", method = RequestMethod.POST)
-	ApiResult delToken(String token);
+	@RequestMapping(value = BASE_PATH + "/del", method = RequestMethod.POST)
+	ApiResult del(String key);
 }

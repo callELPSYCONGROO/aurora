@@ -44,6 +44,11 @@ public class MemberInfoServiceExceptionHandler implements MemberInfoService {
 		return this.exceptionResult();
 	}
 
+	@Override
+	public ApiResult selectByMaid(Long maId) {
+		return this.exceptionResult();
+	}
+
 	private ApiResult exceptionResult() {
 		return ApiResult.fail(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}

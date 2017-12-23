@@ -2,15 +2,19 @@ package com.wuhenjian.aurora.gateway.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import com.wuhenjian.aurora.gateway.service.RedisService;
 import com.wuhenjian.aurora.gateway.service.TokenAuthService;
+import com.wuhenjian.aurora.utils.ApiResultUtil;
 import com.wuhenjian.aurora.utils.DateUtil;
 import com.wuhenjian.aurora.utils.JsonUtil;
 import com.wuhenjian.aurora.utils.StringUtil;
+import com.wuhenjian.aurora.utils.entity.MemberAcctInfo;
 import com.wuhenjian.aurora.utils.entity.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,8 +27,11 @@ import java.io.IOException;
 @Component
 public class SecurityFilter extends ZuulFilter {
 
-	@Autowired
+	@Resource(name = "tokenAuthService")
 	private TokenAuthService tokenAuthService;
+
+	@Resource(name = "redisService")
+	private RedisService redisService;
 
 	/**
 	 * 返回一个字符串代表过滤器的类型，在zuul中定义了四种不同生命周期的过滤器类型，具体如下：
@@ -67,26 +74,28 @@ public class SecurityFilter extends ZuulFilter {
         if (StringUtil.isNotBlank(d) && "1".equals(d)) {
             return null;
         }
-        String ts = request.getParameter("ts");//时间戳
+        //TODO 验证请求
 		String token = request.getParameter("token");//令牌
-		if (StringUtil.isBlank(ts) || StringUtil.isBlank(token)) {//检查关键参数是否为空
-			this.response(context, ResultStatus.KEY_PARAM_IS_EMPTY);
-			return null;
-		}
-		Long timestamp = StringUtil.str2Long(ts);
-		if (System.currentTimeMillis() - timestamp < DateUtil.oneMinMS) {//请求时间戳与现在的时间差大于一分钟
-			this.response(context, ResultStatus.OUT_OF_TIME);
-            return null;
-		}
 		//解析token
-		ApiResult apiResult = tokenAuthService.decodeToken(token);
-		if (apiResult.getCode() != 1000) {
+		ApiResult r1 = tokenAuthService.decodeToken(token);
+		if (r1.getCode() != 1000) {
 			this.response(context, ResultStatus.TOKEN_ISVALID_FILTER);
 			return null;
 		}
-		String uuid = (String) apiResult.getData();
-		//将uuid放到request上去
-		request.setAttribute("uuid", uuid);
+		String uuid = (String) r1.getData();
+		//判断token是否过期
+		ApiResult r2 = redisService.getToken(uuid);
+		if (r2.getCode() != 1000) {
+			this.response(context, ResultStatus.REMOTE_SERVICE_EXCEPTION);
+			return null;
+		}
+		Object mai = r2.getData();
+		if (mai == null) {
+			this.response(context, ResultStatus.TOKEN_OVERDUE);
+			return null;
+		}
+		//将用户账户信息放到请求中去
+		request.setAttribute("memberAccountInfo", mai);
 		return null;
 	}
 
