@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  * @date 2017/12/4 23:13
  */
 @RestController
-@RequestMapping("/member")
+@RequestMapping("/entry")
 public class MemberLoginController {
 
     @Resource(name = "memberLoginService")

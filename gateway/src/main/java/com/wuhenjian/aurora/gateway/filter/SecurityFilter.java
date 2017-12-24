@@ -4,14 +4,10 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.wuhenjian.aurora.gateway.service.RedisService;
 import com.wuhenjian.aurora.gateway.service.TokenAuthService;
-import com.wuhenjian.aurora.utils.ApiResultUtil;
-import com.wuhenjian.aurora.utils.DateUtil;
 import com.wuhenjian.aurora.utils.JsonUtil;
 import com.wuhenjian.aurora.utils.StringUtil;
-import com.wuhenjian.aurora.utils.entity.MemberAcctInfo;
 import com.wuhenjian.aurora.utils.entity.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
-import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -62,7 +58,7 @@ public class SecurityFilter extends ZuulFilter {
 	public boolean shouldFilter() {
 		HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
 		String requestURI = request.getRequestURI();
-		return !"/api/login".equals(requestURI);
+		return !requestURI.contains("/entry/");
 	}
 
 	@Override
@@ -70,21 +66,27 @@ public class SecurityFilter extends ZuulFilter {
 		RequestContext context = RequestContext.getCurrentContext();
 		HttpServletRequest request = context.getRequest();
 		//TODO 调试的时候使用debug参数
+		/******debug*******/
         String d = request.getParameter("d");
         if (StringUtil.isNotBlank(d) && "1".equals(d)) {
             return null;
         }
-        //TODO 验证请求
-		String token = request.getParameter("token");//令牌
+        /******debug*******/
+        //TODO 验证签名
+		String paramSign = request.getParameter("param_sign");//签名
+		String accessToken = request.getParameter("access_token");//令牌
+		String timestamp = request.getParameter("timestamp");//时间戳
+		//验证时间戳
+		String headerDate = request.getHeader("Date");
 		//解析token
-		ApiResult r1 = tokenAuthService.decodeToken(token);
+		ApiResult r1 = tokenAuthService.decodeToken(accessToken);
 		if (r1.getCode() != 1000) {
 			this.response(context, ResultStatus.TOKEN_ISVALID_FILTER);
 			return null;
 		}
-		String uuid = (String) r1.getData();
+		String token = (String) r1.getData();
 		//判断token是否过期
-		ApiResult r2 = redisService.getToken(uuid);
+		ApiResult r2 = redisService.getToken(token);
 		if (r2.getCode() != 1000) {
 			this.response(context, ResultStatus.REMOTE_SERVICE_EXCEPTION);
 			return null;
