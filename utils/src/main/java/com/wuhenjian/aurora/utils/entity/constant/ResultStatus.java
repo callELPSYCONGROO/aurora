@@ -18,7 +18,7 @@ public enum ResultStatus {
 	TOKEN_OVERDUE(1005, "token is overdue"),
 	//controller
 	PARAM_IS_EMPTY(2001, "input param is empty"),
-	SYSTEM_EXCEPTION(2002, "system excphandler"),
+	SYSTEM_EXCEPTION(2002, "system exception"),
 	TOKEN_ISVALID_CTRL(2003, "token is invalid"),
 	//service
 	REMOTE_SERVICE_EXCEPTION(3001, "Remote call services are exceptions"),

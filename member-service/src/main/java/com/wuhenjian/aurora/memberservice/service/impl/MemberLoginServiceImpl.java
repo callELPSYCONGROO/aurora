@@ -2,6 +2,7 @@ package com.wuhenjian.aurora.memberservice.service.impl;
 
 import com.wuhenjian.aurora.memberservice.service.*;
 import com.wuhenjian.aurora.utils.ApiResultUtil;
+import com.wuhenjian.aurora.utils.AuthUtil;
 import com.wuhenjian.aurora.utils.StringUtil;
 import com.wuhenjian.aurora.utils.entity.MemberAcctInfo;
 import com.wuhenjian.aurora.utils.entity.TokenInfo;
@@ -36,9 +37,6 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 
 	@Resource(name = "memberInfoService")
 	private MemberInfoService memberInfoService;
-
-	@Resource(name = "tokenAuthService")
-	private TokenAuthService tokenAuthService;
 
 	@Resource(name = "redisService")
 	private RedisService redisService;
@@ -102,8 +100,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 		ApiResult apiResult = memberInfoService.selectByMaid(ma.getMaId());
 		MemberAcctInfo memberAcctInfo = (MemberAcctInfo) ApiResultUtil.getObject(apiResult);
 		//获取token
-		ApiResult r2 = tokenAuthService.createToken();
-		String token = (String) ApiResultUtil.getObject(r2);
+		String token = AuthUtil.createToken();
 		//存入redis
 		redisService.setToken(token, memberAcctInfo);
 		return TokenInfo.defaultInstance(token);

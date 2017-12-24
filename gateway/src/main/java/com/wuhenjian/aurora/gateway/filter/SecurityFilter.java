@@ -3,11 +3,12 @@ package com.wuhenjian.aurora.gateway.filter;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.wuhenjian.aurora.gateway.service.RedisService;
-import com.wuhenjian.aurora.gateway.service.TokenAuthService;
+import com.wuhenjian.aurora.utils.AuthUtil;
 import com.wuhenjian.aurora.utils.JsonUtil;
 import com.wuhenjian.aurora.utils.StringUtil;
 import com.wuhenjian.aurora.utils.entity.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -22,9 +23,6 @@ import java.io.IOException;
  */
 @Component
 public class SecurityFilter extends ZuulFilter {
-
-	@Resource(name = "tokenAuthService")
-	private TokenAuthService tokenAuthService;
 
 	@Resource(name = "redisService")
 	private RedisService redisService;
@@ -79,19 +77,20 @@ public class SecurityFilter extends ZuulFilter {
 		//验证时间戳
 		String headerDate = request.getHeader("Date");
 		//解析token
-		ApiResult r1 = tokenAuthService.decodeToken(accessToken);
-		if (r1.getCode() != 1000) {
-			this.response(context, ResultStatus.TOKEN_ISVALID_FILTER);
+		String token;
+		try {
+			token = AuthUtil.decodeToken(accessToken);
+		} catch (BusinessException e) {
+			this.response(context, e.getRs());
 			return null;
 		}
-		String token = (String) r1.getData();
 		//判断token是否过期
-		ApiResult r2 = redisService.getToken(token);
-		if (r2.getCode() != 1000) {
+		ApiResult r1 = redisService.getToken(token);
+		if (r1.getCode() != 1000) {
 			this.response(context, ResultStatus.REMOTE_SERVICE_EXCEPTION);
 			return null;
 		}
-		Object mai = r2.getData();
+		Object mai = r1.getData();
 		if (mai == null) {
 			this.response(context, ResultStatus.TOKEN_OVERDUE);
 			return null;
