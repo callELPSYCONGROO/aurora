@@ -1,6 +1,6 @@
 package com.wuhenjian.aurora.utils.exception;
 
-import com.wuhenjian.aurora.utils.entity.constant.ResultStatus;
+import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 
 /**

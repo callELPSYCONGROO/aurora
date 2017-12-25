@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.utils.entity.constant;
+package com.wuhenjian.aurora.utils.constant;
 
 /**
  * @author 無痕剑
@@ -12,13 +12,12 @@ public class CommonContant {
 	 * <p>例如：M-1387593084-MfSdfhGFK28sdiS4348JD7sdDYJ</p>
 	 */
 	public final static String SEPARATOR = "-";
-
 	/** 用户 */
 	public final static String MEMBER_REDIS_PRE = "M";
-
 	/** Token缓存时间 */
 	public final static int TOKEN_EXPIRE = 60;
-
 	/** SQL查询的redis缓存 */
 	public final static String SQL_REDIS_PRE = "S";
+	/** 请求中的用户信息key */
+	public final static String REQUEST_MEMBER_INFO = "mi";
 }

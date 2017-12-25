@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.utils.entity.constant;
+package com.wuhenjian.aurora.utils.constant;
 
 /**
  * @author Administrator

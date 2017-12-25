@@ -1,6 +1,6 @@
 package com.wuhenjian.aurora.utils.entity.result;
 
-import com.wuhenjian.aurora.utils.entity.constant.ResultStatus;
+import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 
 import java.io.Serializable;
