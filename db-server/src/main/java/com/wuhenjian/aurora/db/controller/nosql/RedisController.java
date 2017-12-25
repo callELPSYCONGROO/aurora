@@ -2,11 +2,10 @@ package com.wuhenjian.aurora.db.controller.nosql;
 
 import com.wuhenjian.aurora.db.service.RedisService;
 import com.wuhenjian.aurora.utils.entity.MemberAcctInfo;
-import com.wuhenjian.aurora.utils.entity.constant.ResultStatus;
+import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -23,7 +22,7 @@ public class RedisController {
 	private RedisService redisService;
 
 	@RequestMapping(value = "/setToken", method = RequestMethod.POST)
-	public ApiResult setToken(@RequestParam("token") String token, MemberAcctInfo memberAcctInfo) {
+	public ApiResult setToken(String token, MemberAcctInfo memberAcctInfo) {
 		try {
 			redisService.setToken(token, memberAcctInfo);
 		} catch (Exception e) {
@@ -34,7 +33,7 @@ public class RedisController {
 	}
 
 	@RequestMapping(value = "/getToken", method = RequestMethod.GET)
-	public ApiResult getToken(@RequestParam("token") String token) {
+	public ApiResult getToken(String token) {
 		MemberAcctInfo memberAcctInfo;
 		try {
 			memberAcctInfo = redisService.getToken(token);
@@ -46,7 +45,7 @@ public class RedisController {
 	}
 
 	@RequestMapping(value = "/del", method = RequestMethod.POST)
-	public ApiResult del(@RequestParam("key") String key) {
+	public ApiResult del(String key) {
 		try {
 			redisService.del(key);
 		} catch (Exception e) {
@@ -57,9 +56,7 @@ public class RedisController {
 	}
 
 	@RequestMapping(value = "set", method = RequestMethod.POST)
-	public ApiResult set(@RequestParam("key") String key,
-						 @RequestParam("value") String value,
-						 @RequestParam(value = "expire", required = false) Integer expire) {
+	public ApiResult set(String key, String value, Integer expire) {
 		try {
 			redisService.set(key, value, expire);
 		} catch (Exception e) {
@@ -70,7 +67,7 @@ public class RedisController {
 	}
 
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
-	public ApiResult get(@RequestParam("key") String key) {
+	public ApiResult get(String key) {
 		String value;
 		try {
 			value = redisService.get(key);

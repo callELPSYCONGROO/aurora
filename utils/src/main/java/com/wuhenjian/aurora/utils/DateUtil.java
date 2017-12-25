@@ -7,8 +7,9 @@ package com.wuhenjian.aurora.utils;
  */
 public class DateUtil {
 
+	public final static long TEN_SECONDS_MS = 1000L * 10;
 	/** 一分钟毫秒数 */
-	public final static long oneMinMS = 1000L * 60 * 60;
+	public final static long ONE_MIN_MS = 1000L * 60 * 60;
 
 	private DateUtil() {}
 

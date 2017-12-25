@@ -14,7 +14,7 @@ import java.util.Map;
  * @author 無痕剑
  * @date 2017/12/6 15:07
  */
-public class Bean2MapUtil {
+public class BeanUtil {
 
 	/**
 	 * 将一个 Map 对象转化为一个 JavaBean

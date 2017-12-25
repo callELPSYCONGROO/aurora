@@ -3,18 +3,22 @@ package com.wuhenjian.aurora.gateway.filter;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.wuhenjian.aurora.gateway.service.RedisService;
+import com.wuhenjian.aurora.utils.ApiResultUtil;
 import com.wuhenjian.aurora.utils.AuthUtil;
+import com.wuhenjian.aurora.utils.DateUtil;
 import com.wuhenjian.aurora.utils.JsonUtil;
-import com.wuhenjian.aurora.utils.StringUtil;
-import com.wuhenjian.aurora.utils.entity.constant.ResultStatus;
+import com.wuhenjian.aurora.utils.constant.CommonContant;
+import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
+import com.wuhenjian.aurora.utils.security.SHA256;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.*;
 
 /**
  * API接口安全验证
@@ -65,18 +69,46 @@ public class SecurityFilter extends ZuulFilter {
 		HttpServletRequest request = context.getRequest();
 		//TODO 调试的时候使用debug参数
 		/******debug*******/
-        String d = request.getParameter("d");
-        if (StringUtil.isNotBlank(d) && "1".equals(d)) {
-            return null;
-        }
-        /******debug*******/
-        //TODO 验证签名
-		String paramSign = request.getParameter("param_sign");//签名
-		String accessToken = request.getParameter("access_token");//令牌
-		String timestamp = request.getParameter("timestamp");//时间戳
+		String d = request.getParameter("d");
+		if ("1".equals(d)) {
+			return null;
+		}
+		/******debug*******/
 		//验证时间戳
-		String headerDate = request.getHeader("Date");
+		String timestamp = request.getParameter("timestamp");//时间戳
+		if (timestamp.matches("^\\d*$")) {
+			this.response(context, ResultStatus.TIMESTAMP_FORMAT_ERROR);
+			return null;
+		}
+		long ts = Long.valueOf(timestamp);
+		if (System.currentTimeMillis() - ts > DateUtil.TEN_SECONDS_MS) {//与当前时间大于10秒
+			this.response(context, ResultStatus.TIMESTAMP_OVERTIME);
+			return  null;
+		}
+		//验证签名
+		String paramSign = request.getParameter("param_sign");//签名
+		Map<String, String[]> parameterMap = request.getParameterMap();
+		//组装参数，得到参数签名
+		Map<String,String> paramMap = new HashMap<>();
+		for (String key : parameterMap.keySet()) {
+			String[] values = parameterMap.get(key);
+			for (String value : values) {//只有一个
+				paramMap.put(key, value);
+			}
+		}
+		String sign;
+		try {
+			sign = SHA256.encode(paramMap);
+		} catch (BusinessException e) {
+			this.response(context, e.getRs());
+			return null;
+		}
+		if (!sign.equals(paramSign)) {
+			this.response(context, ResultStatus.SIGN_ERROR);
+			return null;
+		}
 		//解析token
+		String accessToken = request.getParameter("access_token");//令牌
 		String token;
 		try {
 			token = AuthUtil.decodeToken(accessToken);
@@ -86,17 +118,19 @@ public class SecurityFilter extends ZuulFilter {
 		}
 		//判断token是否过期
 		ApiResult r1 = redisService.getToken(token);
-		if (r1.getCode() != 1000) {
+		Object mai;
+		try {
+			mai = ApiResultUtil.getObject(r1);
+		} catch (BusinessException e) {
 			this.response(context, ResultStatus.REMOTE_SERVICE_EXCEPTION);
 			return null;
 		}
-		Object mai = r1.getData();
 		if (mai == null) {
 			this.response(context, ResultStatus.TOKEN_OVERDUE);
 			return null;
 		}
 		//将用户账户信息放到请求中去
-		request.setAttribute("memberAccountInfo", mai);
+		request.setAttribute(CommonContant.REQUEST_MEMBER_INFO, mai);
 		return null;
 	}
 

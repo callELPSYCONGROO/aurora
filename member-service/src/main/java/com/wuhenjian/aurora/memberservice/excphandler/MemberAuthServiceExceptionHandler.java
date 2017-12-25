@@ -2,7 +2,7 @@ package com.wuhenjian.aurora.memberservice.excphandler;
 
 import com.wuhenjian.aurora.memberservice.service.MemberAuthService;
 import com.wuhenjian.aurora.utils.entity.Page;
-import com.wuhenjian.aurora.utils.entity.constant.ResultStatus;
+import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.dao.MemberAuth;
 import com.wuhenjian.aurora.utils.entity.dao.MemberAuthCriteria;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;

@@ -1,6 +1,6 @@
 package com.wuhenjian.aurora.utils.entity;
 
-import com.wuhenjian.aurora.utils.entity.constant.CommonContant;
+import com.wuhenjian.aurora.utils.constant.CommonContant;
 
 /**
  * 返回的Token

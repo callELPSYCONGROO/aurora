@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.utils.entity.constant;
+package com.wuhenjian.aurora.utils.constant;
 
 /**
  * 错误码和错误信息
@@ -16,6 +16,8 @@ public enum ResultStatus {
 	SIGN_ERROR(1003, "sign error"),
 	TOKEN_ISVALID_FILTER(1004, "token is invalid"),
 	TOKEN_OVERDUE(1005, "token is overdue"),
+	TIMESTAMP_FORMAT_ERROR(1006, "timestamp is error"),
+	TIMESTAMP_OVERTIME(1007, "timestamp over time"),
 	//controller
 	PARAM_IS_EMPTY(2001, "input param is empty"),
 	SYSTEM_EXCEPTION(2002, "system exception"),
