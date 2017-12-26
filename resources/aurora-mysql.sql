@@ -4,10 +4,10 @@ CREATE DATABASE `aurora`;
 CREATE TABLE `t_member_auth`(
     `maId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
     `accountCode` BIGINT NOT NULL COMMENT '账号',
-    `memberPhone` VARCHAR(20) NOT NULL COMMENT '手机',
-    `memberEmail` VARCHAR(50) NOT NULL COMMENT '邮箱',
+    `memberPhone` VARCHAR(20) NOT NULL COMMENT '手机（1）',
+    `memberEmail` VARCHAR(50) NOT NULL COMMENT '邮箱（2）',
     `authSalt` VARCHAR(10) NOT NULL COMMENT '盐值',
-    `memberPassword` VARCHAR(20) NOT NULL COMMENT '密码，最短8位',
+    `memberPassword` VARCHAR(80) NOT NULL COMMENT '密码，最短8位',
     `authFail` INT(2) NOT NULL DEFAULT 0 COMMENT '登录失败次数',
     `currentStatus` INT(2) NOT NULL DEFAULT 0 COMMENT '账号当前状态：0-正常，1-密码错误次数过多，2-管理员锁定',
     `registerTime` DATETIME NOT NULL COMMENT '注册时间',

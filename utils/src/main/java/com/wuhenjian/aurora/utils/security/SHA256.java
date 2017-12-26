@@ -7,10 +7,7 @@ import org.apache.commons.codec.binary.Hex;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * SHA1加密工具
@@ -57,13 +54,9 @@ public class SHA256 {
 	 * @return 排序结果字符串
 	 */
 	private static String orderMap2String(Map<String,String> map) {
-		List<String> list = new ArrayList<>(map.keySet());
-		Collections.sort(list);
 		StringBuilder sb = new StringBuilder();
-		for (String key : list) {
-			String value = map.get(key);
-			sb.append(key).append(value);
-		}
+		SortedMap<String,String> sortedMap = new TreeMap<>(map);
+		sortedMap.forEach((key, val) -> sb.append(key).append(val));
 		return sb.toString();
 	}
 }

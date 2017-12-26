@@ -32,6 +32,9 @@ public enum ResultStatus {
 	MEMBER_LOCKED_BY_ADMIN(3007, "member is locked by admin"),
 	LOGIN_SIGN_ERROR(3008, "signature verification failed;"),
 	PASSWORD_REPASSWORD_DIFFERENT(3009, "password and repassword is different"),
+	REGISTER_TYPE_AND_ACCOUNT_NOT_MATCH(3010, "Registration type and account number do not match"),
+	MEMBER_ACCOUNT_EXISTED(3011, "member account has existed"),
+	PASSWORD_LENGTH_INVALID(3012, "the length of password is invalid"),
 	//other
 	SHA256_ENCODE(5001, "sha256'encoding is NoSuchAlgorithm or UnsupportedEncoding"),
 	BASE64_ENCODE(5002, "base64'encoding is UnsupportedEncoding"),

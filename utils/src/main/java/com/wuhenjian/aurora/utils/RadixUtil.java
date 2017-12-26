@@ -47,6 +47,8 @@ public class RadixUtil {
         }
     }
 
+    private RadixUtil() {}
+
     /**
      * 将大数值转换为指定的进制数（最大支持62进制）
      */

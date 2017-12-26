@@ -1,5 +1,7 @@
 package com.wuhenjian.aurora.utils;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import java.math.BigInteger;
 import java.util.UUID;
 
@@ -10,6 +12,8 @@ import java.util.UUID;
  */
 public class UUIDUtil {
 
+    private UUIDUtil() {}
+
     /**
      * 得到22位uuid
      * @return uuid
@@ -19,5 +23,12 @@ public class UUIDUtil {
         String s = uuid.replaceAll("-", "").toLowerCase();//去掉"-"符号，变为小写
         BigInteger b = new BigInteger(s, 16);//将uuid变为大数
         return RadixUtil.toString(b, RadixUtil.MAX_RADIX);
+    }
+
+    /**
+     * 得到随机字符串，字母数字，小写
+     */
+    public static String getRandomString(int length) {
+	    return RandomStringUtils.randomAlphabetic(length).toLowerCase();
     }
 }
