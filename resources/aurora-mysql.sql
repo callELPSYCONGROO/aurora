@@ -142,7 +142,12 @@ CREATE TABLE `t_common_picture`(
 )ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '图片表';
 
 
-
+CREATE TABLE `t_common_count`(
+    `ccId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `accountCode` BIGINT DEFAULT 10001 COMMENT '账号，从10001开始，先获取，再自增',
+    
+    PRIMARY KEY (`ccId`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '计数表';
 
 
 

@@ -7,11 +7,6 @@ import java.util.Date;
  * @date 2017/12/11 14:47
  */
 public class MemberAcctInfo {
-
-	private Long miId;
-
-	private Long maId;
-
 	private Long faceId;
 
 	private Long area;
@@ -27,22 +22,6 @@ public class MemberAcctInfo {
 	private String lastLoginIP;
 
 	private Integer lastLoginDevice;
-
-	public Long getMiId() {
-		return miId;
-	}
-
-	public void setMiId(Long miId) {
-		this.miId = miId;
-	}
-
-	public Long getMaId() {
-		return maId;
-	}
-
-	public void setMaId(Long maId) {
-		this.maId = maId;
-	}
 
 	public Long getFaceId() {
 		return faceId;

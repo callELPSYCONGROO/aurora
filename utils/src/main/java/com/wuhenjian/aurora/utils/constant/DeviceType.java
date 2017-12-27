@@ -11,20 +11,20 @@ public enum DeviceType {
 	IOS(2, "ios"),
 	ANDROID(3, "android");
 
-	private int code;
+	private Integer code;
 
 	private String type;
 
-	DeviceType(int code, String type) {
+	DeviceType(Integer code, String type) {
 		this.code = code;
 		this.type = type;
 	}
 
-	public int getCode() {
+	public Integer getCode() {
 		return code;
 	}
 
-	public void setCode(int code) {
+	public void setCode(Integer code) {
 		this.code = code;
 	}
 
@@ -36,10 +36,19 @@ public enum DeviceType {
 		this.type = type;
 	}
 
-	public String getType(int code) {
+	public static String getType(Integer code) {
 		for (DeviceType deviceType : DeviceType.values()) {
-			if (deviceType.getCode() == code) {
+			if (deviceType.getCode().compareTo(code) == 0) {
 				return deviceType.getType();
+			}
+		}
+		return null;
+	}
+
+	public static Integer getCode(String type) {
+		for (DeviceType deviceType : DeviceType.values()) {
+			if (deviceType.getType().equals(type)) {
+				return deviceType.getCode();
 			}
 		}
 		return null;

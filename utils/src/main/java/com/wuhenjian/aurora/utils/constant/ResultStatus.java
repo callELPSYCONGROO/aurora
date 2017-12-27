@@ -35,6 +35,7 @@ public enum ResultStatus {
 	REGISTER_TYPE_AND_ACCOUNT_NOT_MATCH(3010, "Registration type and account number do not match"),
 	MEMBER_ACCOUNT_EXISTED(3011, "member account has existed"),
 	PASSWORD_LENGTH_INVALID(3012, "the length of password is invalid"),
+	NEW_OLD_PASSWORD_IS_SAME(3013, "The same new and old ciphers"),
 	//other
 	SHA256_ENCODE(5001, "sha256'encoding is NoSuchAlgorithm or UnsupportedEncoding"),
 	BASE64_ENCODE(5002, "base64'encoding is UnsupportedEncoding"),

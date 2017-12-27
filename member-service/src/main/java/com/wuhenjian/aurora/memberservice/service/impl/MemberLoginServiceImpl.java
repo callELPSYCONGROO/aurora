@@ -6,23 +6,19 @@ import com.wuhenjian.aurora.utils.AuthUtil;
 import com.wuhenjian.aurora.utils.StringUtil;
 import com.wuhenjian.aurora.utils.UUIDUtil;
 import com.wuhenjian.aurora.utils.constant.CommonContant;
-import com.wuhenjian.aurora.utils.entity.MemberAcctInfo;
-import com.wuhenjian.aurora.utils.entity.TokenInfo;
+import com.wuhenjian.aurora.utils.constant.DeviceType;
 import com.wuhenjian.aurora.utils.constant.MemberStatus;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
+import com.wuhenjian.aurora.utils.entity.MemberAcctInfo;
+import com.wuhenjian.aurora.utils.entity.TokenInfo;
 import com.wuhenjian.aurora.utils.entity.dao.MemberAuth;
+import com.wuhenjian.aurora.utils.entity.dao.MemberInfo;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
-import com.wuhenjian.aurora.utils.security.Base64Util;
-import com.wuhenjian.aurora.utils.security.RSAUtil;
-import com.wuhenjian.aurora.utils.security.SHA256;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author 無痕剑
@@ -40,50 +36,46 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 	@Resource(name = "redisService")
 	private RedisService redisService;
 
+	@Resource(name = "commonCountService")
+	private CommonCountService commonCountService;
+
 	@Override
-	public TokenInfo login(String deviceType, String loginType, String memberAccount, String memberPassword, String paramSign) throws BusinessException {
+	public TokenInfo login(String loginIp, String deviceType, String loginType, String memberAccount, String memberPassword, String paramSign) throws BusinessException {
 		//解密
 		String account = AuthUtil.convert2Plaintext(memberAccount);
 		//校验格式，获取账号信息
-		ApiResult r1;
-		if (CommonContant.LOGIN_TYPE_PHONE.equals(loginType)) {//手机号登录
-			if (!StringUtil.isPhone(account)) {
-				throw new BusinessException(ResultStatus.ACCOUNT_FORMAT_ERROR);
-			}
-			//通过手机号获取账户
-			r1 = memberAuthService.selectByPhone(account);
-		} else if (CommonContant.LOGIN_TYPE_EMAIL.equals(loginType)) {//邮箱登录
-			if (!StringUtil.isEmail(account)) {
-				throw new BusinessException(ResultStatus.ACCOUNT_FORMAT_ERROR);
-			}
-			//通过邮箱获取账户
-			r1 = memberAuthService.selectByEmail(account);
-		} else {//登录格式错误
-			throw new BusinessException(ResultStatus.LOGIN_TYPE_ERROR);
-		}
+		ApiResult r1 = this.verifyAccountTypeGetAccount(account, loginType);
 		MemberAuth ma = (MemberAuth) ApiResultUtil.getObject(r1);
 		if (ma == null) {
 			throw new BusinessException(ResultStatus.ACCOUNT_NOT_EXIST);
 		}
+		//管理员锁定
+		if (MemberStatus.ADMIN_LOCKED.getCode().equals(ma.getCurrentStatus())) {
+			throw new BusinessException(ResultStatus.MEMBER_LOCKED_BY_ADMIN);
+		}
+		//密码错误次数过多被锁定
+		if (MemberStatus.ERROR_PASSWORD_LOCKED.getCode().equals(ma.getCurrentStatus())) {
+			throw new BusinessException(ResultStatus.MEMBER_AUTH_OVERTIME);
+		}
+		//密码错误超过5次
+		if (ma.getAuthFail() > 5) {
+			throw new BusinessException(ResultStatus.MEMBER_AUTH_OVERTIME);
+		}
 		String password = AuthUtil.convert2Plaintext(memberPassword);
-		if (StringUtil.moreThanLength(password, 16) && StringUtil.lessThanLength(password, 8)) {//密码长度
+		if (StringUtil.moreThanLength(password, 16) || StringUtil.lessThanLength(password, 8)) {//密码长度
+			this.passwordError(ma);
 			throw new BusinessException(ResultStatus.PASSWORD_LENGTH_INVALID);
 		}
 		if (!AuthUtil.verifyPassword(password, ma.getAuthSalt(), ma.getMemberPassword())) {//验证密码
+			this.passwordError(ma);
 			throw new BusinessException(ResultStatus.PASSWORD_ISVALID);
 		}
-		if (MemberStatus.ERROR_PASSWORD_LOCKED.getCode().equals(ma.getCurrentStatus())) {//密码错误次数过多被锁定
-			throw new BusinessException(ResultStatus.MEMBER_AUTH_OVERTIME);
-		} else if (MemberStatus.ADMIN_LOCKED.getCode().equals(ma.getCurrentStatus())) {//管理员锁定
-			throw new BusinessException(ResultStatus.MEMBER_LOCKED_BY_ADMIN);
-		}
-		if (ma.getAuthFail() > 5) {//密码错误超过5次
-			ma.setAuthFail(ma.getAuthFail() + 1);
-			ma.setCurrentStatus(MemberStatus.ERROR_PASSWORD_LOCKED.getCode());
-			ma.setUpdateTime(new Date());
-			memberAuthService.updateByPrimaryKeySelective(ma);
-			throw new BusinessException(ResultStatus.MEMBER_AUTH_OVERTIME);
-		}
+		MemberInfo memberInfo = new MemberInfo();
+		memberInfo.setLastLoginDevice(DeviceType.getCode(deviceType));
+		memberInfo.setLastLoginIP(loginIp);
+		memberInfo.setLastLoginTime(new Date());
+		memberInfo.setMaId(ma.getMaId());
+		memberInfoService.updateMemberInfoByMaId(memberInfo);
 		//获取用户信息，存入redis中缓存
 		//获取用户信息
 		ApiResult apiResult = memberInfoService.selectByMaid(ma.getMaId());
@@ -101,15 +93,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 			throw new BusinessException(ResultStatus.PASSWORD_REPASSWORD_DIFFERENT);
 		}
 		String account = AuthUtil.convert2Plaintext(memberAccount);
-		ApiResult r1 = null;
-		if (CommonContant.LOGIN_TYPE_PHONE.equals(registerType) && StringUtil.isPhone(account)) {
-			r1 = memberAuthService.selectByPhone(account);
-		} else if (CommonContant.LOGIN_TYPE_EMAIL.equals(registerType) && StringUtil.isEmail(account)) {
-			r1 = memberAuthService.selectByEmail(account);
-		}
-		if (r1 == null) {//注册类型与账号不匹配
-			throw new BusinessException(ResultStatus.REGISTER_TYPE_AND_ACCOUNT_NOT_MATCH);
-		}
+		ApiResult r1 = this.verifyAccountTypeGetAccount(account, registerType);
 		MemberAuth ma = (MemberAuth) ApiResultUtil.getObject(r1);
 		if (ma != null) {//注册账号是否存在
 			throw new BusinessException(ResultStatus.MEMBER_ACCOUNT_EXISTED);
@@ -120,7 +104,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 		}
 		String salt = UUIDUtil.getRandomString(6);
 		String passwordEncrypt = AuthUtil.passwordEncrypt(password, salt);
-//		long accountCode = ;
+		long accountCode = (long) ApiResultUtil.getObject(commonCountService.getAccountCode());
 		MemberAuth memberAuth = new MemberAuth();
 		if (CommonContant.LOGIN_TYPE_PHONE.equals(registerType)) {
 			memberAuth.setMemberPhone(account);
@@ -129,10 +113,94 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 		}
 		memberAuth.setMemberPassword(passwordEncrypt);
 		memberAuth.setAuthSalt(salt);
-//		memberAuth.setAccountCode(accountCode);
+		memberAuth.setAccountCode(accountCode);
 		memberAuth.setAuthFail(0);
 		memberAuth.setCurrentStatus(MemberStatus.NORMAL.getCode());
 		memberAuth.setRegisterTime(new Date());
 		memberAuth.setUpdateTime(new Date());
+		memberAuthService.insertSelective(memberAuth);//创建用户
+		commonCountService.addAccountCode();//自增账户表
+	}
+
+	@Override
+	public void resetPassword(String accountType, String memberAccount, String memberPassword, String reMemberPassword, String paramSign) throws BusinessException {
+		if (!memberPassword.equals(reMemberPassword)) {//两次输入密码是否相同
+			throw new BusinessException(ResultStatus.PASSWORD_REPASSWORD_DIFFERENT);
+		}
+		//解密
+		String account = AuthUtil.convert2Plaintext(memberAccount);
+		//校验格式，获取账号信息
+		ApiResult r1 = verifyAccountTypeGetAccount(account, accountType);
+		MemberAuth ma = (MemberAuth) ApiResultUtil.getObject(r1);
+		if (ma == null) {
+			throw new BusinessException(ResultStatus.ACCOUNT_NOT_EXIST);
+		}
+		String password = AuthUtil.convert2Plaintext(memberPassword);
+		if (StringUtil.moreThanLength(password, 16) || StringUtil.lessThanLength(password, 8)) {//密码长度
+			throw new BusinessException(ResultStatus.PASSWORD_LENGTH_INVALID);
+		}
+		String passwordEncrypt = AuthUtil.passwordEncrypt(password, ma.getAuthSalt());
+		//管理员锁定
+		if (MemberStatus.ADMIN_LOCKED.getCode().equals(ma.getCurrentStatus())) {
+			throw new BusinessException(ResultStatus.MEMBER_LOCKED_BY_ADMIN);
+		}
+		//密码错误次数过多被锁定
+		if (MemberStatus.ERROR_PASSWORD_LOCKED.getCode().equals(ma.getCurrentStatus())) {
+			throw new BusinessException(ResultStatus.MEMBER_AUTH_OVERTIME);
+		}
+		//新旧密码相同
+		if (ma.getMemberPassword().equals(passwordEncrypt)) {
+			throw new BusinessException(ResultStatus.NEW_OLD_PASSWORD_IS_SAME);
+		}
+		String newSalt = UUIDUtil.getRandomString(6);
+		String newPassword = AuthUtil.passwordEncrypt(password, newSalt);
+		//更新密码
+		MemberAuth memberAuth = new MemberAuth();
+		memberAuth.setMaId(ma.getMaId());
+		memberAuth.setMemberPassword(newPassword);
+		memberAuth.setAuthSalt(newSalt);
+		memberAuth.setAuthFail(0);
+		memberAuth.setUpdateTime(new Date());
+		memberAuthService.updateByPrimaryKeySelective(memberAuth);
+	}
+
+	/**
+	 * 验证账号类型，获取账号信息
+	 * @param account 账号
+	 * @param accountType 账号类型
+	 * @return 账号信息
+	 * @throws BusinessException 发生异常
+	 */
+	private ApiResult verifyAccountTypeGetAccount(String account, String accountType) throws BusinessException {
+		//校验格式，获取账号信息
+		ApiResult r1;
+		if (CommonContant.LOGIN_TYPE_PHONE.equals(accountType) && StringUtil.isPhone(account)) {//手机号登录
+			if (!StringUtil.isPhone(account)) {
+				throw new BusinessException(ResultStatus.ACCOUNT_FORMAT_ERROR);
+			}
+			//通过手机号获取账户
+			r1 = memberAuthService.selectByPhone(account);
+		} else if (CommonContant.LOGIN_TYPE_EMAIL.equals(accountType) && StringUtil.isEmail(account)) {//邮箱登录
+			if (!StringUtil.isEmail(account)) {
+				throw new BusinessException(ResultStatus.ACCOUNT_FORMAT_ERROR);
+			}
+			//通过邮箱获取账户
+			r1 = memberAuthService.selectByEmail(account);
+		} else {//登录格式错误
+			throw new BusinessException(ResultStatus.LOGIN_TYPE_ERROR);
+		}
+		return r1;
+	}
+
+	/**
+	 * 密码错误，更新账号信息
+	 * @param ma 原来账号信息
+	 */
+	private void passwordError(MemberAuth ma) {
+		MemberAuth memberAuth = new MemberAuth();
+		memberAuth.setMaId(ma.getMaId());
+		memberAuth.setAuthFail(ma.getAuthFail() + 1);
+		memberAuth.setUpdateTime(new Date());
+		memberAuthService.updateByPrimaryKeySelective(memberAuth);
 	}
 }

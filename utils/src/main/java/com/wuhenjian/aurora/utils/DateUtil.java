@@ -14,13 +14,13 @@ public class DateUtil {
 	/** 一分钟毫秒数 */
 	public final static long ONE_MIN_MS = 1000L * 60 * 60;
 	/** 天干字 */
-	public final static char[] SKY_BRANCH_CHAR = new char[]{'甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'};
+	public final static String[] SKY_BRANCH_STR = new String[]{"甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"};
 	/** 地支字 */
-	public final static char[] EARTH_BRANCH_CHAR = new char[]{'子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'};
+	public final static String[] EARTH_BRANCH_STR = new String[]{"子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"};
 	/** 天干数 */
-	public final static int[] SKY_BRANCH_INT = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+	public final static Integer[] SKY_BRANCH_INT = new Integer[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 	/** 地支数 */
-	public final static int[] EARTH_BRANCH_INT = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+	public final static Integer[] EARTH_BRANCH_INT = new Integer[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
 	/** 天干地支字 */
 	public final static String[] SKY_EARTH_STR = new String[]{
 			"甲子", "乙丑", "丙寅", "丁卯", "戊辰", "己巳", "庚午", "辛未", "壬申", "癸酉",
@@ -30,7 +30,7 @@ public class DateUtil {
 			"甲辰", "乙巳", "丙午", "丁未", "戊申", "己酉", "庚戌", "辛亥", "壬子", "癸丑",
 			"甲寅", "乙卯", "丙辰", "丁巳", "戊午", "己未", "庚申", "辛酉", "壬戌", "癸亥"};
 	/** 天干地支数 */
-	public final static int[] SKY_EARTH_INT = new int[]{
+	public final static Integer[] SKY_EARTH_INT = new Integer[]{
 			0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
 			10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
 			20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
@@ -55,6 +55,21 @@ public class DateUtil {
 	 * @return 农历
 	 */
 	public static String date2ChineseCalendarStr(Date date) {
+		return date2ChineseCalendar(date)[1];
+	}
+
+	/**
+	 * 日期转换为农历数字
+	 * @param date 日期
+	 * @return 农历数字
+	 */
+	public static int date2ChineseCalendarInt(Date date) {
+		return Integer.valueOf(date2ChineseCalendar(date)[0]);
+	}
+
+	private static String[] date2ChineseCalendar(Date date) {
+		String[] result = new String[2];
+		String chineseCalendarInt = "";
 		String chineseCalendarStr = "";
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
@@ -67,6 +82,7 @@ public class DateUtil {
 		if (y < 4) {
 			y = y + 60 - 4;
 		}
+		chineseCalendarInt += SKY_EARTH_INT[y];
 		chineseCalendarStr += SKY_EARTH_STR[y] + "年 ";
 		//月
 		/*
@@ -101,6 +117,7 @@ public class DateUtil {
 				m = 50;
 				break;
 		}
+		chineseCalendarInt += SKY_EARTH_INT[m];
 		chineseCalendarStr += SKY_EARTH_STR[m] + "月 ";
 		//日
 		/*
@@ -116,22 +133,22 @@ public class DateUtil {
 		int century = year / 100 + 1;//世纪
 		int yearLast2 = year % 100;
 		int i = month % 2 == 0 ? 6 : 0;
-		int dsb = 4 * century + century / 4 + 5 * yearLast2 + yearLast2 / 4 + 3 * (month + 1) / 5 + day - 3;
-		int deb = 8 * century + century / 4 + 5 * yearLast2 + yearLast2 / 4 + 3 * (month + 1) / 5 + day + 7 + i;
-		String daySkyBranch = String.valueOf(SKY_BRANCH_CHAR[dsb]);
-		String dayEarchBranch = String.valueOf(EARTH_BRANCH_CHAR[deb]);
+		int g = (4 * century + century / 4 + 5 * yearLast2 + yearLast2 / 4 + 3 * (month + 1) / 5 + day - 3) % 10;
+		int z = (8 * century + century / 4 + 5 * yearLast2 + yearLast2 / 4 + 3 * (month + 1) / 5 + day + 7 + i) % 12;
+		int daySkyBranch = SKY_BRANCH_INT[g];
+		int dayEarchBranch = EARTH_BRANCH_INT[z];
+		chineseCalendarInt += "" + daySkyBranch + dayEarchBranch;
 		chineseCalendarStr += daySkyBranch + dayEarchBranch + "日 ";
 		//时
-		//TODO 农历转换
-		return chineseCalendarStr;
-	}
-
-	/**
-	 * 日期转换为农历数字
-	 * @param date 日期
-	 * @return 农历数字
-	 */
-	public static int date2ChineseCalendarInt(Date date) {
-		return 0;
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		int h = (hour + 1) / 2;
+		if (h == 12) {
+			h = 0;
+		}
+		chineseCalendarInt += EARTH_BRANCH_INT[h];
+		chineseCalendarStr += EARTH_BRANCH_STR[h] + "时";
+		result[0] = chineseCalendarInt;
+		result[1] = chineseCalendarStr;
+		return result;
 	}
 }

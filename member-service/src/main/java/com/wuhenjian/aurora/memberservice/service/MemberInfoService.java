@@ -39,4 +39,7 @@ public interface MemberInfoService {
 
 	@RequestMapping(value = "selectByMaid", method = RequestMethod.GET)
 	ApiResult selectByMaid(Long maId);
+
+	@RequestMapping(value = "/updateMemberInfoByMaId", method = RequestMethod.POST)
+	ApiResult updateMemberInfoByMaId(MemberInfo memberInfo);
 }

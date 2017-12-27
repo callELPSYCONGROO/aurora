@@ -83,4 +83,10 @@ public class MemberInfoController extends AbstractSqlBaseController<MemberInfo,M
 		MemberAcctInfo memberAcctInfo = mapper.selectByMaid(maId);
 		return ApiResult.success(memberAcctInfo);
 	}
+
+	@RequestMapping(value = "/updateMemberInfoByMaId", method = RequestMethod.POST)
+	public ApiResult updateMemberInfoByMaId(MemberInfo memberInfo) {
+		mapper.updateMemberInfoByMaId(memberInfo);
+		return ApiResult.success();
+	}
 }
