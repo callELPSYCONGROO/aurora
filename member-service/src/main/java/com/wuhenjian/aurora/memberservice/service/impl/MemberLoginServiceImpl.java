@@ -44,7 +44,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 	public TokenInfo login(AuthParam authParam) throws BusinessException {
 		//签名验证
 		if (!AuthUtil.verifySign(authParam.getLoginParam(), authParam.getParamSign())) {
-			throw new BusinessException(ResultStatus.ACCOUNT_FORMAT_ERROR);
+			throw new BusinessException(ResultStatus.LOGIN_SIGN_ERROR);
 		}
 		//解密
 		String account = AuthUtil.convert2Plaintext(authParam.getMemberAccount());
@@ -102,9 +102,10 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 
 	@Override
 	public void register(AuthParam authParam) throws BusinessException {
+		//TODO 注册、重置密码功能修改流程
 		//签名验证
 		if (!AuthUtil.verifySign(authParam.getRegisterParam(), authParam.getParamSign())) {
-			throw new BusinessException(ResultStatus.ACCOUNT_FORMAT_ERROR);
+			throw new BusinessException(ResultStatus.LOGIN_SIGN_ERROR);
 		}
 		//两次输入密码是否相同
 		if (!authParam.getMemberPassword().equals(authParam.getReMemberPassword())) {
@@ -144,7 +145,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 	public void resetPassword(AuthParam authParam) throws BusinessException {
 		//签名验证
 		if (!AuthUtil.verifySign(authParam.getResetParam(), authParam.getParamSign())) {
-			throw new BusinessException(ResultStatus.ACCOUNT_FORMAT_ERROR);
+			throw new BusinessException(ResultStatus.LOGIN_SIGN_ERROR);
 		}
 		if (!authParam.getMemberPassword().equals(authParam.getReMemberPassword())) {//两次输入密码是否相同
 			throw new BusinessException(ResultStatus.PASSWORD_REPASSWORD_DIFFERENT);
@@ -197,13 +198,13 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 	private ApiResult verifyAccountTypeGetAccount(String account, String accountType) throws BusinessException {
 		//校验格式，获取账号信息
 		ApiResult r1;
-		if (CommonContant.LOGIN_TYPE_PHONE.equals(accountType) && StringUtil.isPhone(account)) {//手机号登录
+		if (CommonContant.LOGIN_TYPE_PHONE.equals(accountType)) {//手机号登录
 			if (!StringUtil.isPhone(account)) {
 				throw new BusinessException(ResultStatus.ACCOUNT_FORMAT_ERROR);
 			}
 			//通过手机号获取账户
 			r1 = memberAuthService.selectByPhone(account);
-		} else if (CommonContant.LOGIN_TYPE_EMAIL.equals(accountType) && StringUtil.isEmail(account)) {//邮箱登录
+		} else if (CommonContant.LOGIN_TYPE_EMAIL.equals(accountType)) {//邮箱登录
 			if (!StringUtil.isEmail(account)) {
 				throw new BusinessException(ResultStatus.ACCOUNT_FORMAT_ERROR);
 			}

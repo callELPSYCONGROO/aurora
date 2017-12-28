@@ -22,7 +22,8 @@ public class AuthUtil {
      */
     public static String createToken() throws BusinessException {
         String uuid = UUIDUtil.getUuid();//获取uuid
-        return RSAUtil.encrypt(uuid);//RSA加密得到Token
+        String encrypt = RSAUtil.encrypt(uuid);
+        return Base64Util.encode2Str(encrypt);//RSA加密Base64加密得到Token
     }
 
     /**
