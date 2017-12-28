@@ -1,6 +1,7 @@
 package com.wuhenjian.aurora.memberservice.service;
 
 import com.wuhenjian.aurora.utils.entity.TokenInfo;
+import com.wuhenjian.aurora.utils.entity.param.AuthParam;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 
 /**
@@ -9,9 +10,9 @@ import com.wuhenjian.aurora.utils.exception.BusinessException;
  */
 public interface MemberLoginService {
 
-	TokenInfo login(String loginIp, String deviceType, String loginType, String memberAccount, String memberPassword, String paramSign) throws BusinessException;
+	TokenInfo login(AuthParam authParam) throws BusinessException;
 
-	void register(String deviceType, String registerType, String memberAccount, String memberPassword, String reMemberPassword, String paramSign) throws BusinessException;
+	void register(AuthParam authParam) throws BusinessException;
 
-	void resetPassword(String accountType, String memberAccount, String memberPassword, String reMemberPassword, String paramSign) throws BusinessException;
+	void resetPassword(AuthParam authParam) throws BusinessException;
 }

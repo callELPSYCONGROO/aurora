@@ -22,6 +22,7 @@ public enum ResultStatus {
 	PARAM_IS_EMPTY(2001, "input param is empty"),
 	SYSTEM_EXCEPTION(2002, "system exception"),
 	TOKEN_ISVALID_CTRL(2003, "token is invalid"),
+	DATABASE_EXCEPTION(2004, "database exception"),
 	//service
 	REMOTE_SERVICE_EXCEPTION(3001, "Remote call services are exceptions"),
 	ACCOUNT_FORMAT_ERROR(3002, "account format error"),
@@ -36,6 +37,8 @@ public enum ResultStatus {
 	MEMBER_ACCOUNT_EXISTED(3011, "member account has existed"),
 	PASSWORD_LENGTH_INVALID(3012, "the length of password is invalid"),
 	NEW_OLD_PASSWORD_IS_SAME(3013, "The same new and old ciphers"),
+	PARAMS_SIGN_VERIFY_FAIL(3014, "Failure of signature authentication"),
+	EMAIL_FAILURE(3015, "service failure"),
 	//other
 	SHA256_ENCODE(5001, "sha256'encoding is NoSuchAlgorithm or UnsupportedEncoding"),
 	BASE64_ENCODE(5002, "base64'encoding is UnsupportedEncoding"),

@@ -23,5 +23,7 @@ public class CommonContant {
 	/** 登录类型-手机 */
 	public final static String LOGIN_TYPE_PHONE = "phone";
 	/** 登录类型-邮箱 */
-	public final static String LOGIN_TYPE_EMAIL = "email";
+	public final static String LOGIN_TYPE_EMAIL = "service";
+	/** 用户验证码缓存 */
+
 }

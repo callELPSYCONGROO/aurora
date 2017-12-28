@@ -34,5 +34,5 @@ public interface MemberAuthMapper {
 
 	MemberAuth selectByPhone(@Param("phone") String phone);
 
-	MemberAuth selectByEmail(@Param("email") String email);
+	MemberAuth selectByEmail(@Param("service") String email);
 }

@@ -13,6 +13,7 @@ import com.wuhenjian.aurora.utils.entity.MemberAcctInfo;
 import com.wuhenjian.aurora.utils.entity.TokenInfo;
 import com.wuhenjian.aurora.utils.entity.dao.MemberAuth;
 import com.wuhenjian.aurora.utils.entity.dao.MemberInfo;
+import com.wuhenjian.aurora.utils.entity.param.AuthParam;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.stereotype.Service;
@@ -40,11 +41,15 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 	private CommonCountService commonCountService;
 
 	@Override
-	public TokenInfo login(String loginIp, String deviceType, String loginType, String memberAccount, String memberPassword, String paramSign) throws BusinessException {
+	public TokenInfo login(AuthParam authParam) throws BusinessException {
+		//签名验证
+		if (!AuthUtil.verifySign(authParam.getLoginParam(), authParam.getParamSign())) {
+			throw new BusinessException(ResultStatus.ACCOUNT_FORMAT_ERROR);
+		}
 		//解密
-		String account = AuthUtil.convert2Plaintext(memberAccount);
+		String account = AuthUtil.convert2Plaintext(authParam.getMemberAccount());
 		//校验格式，获取账号信息
-		ApiResult r1 = this.verifyAccountTypeGetAccount(account, loginType);
+		ApiResult r1 = this.verifyAccountTypeGetAccount(account, authParam.getAccountType());
 		MemberAuth ma = (MemberAuth) ApiResultUtil.getObject(r1);
 		if (ma == null) {
 			throw new BusinessException(ResultStatus.ACCOUNT_NOT_EXIST);
@@ -59,9 +64,17 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 		}
 		//密码错误超过5次
 		if (ma.getAuthFail() > 5) {
+			MemberAuth memberAuth = new MemberAuth();
+			memberAuth.setMaId(ma.getMaId());
+			memberAuth.setUpdateTime(new Date());
+			memberAuth.setCurrentStatus(MemberStatus.ERROR_PASSWORD_LOCKED.getCode());
+			ApiResult apiResult = memberAuthService.updateByPrimaryKeySelective(memberAuth);
+			if (apiResult.getCode() != 1000) {
+				throw new BusinessException(apiResult);
+			}
 			throw new BusinessException(ResultStatus.MEMBER_AUTH_OVERTIME);
 		}
-		String password = AuthUtil.convert2Plaintext(memberPassword);
+		String password = AuthUtil.convert2Plaintext(authParam.getMemberPassword());
 		if (StringUtil.moreThanLength(password, 16) || StringUtil.lessThanLength(password, 8)) {//密码长度
 			this.passwordError(ma);
 			throw new BusinessException(ResultStatus.PASSWORD_LENGTH_INVALID);
@@ -71,8 +84,8 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 			throw new BusinessException(ResultStatus.PASSWORD_ISVALID);
 		}
 		MemberInfo memberInfo = new MemberInfo();
-		memberInfo.setLastLoginDevice(DeviceType.getCode(deviceType));
-		memberInfo.setLastLoginIP(loginIp);
+		memberInfo.setLastLoginDevice(DeviceType.getCode(authParam.getDeviceType()));
+		memberInfo.setLastLoginIP(authParam.getLoginIp());
 		memberInfo.setLastLoginTime(new Date());
 		memberInfo.setMaId(ma.getMaId());
 		memberInfoService.updateMemberInfoByMaId(memberInfo);
@@ -88,17 +101,22 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 	}
 
 	@Override
-	public void register(String deviceType, String registerType, String memberAccount, String memberPassword, String reMemberPassword, String paramSign) throws BusinessException {
-		if (!memberPassword.equals(reMemberPassword)) {//两次输入密码是否相同
+	public void register(AuthParam authParam) throws BusinessException {
+		//签名验证
+		if (!AuthUtil.verifySign(authParam.getRegisterParam(), authParam.getParamSign())) {
+			throw new BusinessException(ResultStatus.ACCOUNT_FORMAT_ERROR);
+		}
+		//两次输入密码是否相同
+		if (!authParam.getMemberPassword().equals(authParam.getReMemberPassword())) {
 			throw new BusinessException(ResultStatus.PASSWORD_REPASSWORD_DIFFERENT);
 		}
-		String account = AuthUtil.convert2Plaintext(memberAccount);
-		ApiResult r1 = this.verifyAccountTypeGetAccount(account, registerType);
+		String account = AuthUtil.convert2Plaintext(authParam.getMemberAccount());
+		ApiResult r1 = this.verifyAccountTypeGetAccount(account, authParam.getAccountType());
 		MemberAuth ma = (MemberAuth) ApiResultUtil.getObject(r1);
 		if (ma != null) {//注册账号是否存在
 			throw new BusinessException(ResultStatus.MEMBER_ACCOUNT_EXISTED);
 		}
-		String password = AuthUtil.convert2Plaintext(memberPassword);
+		String password = AuthUtil.convert2Plaintext(authParam.getMemberPassword());
 		if (StringUtil.moreThanLength(password, 16) && StringUtil.lessThanLength(password, 8)) {
 			throw new BusinessException(ResultStatus.PASSWORD_LENGTH_INVALID);
 		}
@@ -106,9 +124,9 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 		String passwordEncrypt = AuthUtil.passwordEncrypt(password, salt);
 		long accountCode = (long) ApiResultUtil.getObject(commonCountService.getAccountCode());
 		MemberAuth memberAuth = new MemberAuth();
-		if (CommonContant.LOGIN_TYPE_PHONE.equals(registerType)) {
+		if (CommonContant.LOGIN_TYPE_PHONE.equals(authParam.getAccountType())) {
 			memberAuth.setMemberPhone(account);
-		} else if (CommonContant.LOGIN_TYPE_EMAIL.equals(registerType)) {
+		} else if (CommonContant.LOGIN_TYPE_EMAIL.equals(authParam.getAccountType())) {
 			memberAuth.setMemberEmail(account);
 		}
 		memberAuth.setMemberPassword(passwordEncrypt);
@@ -123,20 +141,25 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 	}
 
 	@Override
-	public void resetPassword(String accountType, String memberAccount, String memberPassword, String reMemberPassword, String paramSign) throws BusinessException {
-		if (!memberPassword.equals(reMemberPassword)) {//两次输入密码是否相同
+	public void resetPassword(AuthParam authParam) throws BusinessException {
+		//签名验证
+		if (!AuthUtil.verifySign(authParam.getResetParam(), authParam.getParamSign())) {
+			throw new BusinessException(ResultStatus.ACCOUNT_FORMAT_ERROR);
+		}
+		if (!authParam.getMemberPassword().equals(authParam.getReMemberPassword())) {//两次输入密码是否相同
 			throw new BusinessException(ResultStatus.PASSWORD_REPASSWORD_DIFFERENT);
 		}
 		//解密
-		String account = AuthUtil.convert2Plaintext(memberAccount);
+		String account = AuthUtil.convert2Plaintext(authParam.getMemberAccount());
 		//校验格式，获取账号信息
-		ApiResult r1 = verifyAccountTypeGetAccount(account, accountType);
+		ApiResult r1 = verifyAccountTypeGetAccount(account, authParam.getAccountType());
 		MemberAuth ma = (MemberAuth) ApiResultUtil.getObject(r1);
 		if (ma == null) {
 			throw new BusinessException(ResultStatus.ACCOUNT_NOT_EXIST);
 		}
-		String password = AuthUtil.convert2Plaintext(memberPassword);
-		if (StringUtil.moreThanLength(password, 16) || StringUtil.lessThanLength(password, 8)) {//密码长度
+		String password = AuthUtil.convert2Plaintext(authParam.getMemberPassword());
+		//密码长度
+		if (StringUtil.moreThanLength(password, 16) || StringUtil.lessThanLength(password, 8)) {
 			throw new BusinessException(ResultStatus.PASSWORD_LENGTH_INVALID);
 		}
 		String passwordEncrypt = AuthUtil.passwordEncrypt(password, ma.getAuthSalt());
@@ -196,11 +219,14 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 	 * 密码错误，更新账号信息
 	 * @param ma 原来账号信息
 	 */
-	private void passwordError(MemberAuth ma) {
+	private void passwordError(MemberAuth ma) throws BusinessException {
 		MemberAuth memberAuth = new MemberAuth();
 		memberAuth.setMaId(ma.getMaId());
 		memberAuth.setAuthFail(ma.getAuthFail() + 1);
 		memberAuth.setUpdateTime(new Date());
-		memberAuthService.updateByPrimaryKeySelective(memberAuth);
+		ApiResult apiResult = memberAuthService.updateByPrimaryKeySelective(memberAuth);
+		if (apiResult.getCode() != 1000) {
+			throw new BusinessException(apiResult);
+		}
 	}
 }

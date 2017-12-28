@@ -1,9 +1,9 @@
 package com.wuhenjian.aurora.memberservice.controller.api;
 
 import com.wuhenjian.aurora.memberservice.service.MemberLoginService;
-import com.wuhenjian.aurora.utils.StringUtil;
 import com.wuhenjian.aurora.utils.entity.TokenInfo;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
+import com.wuhenjian.aurora.utils.entity.param.AuthParam;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +25,8 @@ public class MemberLoginController {
 	private MemberLoginService memberLoginService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ApiResult login(String deviceType, String loginType, String memberAccount, String memberPassword, String paramSign, HttpServletRequest request) throws BusinessException {
-		if (StringUtil.hasBlank(new String[]{deviceType, loginType, memberAccount, memberPassword, paramSign})) {
+	public ApiResult login(AuthParam authParam, HttpServletRequest request) throws BusinessException {
+		if (authParam.loginParamIsEmpty()) {
 			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
 		}
 		String loginIp;
@@ -35,25 +35,26 @@ public class MemberLoginController {
 		} else {
 			loginIp = request.getHeader("x-forwarded-for");
 		}
-		TokenInfo tokenInfo = memberLoginService.login(loginIp, deviceType, loginType, memberAccount, memberPassword, paramSign);
+		authParam.setLoginIp(loginIp);
+		TokenInfo tokenInfo = memberLoginService.login(authParam);
 		return ApiResult.success(tokenInfo);
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ApiResult register(String deviceType, String registerType, String memberAccount, String memberPassword, String reMemberPassword, String paramSign) throws BusinessException {
-		if (StringUtil.hasBlank(new String[]{deviceType, registerType, memberAccount, memberPassword, reMemberPassword, registerType, paramSign})) {
+	public ApiResult register(AuthParam authParam) throws BusinessException {
+		if (authParam.registerParamIsEmpty()) {
 			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
 		}
-		memberLoginService.register(deviceType, registerType, memberAccount, memberPassword, reMemberPassword, paramSign);
+		memberLoginService.register(authParam);
 		return ApiResult.success();
 	}
 
 	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
-	public ApiResult resetPassword(String deviceType, String accountType, String memberAccount, String memberPassword, String reMemberPassword, String paramSign) throws BusinessException {
-		if (StringUtil.hasBlank(new String[]{deviceType, accountType, memberAccount, memberPassword, reMemberPassword, accountType, paramSign})) {
+	public ApiResult resetPassword(AuthParam authParam) throws BusinessException {
+		if (authParam.resetParamIsEmpty()) {
 			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
 		}
-		memberLoginService.resetPassword(accountType, memberAccount, memberPassword, reMemberPassword, paramSign);
+		memberLoginService.resetPassword(authParam);
 		return ApiResult.success();
 	}
 }
