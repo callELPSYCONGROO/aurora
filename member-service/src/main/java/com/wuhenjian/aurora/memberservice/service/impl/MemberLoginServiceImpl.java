@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author 無痕剑
@@ -44,8 +46,10 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 	public TokenInfo login(AuthParam authParam) throws BusinessException {
 		//签名验证
 		if (!AuthUtil.verifySign(authParam.getLoginParam(), authParam.getParamSign())) {
-			throw new BusinessException(ResultStatus.LOGIN_SIGN_ERROR);
+			throw new BusinessException(ResultStatus.SIGN_FAIL);
 		}
+		//验证码检查
+		this.checkCaptcha(authParam.getCaptchaKey(), authParam.getCaptcha());
 		//解密
 		String account = AuthUtil.convert2Plaintext(authParam.getMemberAccount());
 		//校验格式，获取账号信息
@@ -102,11 +106,12 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 
 	@Override
 	public void register(AuthParam authParam) throws BusinessException {
-		//TODO 注册、重置密码功能修改流程
 		//签名验证
 		if (!AuthUtil.verifySign(authParam.getRegisterParam(), authParam.getParamSign())) {
-			throw new BusinessException(ResultStatus.LOGIN_SIGN_ERROR);
+			throw new BusinessException(ResultStatus.SIGN_FAIL);
 		}
+		//验证码检查
+		this.checkCaptcha(authParam.getCaptchaKey(), authParam.getCaptcha());
 		//两次输入密码是否相同
 		if (!authParam.getMemberPassword().equals(authParam.getReMemberPassword())) {
 			throw new BusinessException(ResultStatus.PASSWORD_REPASSWORD_DIFFERENT);
@@ -145,8 +150,10 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 	public void resetPassword(AuthParam authParam) throws BusinessException {
 		//签名验证
 		if (!AuthUtil.verifySign(authParam.getResetParam(), authParam.getParamSign())) {
-			throw new BusinessException(ResultStatus.LOGIN_SIGN_ERROR);
+			throw new BusinessException(ResultStatus.SIGN_FAIL);
 		}
+		//验证码检查
+		this.checkCaptcha(authParam.getCaptchaKey(), authParam.getCaptcha());
 		if (!authParam.getMemberPassword().equals(authParam.getReMemberPassword())) {//两次输入密码是否相同
 			throw new BusinessException(ResultStatus.PASSWORD_REPASSWORD_DIFFERENT);
 		}
@@ -189,6 +196,30 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 	}
 
 	/**
+	 * 检查账号是否存在
+	 * @param memberAccount 账号
+	 * @param accountType 账号类型
+	 * @param paramSign 签名
+	 */
+	@Override
+	public Integer checkAccount(String memberAccount, String accountType, String paramSign) throws BusinessException {
+		Map<String,String> params = new HashMap<>();
+		params.put("memberAccount", memberAccount);
+		params.put("accountType", accountType);
+		if (!AuthUtil.verifySign(params, paramSign)) {
+			throw new BusinessException(ResultStatus.SIGN_FAIL);
+		}
+		String account = AuthUtil.convert2Plaintext(memberAccount);
+		ApiResult apiResult = this.verifyAccountTypeGetAccount(account, accountType);
+		MemberAuth ma = (MemberAuth) ApiResultUtil.getObject(apiResult);
+		if (ma != null) {
+			return CommonContant.ACCOUNT_EXIST;
+		} else {
+			return CommonContant.ACCOUNT_NOT_EXIST;
+		}
+	}
+
+	/**
 	 * 验证账号类型，获取账号信息
 	 * @param account 账号
 	 * @param accountType 账号类型
@@ -228,6 +259,21 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 		ApiResult apiResult = memberAuthService.updateByPrimaryKeySelective(memberAuth);
 		if (apiResult.getCode() != 1000) {
 			throw new BusinessException(apiResult);
+		}
+	}
+
+	/**
+	 * 检查验证码是否正确
+	 * @param captchaKey 验证码redis缓存的key
+	 * @param captcha 用户输入的验证码
+	 * @throws BusinessException 发生异常
+	 */
+	private void checkCaptcha(String captchaKey, String captcha) throws BusinessException {
+		ApiResult r2 = redisService.get(captchaKey);
+		String redisCaptcha = (String) ApiResultUtil.getObject(r2);
+		//验证码是否正确
+		if (captcha.equals(redisCaptcha)) {
+			throw new BusinessException(ResultStatus.CAPTCHA_ERROR);
 		}
 	}
 }

@@ -22,6 +22,6 @@ public class EmailServiceTest extends BaseSerivceTest {
 		Map<String,Object> params = new HashMap<>();
 		params.put("p", "sa");
 		params.put("title", "你看看");
-		emailService.sendCaptcha("920297884@qq.com", "mayh0991@126.com", "测试邮件", params);
+		emailService.sendCaptcha(null);
 	}
 }

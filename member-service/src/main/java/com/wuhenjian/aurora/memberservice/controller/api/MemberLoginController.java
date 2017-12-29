@@ -1,6 +1,8 @@
 package com.wuhenjian.aurora.memberservice.controller.api;
 
 import com.wuhenjian.aurora.memberservice.service.MemberLoginService;
+import com.wuhenjian.aurora.memberservice.service.NotifyService;
+import com.wuhenjian.aurora.utils.ApiResultUtil;
 import com.wuhenjian.aurora.utils.entity.TokenInfo;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.param.AuthParam;
@@ -24,6 +26,9 @@ public class MemberLoginController {
 	@Resource(name = "memberLoginService")
 	private MemberLoginService memberLoginService;
 
+	@Resource(name = "notifyService")
+	private NotifyService notifyService;
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ApiResult login(AuthParam authParam, HttpServletRequest request) throws BusinessException {
 		if (authParam.loginParamIsEmpty()) {
@@ -38,6 +43,20 @@ public class MemberLoginController {
 		authParam.setLoginIp(loginIp);
 		TokenInfo tokenInfo = memberLoginService.login(authParam);
 		return ApiResult.success(tokenInfo);
+	}
+
+	/**
+	 * 获取邮箱验证码
+	 * @param memberAccount 登录账号
+	 * @param captchaType 验证码类型
+	 * @return 验证码缓存key
+	 * @throws BusinessException 发生异常
+	 */
+	@RequestMapping(value = "/getCaptcha", method = RequestMethod.POST)
+	public ApiResult getCaptcha(String memberAccount, Integer captchaType) throws BusinessException {
+		ApiResult r1 = notifyService.getCaptcha(memberAccount, captchaType);
+		String captchaKey = (String) ApiResultUtil.getObject(r1);
+		return ApiResult.success(captchaKey);
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -56,5 +75,15 @@ public class MemberLoginController {
 		}
 		memberLoginService.resetPassword(authParam);
 		return ApiResult.success();
+	}
+
+	/**
+	 * 检查账号是否存在
+	 * @return 1-存在，2-不存在
+	 */
+	@RequestMapping(value = "/checkAccount", method = RequestMethod.GET)
+	public ApiResult checkAccount(String memberAccount, String accountType, String paramSign) throws BusinessException {
+		Integer checkAccount = memberLoginService.checkAccount(memberAccount, accountType, paramSign);
+		return ApiResult.success(checkAccount);
 	}
 }

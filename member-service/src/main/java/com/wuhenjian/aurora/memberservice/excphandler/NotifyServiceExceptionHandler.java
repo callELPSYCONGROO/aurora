@@ -2,7 +2,6 @@ package com.wuhenjian.aurora.memberservice.excphandler;
 
 import com.wuhenjian.aurora.memberservice.service.NotifyService;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
-import com.wuhenjian.aurora.utils.entity.param.SendEmailParam;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component("notifyServiceExceptionHandler")
 public class NotifyServiceExceptionHandler implements NotifyService {
 	@Override
-	public ApiResult sendCaptcha(SendEmailParam sendEmailParam) {
+	public ApiResult getCaptcha(String to, Integer type) {
 		return this.exceptionResult();
 	}
 

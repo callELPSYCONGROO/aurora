@@ -23,6 +23,9 @@ public enum ResultStatus {
 	SYSTEM_EXCEPTION(2002, "system exception"),
 	TOKEN_ISVALID_CTRL(2003, "token is invalid"),
 	DATABASE_EXCEPTION(2004, "database exception"),
+	CAPTCHA_TYPE_ERROR(2005, "captcha type is error"),
+	RECEIVE_IS_NULL(2006, "receive is null"),
+	RECEIVE_EMAIL_FORMAT_ERROR(2006, "Recipient mailbox format error"),
 	//service
 	REMOTE_SERVICE_EXCEPTION(3001, "Remote call services are exceptions"),
 	ACCOUNT_FORMAT_ERROR(3002, "account format error"),
@@ -31,7 +34,7 @@ public enum ResultStatus {
 	PASSWORD_ISVALID(3005, "password is invalid"),
 	MEMBER_AUTH_OVERTIME(3006, "More than 5 times the number of user authentication"),
 	MEMBER_LOCKED_BY_ADMIN(3007, "member is locked by admin"),
-	LOGIN_SIGN_ERROR(3008, "signature verification failed;"),
+	SIGN_FAIL(3008, "signature verification failed;"),
 	PASSWORD_REPASSWORD_DIFFERENT(3009, "password and repassword is different"),
 	REGISTER_TYPE_AND_ACCOUNT_NOT_MATCH(3010, "Registration type and account number do not match"),
 	MEMBER_ACCOUNT_EXISTED(3011, "member account has existed"),
@@ -39,6 +42,7 @@ public enum ResultStatus {
 	NEW_OLD_PASSWORD_IS_SAME(3013, "The same new and old ciphers"),
 	PARAMS_SIGN_VERIFY_FAIL(3014, "Failure of signature authentication"),
 	EMAIL_FAILURE(3015, "service failure"),
+	CAPTCHA_ERROR(3016, "captcha is error"),
 	//other
 	SHA256_ENCODE(5001, "sha256'encoding is NoSuchAlgorithm or UnsupportedEncoding"),
 	BASE64_ENCODE(5002, "base64'encoding is UnsupportedEncoding"),

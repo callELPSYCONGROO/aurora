@@ -10,6 +10,9 @@ import java.util.Date;
  */
 public class DateUtil {
 
+	/** 五分钟秒数 */
+	public final static int FIVE_MIN_S = 60 * 5;
+	/** 十秒钟毫秒数 */
 	public final static long TEN_SECONDS_MS = 1000L * 10;
 	/** 一分钟毫秒数 */
 	public final static long ONE_MIN_MS = 1000L * 60 * 60;

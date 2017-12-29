@@ -1,7 +1,6 @@
 package com.wuhenjian.aurora.memberservice.service;
 
 import com.wuhenjian.aurora.memberservice.excphandler.NotifyServiceExceptionHandler;
-import com.wuhenjian.aurora.utils.entity.param.SendEmailParam;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Service;
@@ -16,6 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(value = "notify", fallback = NotifyServiceExceptionHandler.class)
 public interface NotifyService {
 
-	@RequestMapping(value = "sendCaptcha", method = RequestMethod.POST)
-	ApiResult sendCaptcha(SendEmailParam sendEmailParam);
+	@RequestMapping(value = "/email/getCaptcha", method = RequestMethod.POST)
+	ApiResult getCaptcha(String to, Integer type);
 }

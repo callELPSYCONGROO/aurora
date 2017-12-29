@@ -15,4 +15,12 @@ public interface MemberLoginService {
 	void register(AuthParam authParam) throws BusinessException;
 
 	void resetPassword(AuthParam authParam) throws BusinessException;
+
+	/**
+	 * 检查账号是否存在
+	 * @param memberAccount 账号
+	 * @param accountType 账号类型
+	 * @param paramSign 签名
+	 */
+	Integer checkAccount(String memberAccount, String accountType, String paramSign) throws BusinessException;
 }

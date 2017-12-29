@@ -18,7 +18,7 @@ public class NumUtilTest {
     @Test
     public void uuidTest() {
         for (int i = 0; i < 30; i++) {
-            System.out.println(i + " ------------>   " + UUIDUtil.getUuid());
+            System.out.println(i + " ------------>   " + UUIDUtil.getUuid(RadixUtil.MAX_RADIX));
         }
     }
 
@@ -29,7 +29,7 @@ public class NumUtilTest {
 
     @Test
     public void string2Int() {
-        String uuid = UUIDUtil.getUuid();
+        String uuid = UUIDUtil.getUuid(RadixUtil.MAX_RADIX);
         System.out.println(uuid);
         System.out.println(uuid.length());
         System.out.println(RadixUtil.toNumber(uuid, 10));
@@ -52,7 +52,7 @@ public class NumUtilTest {
 
     @Test
     public void signLengthTest() throws BusinessException {
-        String uuid = UUIDUtil.getUuid();
+        String uuid = UUIDUtil.getUuid(RadixUtil.MAX_RADIX);
         TokenModel tokenModel = new TokenModel();
         tokenModel.setAccountCode(1145485414L);
         tokenModel.setUuid(uuid);

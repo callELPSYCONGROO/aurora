@@ -1,6 +1,7 @@
 package com.wuhenjian.aurora.utils.entity.param;
 
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class SendEmailParam {
 	/** 验证码，仅验证码邮件需要 */
 	private String captcha;
 	/** 时间 */
-	private String time;
+	private Date time;
 	/** 事件类型 */
 	private String type;
 	/** 附件 */
@@ -67,11 +68,11 @@ public class SendEmailParam {
 		this.captcha = captcha;
 	}
 
-	public String getTime() {
+	public Date getTime() {
 		return time;
 	}
 
-	public void setTime(String time) {
+	public void setTime(Date time) {
 		this.time = time;
 	}
 

@@ -12,6 +12,8 @@ import java.util.*;
 public class AuthParam {
 	/** 验证码 */
 	private String captcha;
+	/** 验证码key */
+	private String captchaKey;
 	/** 登录ip */
 	private String loginIp;
 	/** 设备类型 */
@@ -91,6 +93,14 @@ public class AuthParam {
 		this.paramSign = paramSign;
 	}
 
+	public String getCaptchaKey() {
+		return captchaKey;
+	}
+
+	public void setCaptchaKey(String captchaKey) {
+		this.captchaKey = captchaKey;
+	}
+
 	/**
 	 * 获取所以参数的map对象，不包括paramSign
 	 */
@@ -103,6 +113,7 @@ public class AuthParam {
 		map.put("deviceType", this.deviceType);
 		map.put("loginIp", this.loginIp);
 		map.put("captcha", this.captcha);
+		map.put("captchaKey", this.captchaKey);
 		return map;
 	}
 

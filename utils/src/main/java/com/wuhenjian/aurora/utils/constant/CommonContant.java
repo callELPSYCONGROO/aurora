@@ -24,8 +24,10 @@ public class CommonContant {
 	public final static String LOGIN_TYPE_PHONE = "phone";
 	/** 登录类型-邮箱 */
 	public final static String LOGIN_TYPE_EMAIL = "service";
-	/** 用户验证码缓存，类型-账号，邮箱验证码 */
-	public final static String CAPTCHA_EMAIL = "E";
-	/** 手机验证码 */
-	public final static String CAPTCHA_PHONE = "P";
+	/** 验证码进制 */
+	public final static int CAPTCHA_RADIX = 36;
+	/** 账号已存在 */
+	public final static Integer ACCOUNT_EXIST = 1;
+	/** 账号不存在 */
+	public final static Integer ACCOUNT_NOT_EXIST = 2;
 }
