@@ -170,7 +170,6 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 		if (StringUtil.moreThanLength(password, 16) || StringUtil.lessThanLength(password, 8)) {
 			throw new BusinessException(ResultStatus.PASSWORD_LENGTH_INVALID);
 		}
-		String passwordEncrypt = AuthUtil.passwordEncrypt(password, ma.getAuthSalt());
 		//管理员锁定
 		if (MemberStatus.ADMIN_LOCKED.getCode().equals(ma.getCurrentStatus())) {
 			throw new BusinessException(ResultStatus.MEMBER_LOCKED_BY_ADMIN);
@@ -179,6 +178,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 		if (MemberStatus.ERROR_PASSWORD_LOCKED.getCode().equals(ma.getCurrentStatus())) {
 			throw new BusinessException(ResultStatus.MEMBER_AUTH_OVERTIME);
 		}
+		String passwordEncrypt = AuthUtil.passwordEncrypt(password, ma.getAuthSalt());
 		//新旧密码相同
 		if (ma.getMemberPassword().equals(passwordEncrypt)) {
 			throw new BusinessException(ResultStatus.NEW_OLD_PASSWORD_IS_SAME);

@@ -360,8 +360,7 @@
   </select>
     <select id="selectByMaid" resultType="com.wuhenjian.aurora.utils.entity.MemberAcctInfo">
       select
-      faceId, area, nickName, memberSign, sex, lastLoginTime, lastLoginIP,
-      lastLoginDevice
+      <include refid="Base_Column_List"/>
       from t_member_info
       where maId = #{maId,jdbcType=BIGINT}
     </select>

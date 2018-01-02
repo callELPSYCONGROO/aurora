@@ -9,7 +9,8 @@ import java.util.Date;
  * @date 2017/12/5 11:50
  */
 public class DateUtil {
-
+	/** 一天秒数 */
+	public final static int ONE_DAY_S = 60 * 60 * 24;
 	/** 五分钟秒数 */
 	public final static int FIVE_MIN_S = 60 * 5;
 	/** 十秒钟毫秒数 */

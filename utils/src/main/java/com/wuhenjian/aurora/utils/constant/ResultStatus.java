@@ -25,7 +25,8 @@ public enum ResultStatus {
 	DATABASE_EXCEPTION(2004, "database exception"),
 	CAPTCHA_TYPE_ERROR(2005, "captcha type is error"),
 	RECEIVE_IS_NULL(2006, "receive is null"),
-	RECEIVE_EMAIL_FORMAT_ERROR(2006, "Recipient mailbox format error"),
+	RECEIVE_EMAIL_FORMAT_ERROR(2007, "Recipient mailbox format error"),
+	PASSWORD_MODIFY_COUNT(2008, "password modify count over"),
 	//service
 	REMOTE_SERVICE_EXCEPTION(3001, "Remote call services are exceptions"),
 	ACCOUNT_FORMAT_ERROR(3002, "account format error"),
