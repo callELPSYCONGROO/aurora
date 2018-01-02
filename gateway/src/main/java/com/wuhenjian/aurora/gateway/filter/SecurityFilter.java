@@ -76,39 +76,36 @@ public class SecurityFilter extends ZuulFilter {
 		/******debug*******/
 		//验证时间戳
 		String timestamp = request.getParameter("timestamp");//时间戳
-		if (timestamp.matches("^\\d*$")) {
+		if (DateUtil.isTimestamp(timestamp)) {
 			this.response(context, ResultStatus.TIMESTAMP_FORMAT_ERROR);
 			return null;
 		}
 		long ts = Long.valueOf(timestamp);
-		if (System.currentTimeMillis() - ts > DateUtil.TEN_SECONDS_MS) {//与当前时间大于10秒
+		long diffTime = System.currentTimeMillis() - ts;
+		if (diffTime > DateUtil.TEN_SECONDS_MS || diffTime < 0) {//与当前时间大于10秒，或在当前时间之后
 			this.response(context, ResultStatus.TIMESTAMP_OVERTIME);
-			return  null;
+			return null;
 		}
 		//验证签名
-		String paramSign = request.getParameter("param_sign");//签名
+		String paramSign = request.getParameter("paramSign");//签名
 		Map<String, String[]> parameterMap = request.getParameterMap();
-		//组装参数，得到参数签名
+		parameterMap.remove("paramSign");
 		Map<String,String> paramMap = new HashMap<>();
 		for (String key : parameterMap.keySet()) {
-			String[] values = parameterMap.get(key);
-			for (String value : values) {//只有一个
-				paramMap.put(key, value);
-			}
+			String val = parameterMap.get(key)[0];
+			paramMap.put(key, val);
 		}
-		String sign;
 		try {
-			sign = SHA256.encode(paramMap);
+			if (!AuthUtil.verifySign(paramMap, paramSign)) {
+				this.response(context, ResultStatus.SIGN_ERROR);
+				return null;
+			}
 		} catch (BusinessException e) {
 			this.response(context, e.getRs());
 			return null;
 		}
-		if (!sign.equals(paramSign)) {
-			this.response(context, ResultStatus.SIGN_ERROR);
-			return null;
-		}
 		//解析token
-		String accessToken = request.getParameter("access_token");//令牌
+		String accessToken = request.getParameter("accessToken");//令牌
 		String token;
 		try {
 			token = AuthUtil.decodeToken(accessToken);

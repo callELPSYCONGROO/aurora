@@ -3,7 +3,6 @@ package com.wuhenjian.aurora.db.excphandler;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
@@ -14,8 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ControllerExceptionHandler {
 
 	@ExceptionHandler(Exception.class)
-	@ResponseBody
 	public ApiResult handler() {
-		return ApiResult.fail(ResultStatus.SYSTEM_EXCEPTION);
+		return ApiResult.fail(ResultStatus.DATABASE_EXCEPTION);
 	}
 }

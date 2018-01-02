@@ -20,4 +20,14 @@ public class CommonContant {
 	public final static String SQL_REDIS_PRE = "S";
 	/** 请求中的用户信息key */
 	public final static String REQUEST_MEMBER_INFO = "mi";
+	/** 登录类型-手机 */
+	public final static String LOGIN_TYPE_PHONE = "phone";
+	/** 登录类型-邮箱 */
+	public final static String LOGIN_TYPE_EMAIL = "service";
+	/** 验证码进制 */
+	public final static int CAPTCHA_RADIX = 36;
+	/** 账号已存在 */
+	public final static Integer ACCOUNT_EXIST = 1;
+	/** 账号不存在 */
+	public final static Integer ACCOUNT_NOT_EXIST = 2;
 }

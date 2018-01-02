@@ -16,6 +16,8 @@ import java.util.Map;
  */
 public class BeanUtil {
 
+	private BeanUtil() {}
+
 	/**
 	 * 将一个 Map 对象转化为一个 JavaBean
 	 * @param type 要转化的类型

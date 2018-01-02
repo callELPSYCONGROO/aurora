@@ -24,20 +24,14 @@ public class RadixUtil {
             'U', 'V', 'W', 'X', 'Y', 'Z',
     };
 
-    /**
-     * 支持的最大进制数
-     */
+    /** 支持的最大进制数 */
     public final static int MAX_RADIX = DIGIT.length;
 
-    /**
-     * 支持的最小进制数
-     */
-    public static final int MIN_RADIX = 2;
+    /** 支持的最小进制数 */
+    public final static int MIN_RADIX = 2;
 
-    /**
-     * 最多一次返回32个字符
-     **/
-    public static final int SIZE = 32;
+    /** 最多一次返回32个字符 */
+    public final static int SIZE = 32;
 
     private final static Map<Character, Integer> digitMap = new HashMap<>();
 
@@ -46,6 +40,8 @@ public class RadixUtil {
             digitMap.put(DIGIT[i], i);
         }
     }
+
+    private RadixUtil() {}
 
     /**
      * 将大数值转换为指定的进制数（最大支持62进制）

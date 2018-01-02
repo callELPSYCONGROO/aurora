@@ -10,6 +10,8 @@ import com.wuhenjian.aurora.utils.exception.BusinessException;
  */
 public class ApiResultUtil {
 
+    private ApiResultUtil() {}
+
     /**
      * 判断结果集，获取结果集对象
      * @param apiResult 结果集

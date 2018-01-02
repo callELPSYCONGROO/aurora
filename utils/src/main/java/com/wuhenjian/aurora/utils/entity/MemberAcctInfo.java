@@ -8,9 +8,9 @@ import java.util.Date;
  */
 public class MemberAcctInfo {
 
-	private Long miId;
-
 	private Long maId;
+
+	private Long miId;
 
 	private Long faceId;
 
@@ -28,20 +28,20 @@ public class MemberAcctInfo {
 
 	private Integer lastLoginDevice;
 
-	public Long getMiId() {
-		return miId;
-	}
-
-	public void setMiId(Long miId) {
-		this.miId = miId;
-	}
-
 	public Long getMaId() {
 		return maId;
 	}
 
 	public void setMaId(Long maId) {
 		this.maId = maId;
+	}
+
+	public Long getMiId() {
+		return miId;
+	}
+
+	public void setMiId(Long miId) {
+		this.miId = miId;
 	}
 
 	public Long getFaceId() {

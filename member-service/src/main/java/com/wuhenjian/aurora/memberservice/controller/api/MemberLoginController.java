@@ -1,9 +1,11 @@
 package com.wuhenjian.aurora.memberservice.controller.api;
 
 import com.wuhenjian.aurora.memberservice.service.MemberLoginService;
-import com.wuhenjian.aurora.utils.StringUtil;
+import com.wuhenjian.aurora.memberservice.service.NotifyService;
+import com.wuhenjian.aurora.utils.ApiResultUtil;
 import com.wuhenjian.aurora.utils.entity.TokenInfo;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
+import com.wuhenjian.aurora.utils.entity.param.AuthParam;
 import com.wuhenjian.aurora.utils.entity.result.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author SwordNoTrace
@@ -20,24 +23,67 @@ import javax.annotation.Resource;
 @RequestMapping("/entry")
 public class MemberLoginController {
 
-    @Resource(name = "memberLoginService")
-    private MemberLoginService memberLoginService;
+	@Resource(name = "memberLoginService")
+	private MemberLoginService memberLoginService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ApiResult login(String loginType, String memberAccount, String memberPassword, String paramSign) throws BusinessException {
-        if (StringUtil.hasBlank(new String[]{loginType, memberAccount, memberPassword, paramSign})) {
-            return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
-        }
-        TokenInfo tokenInfo = memberLoginService.login(loginType, memberAccount, memberPassword, paramSign);
-        return ApiResult.success(tokenInfo);
-    }
+	@Resource(name = "notifyService")
+	private NotifyService notifyService;
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ApiResult register(String registerType, String memberAccount, String memberPassword, String reMemberPassword, String paramSign) throws BusinessException {
-        if (StringUtil.hasBlank(new String[]{registerType, memberAccount, memberPassword, reMemberPassword, registerType, paramSign})) {
-            return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
-        }
-        memberLoginService.register(registerType, memberAccount, memberPassword, reMemberPassword, paramSign);
-        return ApiResult.success();
-    }
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ApiResult login(AuthParam authParam, HttpServletRequest request) throws BusinessException {
+		if (authParam.loginParamIsEmpty()) {
+			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
+		}
+		String loginIp;
+		if (request.getHeader("x-forwarded-for") == null) {
+			loginIp = request.getRemoteAddr();
+		} else {
+			loginIp = request.getHeader("x-forwarded-for");
+		}
+		authParam.setLoginIp(loginIp);
+		TokenInfo tokenInfo = memberLoginService.login(authParam);
+		return ApiResult.success(tokenInfo);
+	}
+
+	/**
+	 * 获取邮箱验证码
+	 * @param memberAccount 登录账号
+	 * @param captchaType 验证码类型
+	 * @return 验证码缓存key
+	 * @throws BusinessException 发生异常
+	 */
+	@RequestMapping(value = "/getCaptcha", method = RequestMethod.POST)
+	public ApiResult getCaptcha(String memberAccount, Integer captchaType) throws BusinessException {
+		ApiResult r1 = notifyService.getCaptcha(memberAccount, captchaType);
+		String captchaKey = (String) ApiResultUtil.getObject(r1);
+		return ApiResult.success(captchaKey);
+	}
+
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public ApiResult register(AuthParam authParam) throws BusinessException {
+		if (authParam.registerParamIsEmpty()) {
+			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
+		}
+		memberLoginService.register(authParam);
+		return ApiResult.success();
+	}
+
+	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
+	public ApiResult resetPassword(AuthParam authParam) throws BusinessException {
+		if (authParam.resetParamIsEmpty()) {
+			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
+		}
+		memberLoginService.resetPassword(authParam);
+		return ApiResult.success();
+	}
+
+	/**
+	 * 检查账号是否存在
+	 * @return 1-存在，2-不存在
+	 */
+	@RequestMapping(value = "/checkAccount", method = RequestMethod.GET)
+	public ApiResult checkAccount(String memberAccount, String accountType, String paramSign) throws BusinessException {
+		Integer checkAccount = memberLoginService.checkAccount(memberAccount, accountType, paramSign);
+		return ApiResult.success(checkAccount);
+	}
 }

@@ -108,7 +108,7 @@ public class MemberPush implements Serializable {
         sb.append(", mpId=").append(mpId);
         sb.append(", maId=").append(maId);
         sb.append(", phone=").append(phone);
-        sb.append(", email=").append(email);
+        sb.append(", service=").append(email);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", createTime=").append(createTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);

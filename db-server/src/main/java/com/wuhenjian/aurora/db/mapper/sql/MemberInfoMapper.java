@@ -34,4 +34,6 @@ public interface MemberInfoMapper {
 	List<MemberInfo> selectByModel(MemberInfo model);
 
 	MemberAcctInfo selectByMaid(@Param("maId") Long maId);
+
+	void updateMemberInfoByMaId(MemberInfo record);
 }

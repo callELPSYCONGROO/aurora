@@ -62,4 +62,22 @@ public class StringUtil {
 		String reg = "^\\w+((-\\w+)|(\\.\\w+))*@[A-Za-z0-9]+(([.\\-])[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
 		return string.matches(reg);
 	}
+
+	/**
+	 * 字符串大于某个长度
+	 * @param string 字符串
+	 * @param length 长度
+	 */
+	public static boolean moreThanLength(String string, int length) {
+		return string.length() > length;
+	}
+
+	/**
+	 * 字符串小于某个长度
+	 * @param string 字符串
+	 * @param length 长度
+	 */
+	public static boolean lessThanLength(String string, int length) {
+		return string.length() < length;
+	}
 }

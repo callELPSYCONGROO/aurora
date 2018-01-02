@@ -306,62 +306,62 @@ public class MemberPushCriteria {
         }
 
         public Criteria andEmailIsNull() {
-            addCriterion("email is null");
+            addCriterion("service is null");
             return (Criteria) this;
         }
 
         public Criteria andEmailIsNotNull() {
-            addCriterion("email is not null");
+            addCriterion("service is not null");
             return (Criteria) this;
         }
 
         public Criteria andEmailEqualTo(Integer value) {
-            addCriterion("email =", value, "email");
+            addCriterion("service =", value, "service");
             return (Criteria) this;
         }
 
         public Criteria andEmailNotEqualTo(Integer value) {
-            addCriterion("email <>", value, "email");
+            addCriterion("service <>", value, "service");
             return (Criteria) this;
         }
 
         public Criteria andEmailGreaterThan(Integer value) {
-            addCriterion("email >", value, "email");
+            addCriterion("service >", value, "service");
             return (Criteria) this;
         }
 
         public Criteria andEmailGreaterThanOrEqualTo(Integer value) {
-            addCriterion("email >=", value, "email");
+            addCriterion("service >=", value, "service");
             return (Criteria) this;
         }
 
         public Criteria andEmailLessThan(Integer value) {
-            addCriterion("email <", value, "email");
+            addCriterion("service <", value, "service");
             return (Criteria) this;
         }
 
         public Criteria andEmailLessThanOrEqualTo(Integer value) {
-            addCriterion("email <=", value, "email");
+            addCriterion("service <=", value, "service");
             return (Criteria) this;
         }
 
         public Criteria andEmailIn(List<Integer> values) {
-            addCriterion("email in", values, "email");
+            addCriterion("service in", values, "service");
             return (Criteria) this;
         }
 
         public Criteria andEmailNotIn(List<Integer> values) {
-            addCriterion("email not in", values, "email");
+            addCriterion("service not in", values, "service");
             return (Criteria) this;
         }
 
         public Criteria andEmailBetween(Integer value1, Integer value2) {
-            addCriterion("email between", value1, value2, "email");
+            addCriterion("service between", value1, value2, "service");
             return (Criteria) this;
         }
 
         public Criteria andEmailNotBetween(Integer value1, Integer value2) {
-            addCriterion("email not between", value1, value2, "email");
+            addCriterion("service not between", value1, value2, "service");
             return (Criteria) this;
         }
 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${title}">邮箱验证码</title>
+</head>
+<body>
+<div class="header">
+    <p><span><b>AURORA</b></span></p>
+</div>
+<div class="main">
+    <div><p th:if="${p != null}" th:text="'您申请的' + ${type} + '业务验证码为：'"></p></div>
+    <div><span><b th:text="${captcha}"></b></span></div>
+    <div>
+        <p>验证码发送时间：</p>
+        <p th:text="${time}"></p>
+        <p>验证码有效期为5分钟。</p>
+        <p>过期失效，请重新申请。</p>
+    </div>
+</div>
+<div class="footer">
+    <div><span>联系我：</span><span>wuhenjian_aurora@163.com</span></div>
+</div>
+</body>
+</html>
