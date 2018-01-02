@@ -42,6 +42,9 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 	@Resource(name = "commonCountService")
 	private CommonCountService commonCountService;
 
+	@Resource(name = "notifyService")
+	private NotifyService notifyService;
+
 	@Override
 	public TokenInfo login(AuthParam authParam) throws BusinessException {
 		//签名验证
@@ -102,6 +105,19 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 		//存入redis
 		redisService.setToken(token, memberAcctInfo);
 		return TokenInfo.defaultInstance(token);
+	}
+
+	@Override
+	public String getCaptcha(String memberAccount, Integer captchaType, String timestamp, String paramSign) throws BusinessException {
+		Map<String,String> params = new HashMap<>();
+		params.put("memberAccount", memberAccount);
+		params.put("captchaType", String.valueOf(captchaType));
+		params.put("timestamp", timestamp);
+		if (!AuthUtil.verifySign(params, paramSign)) {
+			throw new BusinessException(ResultStatus.SIGN_FAIL);
+		}
+		ApiResult r1 = notifyService.getCaptcha(memberAccount, captchaType);
+		return (String) ApiResultUtil.getObject(r1);
 	}
 
 	@Override

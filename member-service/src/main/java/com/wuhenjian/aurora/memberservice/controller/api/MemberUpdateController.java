@@ -1,6 +1,8 @@
 package com.wuhenjian.aurora.memberservice.controller.api;
 
 import com.wuhenjian.aurora.memberservice.service.MemberUpdateService;
+import com.wuhenjian.aurora.memberservice.service.NotifyService;
+import com.wuhenjian.aurora.utils.ApiResultUtil;
 import com.wuhenjian.aurora.utils.StringUtil;
 import com.wuhenjian.aurora.utils.constant.CommonContant;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
@@ -25,16 +27,33 @@ public class MemberUpdateController {
 	@Resource(name = "memberService")
 	private MemberUpdateService memberUpdateService;
 
+	@Resource(name = "notifyService")
+	private NotifyService notifyService;
+
 	@RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
 	public ApiResult updatePassword(String memberPassword, String reMemberPassword, String captcha, String captchaKey, HttpServletRequest request) throws BusinessException {
-		MemberAcctInfo mai = (MemberAcctInfo) request.getAttribute(CommonContant.REQUEST_MEMBER_INFO);
-		if (mai == null) {
-			return ApiResult.fail(ResultStatus.TOKEN_OVERDUE);
-		}
 		if (StringUtil.hasBlank(new String[]{memberPassword, reMemberPassword, captcha, captchaKey})) {
 			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
 		}
+		MemberAcctInfo mai = (MemberAcctInfo) request.getAttribute(CommonContant.REQUEST_MEMBER_INFO);
 		memberUpdateService.updatePassword(mai.getMaId(), memberPassword, reMemberPassword, captcha, captchaKey);
 		return ApiResult.success();
+	}
+
+	/**
+	 * 获取邮箱验证码
+	 * @param memberAccount 登录账号
+	 * @param captchaType 验证码类型
+	 * @return 验证码缓存key
+	 * @throws BusinessException 发生异常
+	 */
+	@RequestMapping(value = "/getCaptcha", method = RequestMethod.POST)
+	public ApiResult getCaptcha(String memberAccount, Integer captchaType) throws BusinessException {
+		if (StringUtil.hasBlank(new String[]{memberAccount, String.valueOf(captchaType)})) {
+			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
+		}
+		ApiResult r1 = notifyService.getCaptcha(memberAccount, captchaType);
+		String captchaKey = (String) ApiResultUtil.getObject(r1);
+		return ApiResult.success(captchaKey);
 	}
 }

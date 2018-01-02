@@ -1,8 +1,7 @@
 package com.wuhenjian.aurora.memberservice.controller.api;
 
 import com.wuhenjian.aurora.memberservice.service.MemberLoginService;
-import com.wuhenjian.aurora.memberservice.service.NotifyService;
-import com.wuhenjian.aurora.utils.ApiResultUtil;
+import com.wuhenjian.aurora.utils.StringUtil;
 import com.wuhenjian.aurora.utils.entity.TokenInfo;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.param.AuthParam;
@@ -26,9 +25,6 @@ public class MemberLoginController {
 	@Resource(name = "memberLoginService")
 	private MemberLoginService memberLoginService;
 
-	@Resource(name = "notifyService")
-	private NotifyService notifyService;
-
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ApiResult login(AuthParam authParam, HttpServletRequest request) throws BusinessException {
 		if (authParam.loginParamIsEmpty()) {
@@ -49,13 +45,17 @@ public class MemberLoginController {
 	 * 获取邮箱验证码
 	 * @param memberAccount 登录账号
 	 * @param captchaType 验证码类型
+	 * @param timestamp 时间戳
+	 * @param paramSign 参数签名
 	 * @return 验证码缓存key
 	 * @throws BusinessException 发生异常
 	 */
 	@RequestMapping(value = "/getCaptcha", method = RequestMethod.POST)
-	public ApiResult getCaptcha(String memberAccount, Integer captchaType) throws BusinessException {
-		ApiResult r1 = notifyService.getCaptcha(memberAccount, captchaType);
-		String captchaKey = (String) ApiResultUtil.getObject(r1);
+	public ApiResult getCaptcha(String memberAccount, Integer captchaType, String timestamp, String paramSign) throws BusinessException {
+		if (StringUtil.hasBlank(new String[]{memberAccount, String.valueOf(captchaType), timestamp, paramSign})) {
+			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
+		}
+		String captchaKey = memberLoginService.getCaptcha(memberAccount, captchaType, timestamp, paramSign);
 		return ApiResult.success(captchaKey);
 	}
 

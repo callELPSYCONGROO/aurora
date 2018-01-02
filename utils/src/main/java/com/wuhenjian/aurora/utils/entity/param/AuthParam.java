@@ -28,6 +28,8 @@ public class AuthParam {
 	private String reMemberPassword;
 	/** 参数签名 */
 	private String paramSign;
+	/** 时间戳 */
+	private String timestamp;
 
 	public String getCaptcha() {
 		return captcha;
@@ -101,6 +103,14 @@ public class AuthParam {
 		this.captchaKey = captchaKey;
 	}
 
+	public String getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
+	}
+
 	/**
 	 * 获取所以参数的map对象，不包括paramSign
 	 */
@@ -114,6 +124,7 @@ public class AuthParam {
 		map.put("loginIp", this.loginIp);
 		map.put("captcha", this.captcha);
 		map.put("captchaKey", this.captchaKey);
+		map.put("timestamp", this.timestamp);
 		return map;
 	}
 
