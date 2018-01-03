@@ -26,7 +26,7 @@ public class JsonUtil {
 	 * @param cla 对象类型
 	 * @return 对象
 	 */
-	public static Object json2Obj(String jsonString, Class cla) {
+	public static <T> T json2Obj(String jsonString, Class<T> cla) {
 		return JSON.parseObject(jsonString, cla);
 	}
 }

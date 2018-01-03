@@ -50,6 +50,7 @@ public enum ResultStatus {
 	RSA_ERROR(5003, "rsa'encoding is InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException"),
 	ACCOUNTCODE_LENGTH(5004, "account length is invalid"),
 	UUID_LENGTH(5005, "uuid length is invalid"),
+	HTTPCLIENT_EXCP(5006, "httpclient exception"),
 
 	END_EXCEPTION(5999, "")
 	;
