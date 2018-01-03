@@ -44,13 +44,13 @@ public enum ResultStatus {
 	PARAMS_SIGN_VERIFY_FAIL(3014, "Failure of signature authentication"),
 	EMAIL_FAILURE(3015, "service failure"),
 	CAPTCHA_ERROR(3016, "captcha is error"),
+	HTTPCLIENT_EXCP(3017, "httpclient exception"),
 	//other
 	SHA256_ENCODE(5001, "sha256'encoding is NoSuchAlgorithm or UnsupportedEncoding"),
 	BASE64_ENCODE(5002, "base64'encoding is UnsupportedEncoding"),
 	RSA_ERROR(5003, "rsa'encoding is InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException"),
 	ACCOUNTCODE_LENGTH(5004, "account length is invalid"),
 	UUID_LENGTH(5005, "uuid length is invalid"),
-	HTTPCLIENT_EXCP(5006, "httpclient exception"),
 
 	END_EXCEPTION(5999, "")
 	;

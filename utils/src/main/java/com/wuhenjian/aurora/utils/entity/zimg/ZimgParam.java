@@ -1,25 +1,35 @@
 package com.wuhenjian.aurora.utils.entity.zimg;
 
+import com.wuhenjian.aurora.utils.BeanUtil;
+import com.wuhenjian.aurora.utils.StringUtil;
+
+import java.beans.IntrospectionException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * zimg图片参数
  * @author 無痕剑
  * @date 2018/1/3 17:50
  */
 public class ZimgParam {
+	/** 图片md5值 */
+	private String md5;
 	/** 长 */
-	private Integer w;
+	private String w;
 	/** 宽 */
-	private Integer h;
+	private String h;
 	/** g=1获得灰白图片 */
-	private Integer g;
+	private String g;
 	/** 指定区域x轴 */
-	private Integer x;
+	private String x;
 	/** 指定区域y轴 */
-	private Integer y;
+	private String y;
 	/** 旋转角度 */
-	private Integer r;
+	private String r;
 	/** 压缩比 */
-	private Integer q;
+	private String q;
 	/** 转换格式 */
 	private String f;
 	/**
@@ -30,5 +40,107 @@ public class ZimgParam {
 	 *
 	 */
 	private String p;
-	//TODO zimg参数设置
+	/** 操作类型，t=1为删除操作 */
+	private String t;
+
+	public String getMd5() {
+		return md5;
+	}
+
+	public void setMd5(String md5) {
+		this.md5 = md5;
+	}
+
+	public String getW() {
+		return w;
+	}
+
+	public void setW(String w) {
+		this.w = w;
+	}
+
+	public String getH() {
+		return h;
+	}
+
+	public void setH(String h) {
+		this.h = h;
+	}
+
+	public String getG() {
+		return g;
+	}
+
+	public void setG(String g) {
+		this.g = g;
+	}
+
+	public String getX() {
+		return x;
+	}
+
+	public void setX(String x) {
+		this.x = x;
+	}
+
+	public String getY() {
+		return y;
+	}
+
+	public void setY(String y) {
+		this.y = y;
+	}
+
+	public String getR() {
+		return r;
+	}
+
+	public void setR(String r) {
+		this.r = r;
+	}
+
+	public String getQ() {
+		return q;
+	}
+
+	public void setQ(String q) {
+		this.q = q;
+	}
+
+	public String getF() {
+		return f;
+	}
+
+	public void setF(String f) {
+		this.f = f;
+	}
+
+	public String getP() {
+		return p;
+	}
+
+	public void setP(String p) {
+		this.p = p;
+	}
+
+	public String getT() {
+		return t;
+	}
+
+	public void setT(String t) {
+		this.t = t;
+	}
+
+	public Map<String,String> convert2Map() throws IllegalAccessException, IntrospectionException, InvocationTargetException {
+		Map<String, Object> stringObjectMap = BeanUtil.bean2Map(this);
+		Map<String,String> map = new HashMap<>();
+		for (String key : stringObjectMap.keySet()) {
+			String o = (String) stringObjectMap.get(key);
+			if (StringUtil.isBlank(o)) {
+				continue;
+			}
+			map.put(key, o);
+		}
+		return map;
+	}
 }

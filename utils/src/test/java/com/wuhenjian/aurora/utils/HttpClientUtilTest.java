@@ -4,6 +4,7 @@ import com.wuhenjian.aurora.utils.entity.zimg.ZimgResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ import java.util.Map;
 public class HttpClientUtilTest {
 
 	@Test
-	public void getTest() throws BusinessException {
+	public void getTest() throws BusinessException, IOException {
 		String url = "http://demo.buaa.us/info";
 		Map<String,String> params = new HashMap<>();
 		params.put("md5", "c1e1493f58590178864d6b00caed8289");

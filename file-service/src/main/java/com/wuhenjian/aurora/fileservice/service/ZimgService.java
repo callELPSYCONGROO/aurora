@@ -1,6 +1,7 @@
 package com.wuhenjian.aurora.fileservice.service;
 
 import com.wuhenjian.aurora.utils.entity.zimg.ZimgResult;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 
 /**
  * @author 無痕剑
@@ -10,7 +11,7 @@ public interface ZimgService {
 
 	ZimgResult upload(Object img, String type);
 
-	ZimgResult info(String imgMd5);
+	ZimgResult info(String imgMd5) throws BusinessException;
 
-	ZimgResult delete();
+	ZimgResult delete(String imgMd5) throws BusinessException;
 }

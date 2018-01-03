@@ -1,7 +1,5 @@
 package com.wuhenjian.aurora.utils;
 
-import com.wuhenjian.aurora.utils.constant.ResultStatus;
-import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -26,14 +24,6 @@ import java.util.Map;
  */
 public class HttpClientUtil {
 
-	public final static String ZIMG_UPLOAD = "/upload";
-
-	public final static String ZIMG_DOWNLOAD = "/";
-
-	public final static String ZIMG_ADMIN = "/admin";
-
-	public final static String ZIMG_INFO = "/info";
-
 	private final static String ENCODING = "UTF-8";
 
 	/**
@@ -41,9 +31,9 @@ public class HttpClientUtil {
 	 * @param url 请求URL
 	 * @param params 请求参数
 	 * @return 响应字符串
-	 * @throws BusinessException 发生异常
+	 * @throws IOException 发生异常
 	 */
-	public static String getMethod(String url, Map<String,String> params) throws BusinessException {
+	public static String getMethod(String url, Map<String,String> params) throws IOException {
 		HttpGet get = null;
 		String sb;
 		try {
@@ -52,8 +42,6 @@ public class HttpClientUtil {
 			get = new HttpGet(url);
 			HttpResponse response = client.execute(get);
 			sb = getStringContent(response);
-		} catch (IOException e) {
-			throw new BusinessException(ResultStatus.HTTPCLIENT_EXCP);
 		} finally {
 			if (get != null) {
 				get.abort();
@@ -67,9 +55,9 @@ public class HttpClientUtil {
 	 * @param url 请求URL
 	 * @param params 请求参数
 	 * @return 响应字符串
-	 * @throws BusinessException 发生异常
+	 * @throws IOException 发生异常
 	 */
-	public static String postMethod(String url, Map<String,String> params) throws BusinessException {
+	public static String postMethod(String url, Map<String,String> params) throws IOException {
 		HttpPost post = null;
 		String sb;
 		try {
@@ -78,8 +66,6 @@ public class HttpClientUtil {
 			post.setEntity(params2Entity(params));
 			HttpResponse response = client.execute(post);
 			sb = getStringContent(response);
-		} catch (IOException e) {
-			throw new BusinessException(ResultStatus.HTTPCLIENT_EXCP);
 		} finally {
 			if (post != null) {
 				post.abort();
