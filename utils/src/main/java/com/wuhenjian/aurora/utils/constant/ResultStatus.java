@@ -14,14 +14,14 @@ public enum ResultStatus {
 	OUT_OF_TIME(1001, "timestamp is out of time"),
 	KEY_PARAM_IS_EMPTY(1002, "The key parameter of the request is empty"),
 	SIGN_ERROR(1003, "sign error"),
-	TOKEN_ISVALID_FILTER(1004, "token is invalid"),
+	TOKEN_INVALID_FILTER(1004, "token is invalid"),
 	TOKEN_OVERDUE(1005, "token is overdue"),
 	TIMESTAMP_FORMAT_ERROR(1006, "timestamp is error"),
 	TIMESTAMP_OVERTIME(1007, "timestamp over time"),
 	//controller
 	PARAM_IS_EMPTY(2001, "input param is empty"),
 	SYSTEM_EXCEPTION(2002, "system exception"),
-	TOKEN_ISVALID_CTRL(2003, "token is invalid"),
+	TOKEN_INVALID_CTRL(2003, "token is invalid"),
 	DATABASE_EXCEPTION(2004, "database exception"),
 	CAPTCHA_TYPE_ERROR(2005, "captcha type is error"),
 	RECEIVE_IS_NULL(2006, "receive is null"),
@@ -32,7 +32,7 @@ public enum ResultStatus {
 	ACCOUNT_FORMAT_ERROR(3002, "account format error"),
 	LOGIN_TYPE_ERROR(3003, "loginType is non-existent"),
 	ACCOUNT_NOT_EXIST(3004, "account is non-existent"),
-	PASSWORD_ISVALID(3005, "password is invalid"),
+	PASSWORD_INVALID(3005, "password is invalid"),
 	MEMBER_AUTH_OVERTIME(3006, "More than 5 times the number of user authentication"),
 	MEMBER_LOCKED_BY_ADMIN(3007, "member is locked by admin"),
 	SIGN_FAIL(3008, "signature verification failed;"),
@@ -45,6 +45,9 @@ public enum ResultStatus {
 	EMAIL_FAILURE(3015, "service failure"),
 	CAPTCHA_ERROR(3016, "captcha is error"),
 	HTTPCLIENT_EXCP(3017, "httpclient exception"),
+	MAP_EMPTY(3018, "Map Object is Empty"),
+	FILE_PARAM_IS_EMPTY(3019, "file param is empty"),
+	FILE_TYPE_INVALID(3020, "file type is invalid"),
 	//other
 	SHA256_ENCODE(5001, "sha256'encoding is NoSuchAlgorithm or UnsupportedEncoding"),
 	BASE64_ENCODE(5002, "base64'encoding is UnsupportedEncoding"),
@@ -52,8 +55,7 @@ public enum ResultStatus {
 	ACCOUNTCODE_LENGTH(5004, "account length is invalid"),
 	UUID_LENGTH(5005, "uuid length is invalid"),
 
-	END_EXCEPTION(5999, "")
-	;
+	END_EXCEPTION(5999, "");
 
 	private Integer code;
 

@@ -1,12 +1,17 @@
 package com.wuhenjian.aurora.utils;
 
+import com.wuhenjian.aurora.utils.constant.HttpContentType;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.InputStreamEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -14,6 +19,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +29,12 @@ import java.util.Map;
  * @date 2018/1/3 14:09
  */
 public class HttpClientUtil {
-
+	/** 编码 */
 	private final static String ENCODING = "UTF-8";
+	/** 连接超时 */
+	private final static int CONNECT_TIMEOUT = 11000;
+	/** 编码 */
+	private final static int SOCKET_TIMEOUT = 10000;
 
 	/**
 	 * 执行get请求
@@ -33,21 +43,23 @@ public class HttpClientUtil {
 	 * @return 响应字符串
 	 * @throws IOException 发生异常
 	 */
-	public static String getMethod(String url, Map<String,String> params) throws IOException {
+	public static String getMethod(String url, Map<String, String> params) throws IOException {
 		HttpGet get = null;
-		String sb;
+		String content;
 		try {
-			HttpClient client = HttpClients.createDefault();
 			url = splicingUrlParams(url, params);
+			RequestConfig config = RequestConfig.custom().setConnectTimeout(CONNECT_TIMEOUT).setSocketTimeout(SOCKET_TIMEOUT).build();
 			get = new HttpGet(url);
+			get.setConfig(config);
+			HttpClient client = HttpClients.createDefault();
 			HttpResponse response = client.execute(get);
-			sb = getStringContent(response);
+			content = getStringContent(response);
 		} finally {
 			if (get != null) {
 				get.abort();
 			}
 		}
-		return sb;
+		return content;
 	}
 
 	/**
@@ -57,21 +69,53 @@ public class HttpClientUtil {
 	 * @return 响应字符串
 	 * @throws IOException 发生异常
 	 */
-	public static String postMethod(String url, Map<String,String> params) throws IOException {
+	public static String postMethod(String url, Map<String, String> params) throws IOException {
 		HttpPost post = null;
-		String sb;
+		String content;
 		try {
-			HttpClient client = HttpClients.createDefault();
+			RequestConfig config = RequestConfig.custom().setConnectTimeout(CONNECT_TIMEOUT).setSocketTimeout(SOCKET_TIMEOUT).build();
+			HttpEntity entity = params2Entity(params);
 			post = new HttpPost(url);
-			post.setEntity(params2Entity(params));
+			post.setConfig(config);
+			post.setEntity(entity);
+			HttpClient client = HttpClients.createDefault();
 			HttpResponse response = client.execute(post);
-			sb = getStringContent(response);
+			content = getStringContent(response);
 		} finally {
 			if (post != null) {
 				post.abort();
 			}
 		}
-		return sb;
+		return content;
+	}
+
+	/**
+	 * 上传文件
+	 * @param url URL
+	 * @param params 文件参数
+	 * @return 结果集
+	 * @throws Exception 发生异常
+	 */
+	public static String postMethodWithFileBytes(String url, Map<String, Map<String, Object>> params) throws Exception {
+		RequestConfig config = RequestConfig.custom().setConnectTimeout(CONNECT_TIMEOUT).setSocketTimeout(SOCKET_TIMEOUT).build();
+		MultipartEntityBuilder multipartEntityBuilder = map2MultipartEntity(params);
+		multipartEntityBuilder.setContentType(ContentType.MULTIPART_FORM_DATA);
+		multipartEntityBuilder.setCharset(Charset.forName("UTF-8"));
+		HttpEntity entity = multipartEntityBuilder.build();
+		HttpResponse response;
+		HttpPost post = null;
+		try {
+			post = new HttpPost(url);
+			post.setConfig(config);
+			post.setEntity(entity);
+			HttpClient client = HttpClients.createDefault();
+			response = client.execute(post);
+		} finally {
+			if (post != null) {
+				post.abort();
+			}
+		}
+		return getStringContent(response);
 	}
 
 	/**
@@ -81,7 +125,7 @@ public class HttpClientUtil {
 	 * @return get请求完整URL
 	 * @throws IOException 发生异常
 	 */
-	private static String splicingUrlParams(String url, Map<String,String> params) throws IOException {
+	private static String splicingUrlParams(String url, Map<String, String> params) throws IOException {
 		String urlParams = EntityUtils.toString(params2Entity(params));
 		String urlWithParams;
 		if (url.endsWith("?")) {
@@ -98,7 +142,7 @@ public class HttpClientUtil {
 	 * @return entity对象
 	 * @throws UnsupportedEncodingException 发生异常
 	 */
-	private static HttpEntity params2Entity(Map<String,String> params) throws UnsupportedEncodingException {
+	private static HttpEntity params2Entity(Map<String, String> params) throws UnsupportedEncodingException {
 		List<NameValuePair> list = new ArrayList<>();
 		for (String key : params.keySet()) {
 			list.add(new BasicNameValuePair(key, params.get(key)));
@@ -124,5 +168,27 @@ public class HttpClientUtil {
 			sb.append(new String(bytes));
 		}
 		return sb.toString();
+	}
+
+	/**
+	 * 将map对象构建为请求参数对象
+	 * @param params 参数map
+	 * @return 请求参数对象
+	 * @throws Exception 发生异常
+	 */
+	private static MultipartEntityBuilder map2MultipartEntity(Map<String, Map<String, Object>> params) throws Exception {
+		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+		for (String key : params.keySet()) {
+			Map<String, Object> objectMap = params.get(key);
+			String fileType = (String) objectMap.get("fileType");
+			ContentType contentType = HttpContentType.getContentType(fileType);
+			if (contentType == null) {
+				throw new Exception("file type is invalid");
+			}
+			String fileName = (String) objectMap.get("fileName");
+			byte[] bytes = (byte[]) objectMap.get("fileBytes");
+			builder.addBinaryBody(key, bytes, contentType, fileName);
+		}
+		return builder;
 	}
 }

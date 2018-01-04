@@ -88,7 +88,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 		}
 		if (!AuthUtil.verifyPassword(password, ma.getAuthSalt(), ma.getMemberPassword())) {//验证密码
 			this.passwordError(ma);
-			throw new BusinessException(ResultStatus.PASSWORD_ISVALID);
+			throw new BusinessException(ResultStatus.PASSWORD_INVALID);
 		}
 		MemberInfo memberInfo = new MemberInfo();
 		memberInfo.setLastLoginDevice(DeviceType.getCode(authParam.getDeviceType()));
