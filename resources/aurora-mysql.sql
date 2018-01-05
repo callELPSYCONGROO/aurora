@@ -75,6 +75,35 @@ CREATE TABLE `t_member_push`(
 )ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '用户信息推送服务';
 
 
+CREATE TABLE `t_member_photo_album`(
+    `mpaId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `maId` BIGINT NOT NULL COMMENT '账号密码表id',
+    `title` VARCHAR(40) CHARACTER SET utf8mb4 NOT NULL DEFAULT '我的相册' COMMENT '相册标题',
+    `des` VARCHAR(40) CHARACTER SET utf8mb4 NOT NULL DEFAULT '这是我的相册' COMMENT '相册描述',
+    `model` VARCHAR(20) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'index' COMMENT '相册模板',
+    `num` INT NOT NULL DEFAULT 0 COMMENT '照片数量',
+    `isShow` INT(2) NOT NULL DEFAULT 1 COMMENT '是否展示，0-不展示，1-展示',
+    `updateTime` DATETIME NOT NULL COMMENT '修改时间',
+    `createTime` DATETIME NOT NULL COMMENT '添加时间',
+    
+    PRIMARY KEY (`mpaId`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '用户相册';
+
+
+CREATE TABLE `t_member_photo_album_picture`(
+    `mpapId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `maId` BIGINT NOT NULL COMMENT '账号密码表id',
+    `mpaId` BIGINT NOT NULL COMMENT '用户相册表id',
+    `relativePath` VARCHAR(50) NOT NULL COMMENT 'zimg的md5值',
+    `sort` INT NOT NULL DEFAULT 1 COMMENT '排序',
+    `updateTime` DATETIME NOT NULL COMMENT '修改时间',
+    `createTime` DATETIME NOT NULL COMMENT '添加时间',
+    
+    PRIMARY KEY (`mpapId`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '用户相册照片';
+
+
+
 
 
 CREATE TABLE `t_game_match_info`(

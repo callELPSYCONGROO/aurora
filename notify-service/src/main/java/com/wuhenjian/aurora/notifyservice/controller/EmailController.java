@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.notifyservice.controller.api;
+package com.wuhenjian.aurora.notifyservice.controller;
 
 import com.wuhenjian.aurora.notifyservice.service.EmailService;
 import com.wuhenjian.aurora.notifyservice.service.RedisService;
