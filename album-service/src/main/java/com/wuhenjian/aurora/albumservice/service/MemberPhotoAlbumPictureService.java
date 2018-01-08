@@ -1,10 +1,10 @@
 package com.wuhenjian.aurora.albumservice.service;
 
 import com.wuhenjian.aurora.albumservice.excphandler.MemberPhotoAlbumPictureServiceExceptionHandler;
-import com.wuhenjian.aurora.utils.entity.Page;
+import com.wuhenjian.aurora.utils.entity.bo.Page;
 import com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbumPicture;
 import com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbumPictureCriteria;
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
+import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;

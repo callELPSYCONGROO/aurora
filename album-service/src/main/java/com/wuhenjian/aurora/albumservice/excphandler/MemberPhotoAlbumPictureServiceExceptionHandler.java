@@ -2,10 +2,10 @@ package com.wuhenjian.aurora.albumservice.excphandler;
 
 import com.wuhenjian.aurora.albumservice.service.MemberPhotoAlbumPictureService;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
-import com.wuhenjian.aurora.utils.entity.Page;
+import com.wuhenjian.aurora.utils.entity.bo.Page;
 import com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbumPicture;
 import com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbumPictureCriteria;
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
+import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import org.springframework.stereotype.Component;
 
 /**
