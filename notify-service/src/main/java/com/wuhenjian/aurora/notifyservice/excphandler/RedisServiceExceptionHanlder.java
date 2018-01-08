@@ -2,8 +2,8 @@ package com.wuhenjian.aurora.notifyservice.excphandler;
 
 import com.wuhenjian.aurora.notifyservice.service.RedisService;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
-import com.wuhenjian.aurora.utils.entity.MemberAcctInfo;
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
+import com.wuhenjian.aurora.utils.entity.bo.MemberAcctInfo;
+import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import org.springframework.stereotype.Component;
 
 /**

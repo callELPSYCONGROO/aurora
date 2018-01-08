@@ -1,9 +1,9 @@
 package com.wuhenjian.aurora.gateway.excphandler;
 
 import com.wuhenjian.aurora.gateway.service.RedisService;
-import com.wuhenjian.aurora.utils.entity.MemberAcctInfo;
+import com.wuhenjian.aurora.utils.entity.bo.MemberAcctInfo;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
+import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import org.springframework.stereotype.Component;
 
 /**

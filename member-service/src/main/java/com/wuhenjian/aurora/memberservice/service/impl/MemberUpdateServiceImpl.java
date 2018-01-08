@@ -8,7 +8,7 @@ import com.wuhenjian.aurora.utils.constant.CommonContant;
 import com.wuhenjian.aurora.utils.constant.MemberStatus;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.dao.MemberAuth;
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
+import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +45,12 @@ public class MemberUpdateServiceImpl implements MemberUpdateService {
 		if (!captcha.equals(redisCaptcha)) {
 			throw new BusinessException(ResultStatus.CAPTCHA_ERROR);
 		}
-		String password = AuthUtil.convert2Plaintext(memberPassword);
+		String password;
+		try {
+			password = AuthUtil.convert2Plaintext(memberPassword);
+		} catch (Exception e) {
+			throw new BusinessException(ResultStatus.DECRYPTION_EXCEPTION);
+		}
 		//密码长度
 		if (StringUtil.moreThanLength(password, 16) || StringUtil.lessThanLength(password, 8)) {
 			throw new BusinessException(ResultStatus.PASSWORD_LENGTH_INVALID);

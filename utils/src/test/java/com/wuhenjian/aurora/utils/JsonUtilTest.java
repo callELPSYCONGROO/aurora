@@ -1,6 +1,6 @@
 package com.wuhenjian.aurora.utils;
 
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
+import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import org.junit.Test;
 
 /**

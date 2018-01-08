@@ -1,7 +1,7 @@
 package com.wuhenjian.aurora.db.controller.sql;
 
 import com.wuhenjian.aurora.db.mapper.sql.CommonCountMapper;
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
+import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;

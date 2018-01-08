@@ -6,7 +6,7 @@ import com.wuhenjian.aurora.utils.JsonUtil;
 import com.wuhenjian.aurora.utils.StringUtil;
 import com.wuhenjian.aurora.utils.constant.HttpContentType;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
-import com.wuhenjian.aurora.utils.entity.HtmlParserUtil;
+import com.wuhenjian.aurora.utils.HtmlParserUtil;
 import com.wuhenjian.aurora.utils.entity.zimg.ZimgParam;
 import com.wuhenjian.aurora.utils.entity.zimg.ZimgResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;

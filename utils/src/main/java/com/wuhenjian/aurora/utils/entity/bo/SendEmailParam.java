@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.utils.entity.param;
+package com.wuhenjian.aurora.utils.entity.bo;
 
 import java.io.File;
 import java.util.Date;

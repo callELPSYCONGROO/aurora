@@ -358,7 +358,7 @@
       <include refid="Model_Where_Clause" />
     </if>
   </select>
-    <select id="selectByMaid" resultType="com.wuhenjian.aurora.utils.entity.MemberAcctInfo">
+    <select id="selectByMaid" resultType="com.wuhenjian.aurora.utils.entity.bo.MemberAcctInfo">
       select
       <include refid="Base_Column_List"/>
       from t_member_info

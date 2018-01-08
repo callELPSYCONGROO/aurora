@@ -18,6 +18,8 @@ public enum ResultStatus {
 	TOKEN_OVERDUE(1005, "token is overdue"),
 	TIMESTAMP_FORMAT_ERROR(1006, "timestamp is error"),
 	TIMESTAMP_OVERTIME(1007, "timestamp over time"),
+	VERIFY_SIGN_EXCEPTION(1008, "verify sign exception"),
+	DECODE_TOKEN_EXCEPTION(1008, "decode token exception"),
 	//controller
 	PARAM_IS_EMPTY(2001, "input param is empty"),
 	SYSTEM_EXCEPTION(2002, "system exception"),
@@ -48,14 +50,16 @@ public enum ResultStatus {
 	MAP_EMPTY(3018, "Map Object is Empty"),
 	FILE_PARAM_IS_EMPTY(3019, "file param is empty"),
 	FILE_TYPE_INVALID(3020, "file type is invalid"),
-	//other
-	SHA256_ENCODE(5001, "sha256'encoding is NoSuchAlgorithm or UnsupportedEncoding"),
-	BASE64_ENCODE(5002, "base64'encoding is UnsupportedEncoding"),
-	RSA_ERROR(5003, "rsa'encoding is InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException"),
-	ACCOUNTCODE_LENGTH(5004, "account length is invalid"),
-	UUID_LENGTH(5005, "uuid length is invalid"),
+	MEMBER_ALBUM_NON_EXISTENT(3021, "member album is non-existent"),
+	ALBUM_NOT_BELONG_WITH_MEMBER(3022, "this album is not belong with the member"),
+	UPLOAD_IMG_FAIL(3023, "picture uploaded fail"),
+	DECRYPTION_EXCEPTION(3024, "Decryption exception"),
+	ENCODING_EXCEPTION(3024, "Decryption exception"),
+		//other
+	ACCOUNTCODE_LENGTH(4004, "account length is invalid"),
+	UUID_LENGTH(4005, "uuid length is invalid"),
 
-	END_EXCEPTION(5999, "");
+	END_EXCEPTION(9999, "");
 
 	private Integer code;
 

@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.utils.entity;
+package com.wuhenjian.aurora.utils.entity.bo;
 
 /**
  * 分页信息

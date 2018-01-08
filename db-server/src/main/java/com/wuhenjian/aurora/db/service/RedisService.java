@@ -1,6 +1,6 @@
 package com.wuhenjian.aurora.db.service;
 
-import com.wuhenjian.aurora.utils.entity.MemberAcctInfo;
+import com.wuhenjian.aurora.utils.entity.bo.MemberAcctInfo;
 
 /**
  * @author 無痕剑

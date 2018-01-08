@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.utils.entity.result;
+package com.wuhenjian.aurora.utils.entity.dto;
 
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.exception.BusinessException;

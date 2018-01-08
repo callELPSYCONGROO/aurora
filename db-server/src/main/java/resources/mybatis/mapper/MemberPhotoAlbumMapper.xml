@@ -92,7 +92,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_member_photo_album
     where mpaId = #{mpaId,jdbcType=BIGINT}
@@ -111,11 +111,11 @@
     <selectKey resultType="java.lang.Long" keyProperty="mpaId" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_member_photo_album (maId, title, des, 
-      model, num, isShow, 
+    insert into t_member_photo_album (maId, title, des,
+      model, num, isShow,
       updateTime, createTime)
-    values (#{maId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{des,jdbcType=VARCHAR}, 
-      #{model,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{isShow,jdbcType=INTEGER}, 
+    values (#{maId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{des,jdbcType=VARCHAR},
+      #{model,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{isShow,jdbcType=INTEGER},
       #{updateTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbum" >
@@ -313,5 +313,4 @@
       <include refid="Model_Where_Clause" />
     </if>
   </select>
-  <cache />
 </mapper>

@@ -1,10 +1,10 @@
 package com.wuhenjian.aurora.memberservice.service;
 
 import com.wuhenjian.aurora.memberservice.excphandler.MemberInfoServiceExceptionHandler;
-import com.wuhenjian.aurora.utils.entity.Page;
+import com.wuhenjian.aurora.utils.entity.bo.Page;
 import com.wuhenjian.aurora.utils.entity.dao.MemberInfo;
 import com.wuhenjian.aurora.utils.entity.dao.MemberInfoCriteria;
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
+import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;

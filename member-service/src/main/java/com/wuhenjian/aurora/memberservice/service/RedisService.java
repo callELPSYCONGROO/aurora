@@ -1,8 +1,8 @@
 package com.wuhenjian.aurora.memberservice.service;
 
 import com.wuhenjian.aurora.memberservice.excphandler.RedisServiceExceptionHanlder;
-import com.wuhenjian.aurora.utils.entity.MemberAcctInfo;
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
+import com.wuhenjian.aurora.utils.entity.bo.MemberAcctInfo;
+import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +18,7 @@ public interface RedisService {
     String BASE_PATH = "/nosql/redis";
 
     @RequestMapping(value = BASE_PATH + "/setToken", method = RequestMethod.POST)
-    ApiResult  setToken(String token, MemberAcctInfo memberAcctInfo);
+    ApiResult setToken(String token, MemberAcctInfo memberAcctInfo);
 
     @RequestMapping(value = BASE_PATH + "/getToken", method = RequestMethod.GET)
     ApiResult getToken(String token);

@@ -1,6 +1,7 @@
 package com.wuhenjian.aurora.utils;
 
 import com.wuhenjian.aurora.utils.constant.HttpContentType;
+import org.apache.commons.codec.Charsets;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -10,7 +11,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
-import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
@@ -100,7 +100,7 @@ public class HttpClientUtil {
 		RequestConfig config = RequestConfig.custom().setConnectTimeout(CONNECT_TIMEOUT).setSocketTimeout(SOCKET_TIMEOUT).build();
 		MultipartEntityBuilder multipartEntityBuilder = map2MultipartEntity(params);
 		multipartEntityBuilder.setContentType(ContentType.MULTIPART_FORM_DATA);
-		multipartEntityBuilder.setCharset(Charset.forName("UTF-8"));
+		multipartEntityBuilder.setCharset(Charsets.UTF_8);
 		HttpEntity entity = multipartEntityBuilder.build();
 		HttpResponse response;
 		HttpPost post = null;

@@ -1,7 +1,7 @@
 package com.wuhenjian.aurora.memberservice.service;
 
-import com.wuhenjian.aurora.utils.entity.TokenInfo;
-import com.wuhenjian.aurora.utils.entity.param.AuthParam;
+import com.wuhenjian.aurora.utils.entity.bo.TokenInfo;
+import com.wuhenjian.aurora.utils.entity.bo.AuthParam;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 
 /**

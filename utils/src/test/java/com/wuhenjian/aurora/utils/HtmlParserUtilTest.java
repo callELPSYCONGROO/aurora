@@ -1,6 +1,5 @@
 package com.wuhenjian.aurora.utils;
 
-import com.wuhenjian.aurora.utils.entity.HtmlParserUtil;
 import org.junit.Test;
 
 import java.util.List;

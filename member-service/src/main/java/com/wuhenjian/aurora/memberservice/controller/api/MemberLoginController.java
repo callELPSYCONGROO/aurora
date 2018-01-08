@@ -2,10 +2,10 @@ package com.wuhenjian.aurora.memberservice.controller.api;
 
 import com.wuhenjian.aurora.memberservice.service.MemberLoginService;
 import com.wuhenjian.aurora.utils.StringUtil;
-import com.wuhenjian.aurora.utils.entity.TokenInfo;
+import com.wuhenjian.aurora.utils.entity.bo.TokenInfo;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
-import com.wuhenjian.aurora.utils.entity.param.AuthParam;
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
+import com.wuhenjian.aurora.utils.entity.bo.AuthParam;
+import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

@@ -2,7 +2,7 @@ package com.wuhenjian.aurora.notifyservice.service.impl;
 
 import com.wuhenjian.aurora.notifyservice.service.EmailService;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
-import com.wuhenjian.aurora.utils.entity.param.SendEmailParam;
+import com.wuhenjian.aurora.utils.entity.bo.SendEmailParam;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;

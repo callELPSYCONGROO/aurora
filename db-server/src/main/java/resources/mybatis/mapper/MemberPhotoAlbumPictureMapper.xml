@@ -277,5 +277,4 @@
       <include refid="Model_Where_Clause" />
     </if>
   </select>
-  <cache />
 </mapper>

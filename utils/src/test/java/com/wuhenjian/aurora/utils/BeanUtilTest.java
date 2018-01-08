@@ -1,6 +1,6 @@
 package com.wuhenjian.aurora.utils;
 
-import com.wuhenjian.aurora.utils.entity.TokenInfo;
+import com.wuhenjian.aurora.utils.entity.bo.TokenInfo;
 import com.wuhenjian.aurora.utils.entity.zimg.ZimgParam;
 import org.junit.Test;
 

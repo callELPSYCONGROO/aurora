@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.utils.entity;
+package com.wuhenjian.aurora.utils.entity.bo;
 
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.exception.BusinessException;

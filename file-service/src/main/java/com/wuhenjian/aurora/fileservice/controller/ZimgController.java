@@ -1,7 +1,7 @@
 package com.wuhenjian.aurora.fileservice.controller;
 
 import com.wuhenjian.aurora.fileservice.service.ZimgService;
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
+import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import com.wuhenjian.aurora.utils.entity.zimg.ZimgResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.web.bind.annotation.RequestMapping;

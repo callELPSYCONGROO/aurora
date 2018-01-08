@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.utils.entity;
+package com.wuhenjian.aurora.utils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

@@ -9,9 +9,8 @@ import com.wuhenjian.aurora.utils.DateUtil;
 import com.wuhenjian.aurora.utils.JsonUtil;
 import com.wuhenjian.aurora.utils.constant.CommonContant;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
+import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
-import com.wuhenjian.aurora.utils.security.SHA256;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -100,8 +99,8 @@ public class SecurityFilter extends ZuulFilter {
 				this.response(context, ResultStatus.SIGN_ERROR);
 				return null;
 			}
-		} catch (BusinessException e) {
-			this.response(context, e.getRs());
+		} catch (Exception e) {
+			this.response(context, ResultStatus.VERIFY_SIGN_EXCEPTION);
 			return null;
 		}
 		//解析token
@@ -109,8 +108,8 @@ public class SecurityFilter extends ZuulFilter {
 		String token;
 		try {
 			token = AuthUtil.decodeToken(accessToken);
-		} catch (BusinessException e) {
-			this.response(context, e.getRs());
+		} catch (Exception e) {
+			this.response(context, ResultStatus.DECODE_TOKEN_EXCEPTION);
 			return null;
 		}
 		//判断token是否过期
