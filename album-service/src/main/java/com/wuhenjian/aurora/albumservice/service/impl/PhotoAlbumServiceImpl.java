@@ -76,7 +76,7 @@ public class PhotoAlbumServiceImpl implements PhotoAlbumService {
 			ApiResult r3 = mpapService.insertSelective(mpap);
 			ApiResultUtil.isSuccess(r3);
 		}
-		mpa.setNum(params.size());
+		mpa.setNum(mpa.getNum() + list.size());
 		mpa.setUpdateTime(time);
 		ApiResult r4 = mpaService.updateByPrimaryKeySelective(mpa);
 		ApiResultUtil.isSuccess(r4);

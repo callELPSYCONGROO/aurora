@@ -34,7 +34,7 @@ public class ZimgServiceImpl implements ZimgService {
 	private final static String ZIMG_INFO = "info";
 
 	/**
-	 * 上传图片，可以为多张图片
+	 * 上传一张图片
 	 * @param params <p>第一级map，key随机即可。</p>
 	 * <ul>第二级map，key-value为：
 	 * <li>fileName-文件名（String）</li>

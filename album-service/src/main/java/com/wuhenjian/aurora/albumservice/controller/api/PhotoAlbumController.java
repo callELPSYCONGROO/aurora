@@ -50,9 +50,15 @@ public class PhotoAlbumController {
 	}
 
 	@RequestMapping(value = "/uploadPicture", method = RequestMethod.POST)
-	public ApiResult uploadPicture(MultipartFile multipartFile, Long mpaId, HttpServletRequest request) throws IOException, BusinessException {
+	public ApiResult uploadPicture(MultipartFile multipartFile, Long mpaId, HttpServletRequest request) throws BusinessException {
 		MemberAcctInfo mai = (MemberAcctInfo) request.getAttribute(CommonContant.REQUEST_MEMBER_INFO);
-		Map<String, Map<String, Object>> params = this.multipartfile2Map(multipartFile);
+		Map<String, Map<String, Object>> params;
+		try {
+			params = this.multipartfile2Map(multipartFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new BusinessException(ResultStatus.SYSTEM_EXCEPTION);
+		}
 		photoAlbumService.uploadPicture(mai.getMaId(), mpaId, params);
 		return ApiResult.success();
 	}
