@@ -8,11 +8,27 @@ eureka:
     service-url:
       defaultZone: http://127.0.0.1:8801/eureka/
 zuul:
-  ignored-services: configserver,monitor,ra          # 需要忽视的服务(配置后将不会被路由)
+  ignored-services: configserver,monitor,ra,db         # 需要忽视的服务(配置后将不会被路由)
+  # configserver-7700,monitor-7800,ra-8801,db-9904
   routes:
-    member:                       # 可以随便写，在zuul上面唯一即可
-      path: /api/member/**        # 想要映射到的路径
-      serverId: member           # Eureka中的serviceId
-    game:
+    member:                   #9901    # 可以随便写，在zuul上面唯一即可
+      path: /api/member/**                 # 想要映射到的路径
+      serverId: member                # Eureka中的serviceId
+    game:                     #9902
       path: /api/game/**
       serverId: game
+    notify:                   #9903
+      path: /notify/**
+      serverId: notify
+    rabbitmq:                 #9905
+      path: /rabbitmq/**
+      serverId: rabbitmq
+    album:                    #9907
+      path: /api/album/**
+      serverId: album
+    auth:                     #9908
+      path: /auth/**
+      serverId: auth
+    file:                     #9906
+      path: /file/**
+      serverId: file

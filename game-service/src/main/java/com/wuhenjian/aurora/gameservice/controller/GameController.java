@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.gameservice.controller.api;
+package com.wuhenjian.aurora.gameservice.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 

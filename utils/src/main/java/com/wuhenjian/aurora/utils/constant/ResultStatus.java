@@ -11,15 +11,7 @@ public enum ResultStatus {
 
 	SUCCESS(1000, "success"),
 	//filter
-	OUT_OF_TIME(1001, "timestamp is out of time"),
-	KEY_PARAM_IS_EMPTY(1002, "The key parameter of the request is empty"),
-	SIGN_ERROR(1003, "sign error"),
-	TOKEN_INVALID_FILTER(1004, "token is invalid"),
-	TOKEN_OVERDUE(1005, "token is overdue"),
-	TIMESTAMP_FORMAT_ERROR(1006, "timestamp is error"),
-	TIMESTAMP_OVERTIME(1007, "timestamp over time"),
-	VERIFY_SIGN_EXCEPTION(1008, "verify sign exception"),
-	DECODE_TOKEN_EXCEPTION(1008, "decode token exception"),
+	KEY_PARAM_IS_EMPTY(1001, "The key parameter of the request is empty"),
 	//controller
 	PARAM_IS_EMPTY(2001, "input param is empty"),
 	SYSTEM_EXCEPTION(2002, "system exception"),
@@ -29,6 +21,11 @@ public enum ResultStatus {
 	RECEIVE_IS_NULL(2006, "receive is null"),
 	RECEIVE_EMAIL_FORMAT_ERROR(2007, "Recipient mailbox format error"),
 	PASSWORD_MODIFY_COUNT(2008, "password modify count over"),
+	SIGN_ERROR(2009, "sign error"),
+	TOKEN_OVERDUE(2010, "token is overdue"),
+	TIMESTAMP_FORMAT_ERROR(2011, "timestamp is error"),
+	TIMESTAMP_OVERTIME(2012, "timestamp over time"),
+	DECODE_TOKEN_EXCEPTION(2013, "decode token exception"),
 	//service
 	REMOTE_SERVICE_EXCEPTION(3001, "Remote call services are exceptions"),
 	ACCOUNT_FORMAT_ERROR(3002, "account format error"),
