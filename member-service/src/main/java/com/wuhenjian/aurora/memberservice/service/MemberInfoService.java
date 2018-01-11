@@ -37,9 +37,9 @@ public interface MemberInfoService {
 	@RequestMapping(value = BASE_PATH + "/selectByModel", method = RequestMethod.GET)
 	ApiResult selectByModel(MemberInfo model, Page page);
 
-	@RequestMapping(value = "selectByMaid", method = RequestMethod.GET)
+	@RequestMapping(value = BASE_PATH + "selectByMaid", method = RequestMethod.GET)
 	ApiResult selectByMaid(Long maId);
 
-	@RequestMapping(value = "/updateMemberInfoByMaId", method = RequestMethod.POST)
+	@RequestMapping(value = BASE_PATH + "/updateMemberInfoByMaId", method = RequestMethod.POST)
 	ApiResult updateMemberInfoByMaId(MemberInfo memberInfo);
 }

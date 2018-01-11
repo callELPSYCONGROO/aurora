@@ -9,7 +9,9 @@ eureka:
       defaultZone: http://127.0.0.1:7901/eureka/
 zuul:
   ignored-services: configserver,monitor,ra,db         # 需要忽视的服务(配置后将不会被路由)
-  # configserver-7701,monitor-7801,ra-7901,db-9611
+  # configserver-7701,monitor-7801,ra-7901
+  # 这些项目只能运行一个：task-9001
+  # db-9611
   routes:
     member:                   #9621    # 可以随便写，在zuul上面唯一即可
       path: /api/member/**                 # 想要映射到的路径

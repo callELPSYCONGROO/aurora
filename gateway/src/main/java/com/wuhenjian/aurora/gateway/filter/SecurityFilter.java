@@ -2,19 +2,15 @@ package com.wuhenjian.aurora.gateway.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import com.wuhenjian.aurora.gateway.service.RedisService;
 import com.wuhenjian.aurora.utils.*;
-import com.wuhenjian.aurora.utils.constant.CommonContant;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
-import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.Map;
 
 /**
  * API接口安全验证
@@ -23,9 +19,6 @@ import java.util.*;
  */
 @Component
 public class SecurityFilter extends ZuulFilter {
-
-	@Resource(name = "redisService")
-	private RedisService redisService;
 
 	/**
 	 * 返回一个字符串代表过滤器的类型，在zuul中定义了四种不同生命周期的过滤器类型，具体如下：

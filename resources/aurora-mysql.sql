@@ -181,13 +181,32 @@ CREATE TABLE `t_common_count`(
 
 
 
-
-
-
-
-
-
-
+CREATE TABLE `t_php_project`(
+    `ppId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `acctountName` VARCHAR(25) CHARACTER SET utf8mb4 NOT NULL COMMENT '账户名称',
+    `repoName` VARCHAR(50) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '源名称',
+    `lang` VARCHAR(10) CHARACTER SET utf8mb4 COMMENT '语言',
+    `defaultBranch` VARCHAR(20) CHARACTER SET utf8mb4 DEFAULT 'master' COMMENT '默认分支',
+    `homepage` VARCHAR(256) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '项目主页',
+    `description` VARCHAR(256) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '描述',
+    `fileSize` INT NOT NULL DEFAULT 0 COMMENT '文件数量size',
+    `forksCount` INT NOT NULL DEFAULT 0 COMMENT '创建分支数',
+    `stargazersCount` INT NOT NULL DEFAULT 0 COMMENT '点赞人数',
+    `watchersCount` INT NOT NULL DEFAULT 0 COMMENT '关注人数',
+    `openIssuesCount` INT NOT NULL DEFAULT 0 COMMENT '开放式问题的计数',
+    `createdAt` DATETIME COMMENT '创建时间',
+    `updatedAt` DATETIME COMMENT '更新时间',
+    `pushedAt` DATETIME COMMENT '推送时间',
+    `gitUrl` VARCHAR(256) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'git地址',
+    `sshUrl` VARCHAR(256) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'ssh地址',
+    `cloneUrl` VARCHAR(256) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '克隆地址',
+    `svnUrl` VARCHAR(256) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'svn地址',
+    
+    `updateTime` DATETIME NOT NULL COMMENT '更新时间',
+    
+    PRIMARY KEY (`ppId`),
+    UNIQUE KEY (`acctountName`,`repoName`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '工程项目表';
 
 
 

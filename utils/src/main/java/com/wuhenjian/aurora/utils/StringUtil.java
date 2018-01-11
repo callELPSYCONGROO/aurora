@@ -89,4 +89,13 @@ public class StringUtil {
 		String reg = "^([hH][tT]{2}[pP]://|[hH][tT]{2}[pP][sS]://|[fF][tT][pP]://)(([A-Za-z0-9-~]+).)+([A-Za-z0-9-~/])+(\\?{0,1}(([A-Za-z0-9-~]+={0,1})([A-Za-z0-9-~]*)&{0,1})*)$";
 		return url.matches(reg);
 	}
+
+	/**
+	 * 判断字符串是否为数字
+	 * @param num 数字字符串
+	 */
+	public static boolean isNum(String num) {
+		String reg = "^\\d+$";
+		return num.matches(reg);
+	}
 }

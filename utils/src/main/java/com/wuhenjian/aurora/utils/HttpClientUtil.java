@@ -126,6 +126,9 @@ public class HttpClientUtil {
 	 * @throws IOException 发生异常
 	 */
 	private static String splicingUrlParams(String url, Map<String, String> params) throws IOException {
+		if (params == null || params.isEmpty()) {
+			return url;
+		}
 		String urlParams = EntityUtils.toString(params2Entity(params));
 		String urlWithParams;
 		if (url.endsWith("?")) {

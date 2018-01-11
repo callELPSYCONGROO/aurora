@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -56,5 +57,34 @@ public class HtmlParserUtil {
 			list.add(substring);
 		}
 		return list;
+	}
+
+	public static List<String> getGithubRepoName(String html) {
+		Document document = Jsoup.parse(html);
+		Elements elements = document.select("div.d-inline-block.mb-1>h3>a");
+		List<String> list = new ArrayList<>();
+		for (Element a : elements) {
+			String repoName = a.text().trim();
+			list.add(repoName);
+		}
+		return list;
+	}
+
+	public static int getGithubRepoMaxPage(String html) {
+		Document document = Jsoup.parse(html);
+		Elements elements = document.select("div.pagination>a");
+		List<Integer> nums = new ArrayList<>();
+		for (Element a : elements) {
+			String text = a.text();
+			if (!StringUtil.isNum(text)) {
+				continue;
+			}
+			nums.add(Integer.valueOf(text));
+		}
+		if (nums.isEmpty()) {
+			return 0;
+		}
+		nums.sort(Comparator.comparingInt(a -> a));
+		return nums.get(nums.size() - 1);
 	}
 }

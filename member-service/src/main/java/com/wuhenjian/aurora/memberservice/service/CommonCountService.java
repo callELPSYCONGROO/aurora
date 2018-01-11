@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Service
 @FeignClient(value = "db", fallback = CommonCountServiceExceptionHandler.class)
 public interface CommonCountService {
+	String BASE_PATH = "/sql/commonCount";
 
-	@RequestMapping(value = "/getAccountCode", method = RequestMethod.GET)
+	@RequestMapping(value = BASE_PATH + "/getAccountCode", method = RequestMethod.GET)
 	ApiResult getAccountCode();
 
-	@RequestMapping(value = "/addAccountCode", method = RequestMethod.POST)
+	@RequestMapping(value = BASE_PATH + "/addAccountCode", method = RequestMethod.POST)
 	ApiResult addAccountCode();
 }
