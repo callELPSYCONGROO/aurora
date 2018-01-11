@@ -2,7 +2,7 @@ spring:
   application:
     name: ra
 server:
-  port: 8801
+  port: 7901
 eureka:
   client:
     register-with-eureka: false

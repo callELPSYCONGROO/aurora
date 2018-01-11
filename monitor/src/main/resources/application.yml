@@ -2,7 +2,7 @@ spring:
   application:
     name: monitor
 server:
-  port: 7800
+  port: 7801
 turbine:
   aggregator:
     cluster-config: default
