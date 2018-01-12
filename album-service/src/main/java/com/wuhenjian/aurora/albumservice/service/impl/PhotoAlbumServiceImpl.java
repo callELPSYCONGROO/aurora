@@ -12,9 +12,9 @@ import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import com.wuhenjian.aurora.utils.entity.vo.MemberPhotoAlbumInfo;
 import com.wuhenjian.aurora.utils.entity.vo.MemberPhotoAlbumPictureInfo;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -24,13 +24,13 @@ import java.util.*;
 @Service("photoAlbumService")
 public class PhotoAlbumServiceImpl implements PhotoAlbumService {
 
-	@Resource(name = "memberPhotoAlbumService")
-	private MemberPhotoAlbumService mpaService;
+	@Autowired
+	private MemberPhotoAlbumService memberPhotoAlbumService;
 
-	@Resource(name = "memberPhotoAlbumPictureService")
-	private MemberPhotoAlbumPictureService mpapService;
+	@Autowired
+	private MemberPhotoAlbumPictureService memberPhotoAlbumPictureService;
 
-	@Resource(name = "zimgService")
+	@Autowired
 	private ZimgService zimgService;
 
 	/**
@@ -38,7 +38,7 @@ public class PhotoAlbumServiceImpl implements PhotoAlbumService {
 	 * @param mpa 相册
 	 */
 	public void createAlbum(MemberPhotoAlbum mpa) throws BusinessException {
-		ApiResult apiResult = mpaService.insertSelective(mpa);
+		ApiResult apiResult = memberPhotoAlbumService.insertSelective(mpa);
 		ApiResultUtil.isSuccess(apiResult);
 	}
 
@@ -50,7 +50,7 @@ public class PhotoAlbumServiceImpl implements PhotoAlbumService {
 	 */
 	@Override
 	public void uploadPicture(Long maId, Long mpaId, Map<String, Map<String, Object>> params) throws BusinessException {
-		ApiResult r1 = mpaService.selectByPrimaryKey(mpaId);
+		ApiResult r1 = memberPhotoAlbumService.selectByPrimaryKey(mpaId);
 		MemberPhotoAlbum mpa = (MemberPhotoAlbum) ApiResultUtil.getObject(r1);
 		if (mpa == null) {
 			throw new BusinessException(ResultStatus.MEMBER_ALBUM_NON_EXISTENT);
@@ -73,12 +73,12 @@ public class PhotoAlbumServiceImpl implements PhotoAlbumService {
 		for (String md5 : list) {
 			mpap.setRelativePath("/" + md5);
 			mpap.setSort((Integer) params.get("file").get("fileSort"));
-			ApiResult r3 = mpapService.insertSelective(mpap);
+			ApiResult r3 = memberPhotoAlbumPictureService.insertSelective(mpap);
 			ApiResultUtil.isSuccess(r3);
 		}
 		mpa.setNum(mpa.getNum() + list.size());
 		mpa.setUpdateTime(time);
-		ApiResult r4 = mpaService.updateByPrimaryKeySelective(mpa);
+		ApiResult r4 = memberPhotoAlbumService.updateByPrimaryKeySelective(mpa);
 		ApiResultUtil.isSuccess(r4);
 	}
 
@@ -89,14 +89,14 @@ public class PhotoAlbumServiceImpl implements PhotoAlbumService {
 	 */
 	@Override
 	public MemberPhotoAlbumInfo viewAlbum(Long maId, Long mpaId) throws BusinessException {
-		ApiResult r1 = mpaService.selectByPrimaryKey(mpaId);
+		ApiResult r1 = memberPhotoAlbumService.selectByPrimaryKey(mpaId);
 		MemberPhotoAlbum mpa = (MemberPhotoAlbum) ApiResultUtil.getObject(r1);
 		if (!mpa.getMaId().equals(maId)) {
 			throw new BusinessException(ResultStatus.MEMBER_ALBUM_NON_EXISTENT);
 		}
 		MemberPhotoAlbumPicture mpap = new MemberPhotoAlbumPicture();
 		mpap.setMpaId(mpaId);
-		ApiResult r2 = mpapService.selectByModel(mpap, null);
+		ApiResult r2 = memberPhotoAlbumPictureService.selectByModel(mpap, null);
 		List<MemberPhotoAlbumPicture> pictureList = (List<MemberPhotoAlbumPicture>) ApiResultUtil.getObject(r2);
 		MemberPhotoAlbumInfo mpaInfo = new MemberPhotoAlbumInfo();
 		mpaInfo.setTitle(mpa.getTitle());

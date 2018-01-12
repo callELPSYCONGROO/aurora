@@ -11,6 +11,7 @@ import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.bo.SendEmailParam;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,7 +34,7 @@ public class EmailController {
 	@Resource(name = "emailService")
 	private EmailService emailService;
 
-	@Resource(name = "redisService")
+	@Autowired
 	private RedisService redisService;
 
 	/**

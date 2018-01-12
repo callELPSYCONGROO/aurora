@@ -7,6 +7,7 @@ import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author Administrator
@@ -18,17 +19,17 @@ public interface RedisService {
     String BASE_PATH = "/nosql/redis";
 
     @RequestMapping(value = BASE_PATH + "/setToken", method = RequestMethod.POST)
-    ApiResult setToken(String token, MemberAcctInfo memberAcctInfo);
+    ApiResult setToken(@RequestParam("token") String token, MemberAcctInfo memberAcctInfo);
 
     @RequestMapping(value = BASE_PATH + "/getToken", method = RequestMethod.GET)
-    ApiResult getToken(String token);
+    ApiResult getToken(@RequestParam("token") String token);
 
     @RequestMapping(value = BASE_PATH + "/del", method = RequestMethod.POST)
-    ApiResult del(String key);
+    ApiResult del(@RequestParam("key") String key);
 
     @RequestMapping(value = BASE_PATH + "set", method = RequestMethod.POST)
-    ApiResult set(String key, String value, Integer expire);
+    ApiResult set(@RequestParam("key") String key, @RequestParam("value") String value, @RequestParam("expire") Integer expire);
 
     @RequestMapping(value = BASE_PATH + "/get", method = RequestMethod.GET)
-    ApiResult get(String key);
+    ApiResult get(@RequestParam("key") String key);
 }

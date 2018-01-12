@@ -8,6 +8,7 @@ import com.wuhenjian.aurora.utils.entity.dao.PhpProject;
 import com.wuhenjian.aurora.utils.entity.dao.PhpProjectCriteria;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -74,5 +75,11 @@ public class PhpProjectController extends AbstractSqlBaseController<PhpProject, 
 		} else {
 			return ApiResult.success(list);
 		}
+	}
+
+	@RequestMapping(value = "/selectByAcctAndRepo", method = RequestMethod.GET)
+	public ApiResult selectByAcctAndRepo(String acct, String repo) {
+		PhpProject phpProject = mapper.selectByAcctAndRepo(acct, repo);
+		return ApiResult.success(phpProject);
 	}
 }

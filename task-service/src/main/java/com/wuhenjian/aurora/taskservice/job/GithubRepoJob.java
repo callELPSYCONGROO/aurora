@@ -1,6 +1,7 @@
 package com.wuhenjian.aurora.taskservice.job;
 
 import com.wuhenjian.aurora.taskservice.service.GithubRepoService;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,8 @@ public class GithubRepoJob {
 		String myGithub = "callELPSYCONGROO";
 		try {
 			githubRepoService.getAllRepositoriesByAccountName(myGithub);
-		} catch (IOException e) {
+			githubRepoService.updateRepositoriesInfo(myGithub);
+		} catch (IOException | BusinessException e) {
 			e.printStackTrace();
 		}
 	}

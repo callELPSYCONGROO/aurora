@@ -53,8 +53,9 @@ public enum ResultStatus {
 	DECRYPTION_EXCEPTION(3024, "Decryption exception"),
 	ENCODING_EXCEPTION(3024, "Decryption exception"),
 		//other
-	ACCOUNTCODE_LENGTH(4004, "account length is invalid"),
-	UUID_LENGTH(4005, "uuid length is invalid"),
+	ACCOUNTCODE_LENGTH(4001, "account length is invalid"),
+	UUID_LENGTH(4002, "uuid length is invalid"),
+	REPO_NAME_EMPTY(4003, "repo name is empty"),
 
 	END_EXCEPTION(9999, "");
 

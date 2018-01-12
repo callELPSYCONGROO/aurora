@@ -29,4 +29,17 @@ public class SqlServiceTest {
 		p.setUpdateTime(new Date());
 		phpProjectMapper.insertSelective(p);
 	}
+
+	@Test
+	public void selectTest() {
+		PhpProject p = new PhpProject();
+		p.setAcctountName("asd");
+		p.setRepoName("rt");
+		PhpProject phpProject = phpProjectMapper.selectByAcctAndRepo(p.getAcctountName(), p.getRepoName());
+		System.out.println("*************************************");
+		System.out.println("*************************************");
+		System.out.println(phpProject);
+		System.out.println("*************************************");
+		System.out.println("*************************************");
+	}
 }

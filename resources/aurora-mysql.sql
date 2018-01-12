@@ -26,10 +26,10 @@ CREATE TABLE `t_member_info`(
     `faceId` BIGINT NOT NULL DEFAULT 0 COMMENT '头像图片id',
     `area` BIGINT NOT NULL DEFAULT 0 COMMENT '地区',
     `nickName` VARCHAR(20) CHARACTER SET utf8mb4 DEFAULT '用户' COMMENT '昵称',
-    `memberSign` VARCHAR(100) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '个性签名',
+    `memberSign` VARCHAR(100) CHARACTER SET utf8mb4 COMMENT '个性签名',
     `sex` INT(2) NOT NULL DEFAULT 3 COMMENT '性别：1-男，2-女，3-其他',
     `lastLoginTime` DATETIME NOT NULL COMMENT '上次登录时间',
-    `lastLoginIP` VARCHAR(30) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '上次登录IP',
+    `lastLoginIP` VARCHAR(30) CHARACTER SET utf8mb4 COMMENT '上次登录IP',
     `lastLoginDevice` INT(2) NOT NULL DEFAULT 0 COMMENT '上次登录设备：0-未知，1-web，2-IOS，3-Andriod',
     
     PRIMARY KEY (`miId`),
@@ -41,8 +41,8 @@ CREATE TABLE `t_member_comment`(
     `mcId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
     `maId` BIGINT NOT NULL COMMENT '账号密码表id',
     `commentType` INT(2) DEFAULT 1 COMMENT '问题类型：1.游戏问题，2.给开发者',
-    `title` VARCHAR(40) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '标题',
-    `content` VARCHAR(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '内容',
+    `title` VARCHAR(40) CHARACTER SET utf8mb4 COMMENT '标题',
+    `content` VARCHAR(100) CHARACTER SET utf8mb4 COMMENT '内容',
     `commentDevice` INT(2) NOT NULL DEFAULT 0 COMMENT '发布设备：0-未知，1-web，2-IOS，3-Andriod',
     `createTime` DATETIME DEFAULT NULL COMMENT '发布时间',
     
@@ -116,7 +116,7 @@ CREATE TABLE `t_game_match_info`(
     `endTime` DATETIME NOT NULL COMMENT '结束时间',
     `winScore` INT(3) NOT NULL DEFAULT 0 COMMENT '胜利分数',
     `lostScore` INT(3) NOT NULL DEFAULT 0 COMMENT '失败分数',
-    `createTime` DATETIME DEFAULT NULL COMMENT '创建时间',
+    `createTime` DATETIME COMMENT '创建时间',
     
     PRIMARY KEY (`gmiId`)
 )ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '游戏对局信息';
@@ -134,7 +134,7 @@ CREATE TABLE `t_game_score`(
     `fleeCount` INT NOT NULL DEFAULT 0 COMMENT '逃跑次数',
     `lastPlayTime` DATETIME NOT NULL COMMENT '上次游戏时间',
     `lastDeviceType` INT(2) NOT NULL DEFAULT 0 COMMENT '发布设备：0-未知，1-web，2-IOS，3-Andriod',
-    `lastLogonIP` VARCHAR(30) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '上次登录IP',
+    `lastLogonIP` VARCHAR(30) CHARACTER SET utf8mb4 COMMENT '上次登录IP',
     
     PRIMARY KEY (`gsId`),
     UNIQUE KEY (`maId`)
@@ -149,9 +149,9 @@ CREATE TABLE `t_common_ad`(
     `caId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
     `adType` INT(2) NOT NULL COMMENT '类型',
     `adTitle` VARCHAR(50) CHARACTER SET utf8mb4 NOT NULL COMMENT '标题',
-    `adContent` VARCHAR(200) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '内容',
+    `adContent` VARCHAR(200) CHARACTER SET utf8mb4 COMMENT '内容',
     `imageId` BIGINT NOT NULL COMMENT '图片id',
-    `imageLink` VARCHAR(256) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '图片外链接',
+    `imageLink` VARCHAR(256) CHARACTER SET utf8mb4 COMMENT '图片外链接',
     `updateTime` DATETIME NOT NULL COMMENT '更新时间',
     `createTime` DATETIME NOT NULL COMMENT '创建时间',
     `createUser` BIGINT NOT NULL COMMENT '创建人',
@@ -184,11 +184,11 @@ CREATE TABLE `t_common_count`(
 CREATE TABLE `t_php_project`(
     `ppId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
     `acctountName` VARCHAR(25) CHARACTER SET utf8mb4 NOT NULL COMMENT '账户名称',
-    `repoName` VARCHAR(50) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '源名称',
+    `repoName` VARCHAR(50) CHARACTER SET utf8mb4 NOT NULL COMMENT '源名称',
     `lang` VARCHAR(10) CHARACTER SET utf8mb4 COMMENT '语言',
     `defaultBranch` VARCHAR(20) CHARACTER SET utf8mb4 DEFAULT 'master' COMMENT '默认分支',
-    `homepage` VARCHAR(256) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '项目主页',
-    `description` VARCHAR(256) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '描述',
+    `homepage` VARCHAR(256) CHARACTER SET utf8mb4 COMMENT '项目主页',
+    `description` VARCHAR(256) CHARACTER SET utf8mb4 COMMENT '描述',
     `fileSize` INT NOT NULL DEFAULT 0 COMMENT '文件数量size',
     `forksCount` INT NOT NULL DEFAULT 0 COMMENT '创建分支数',
     `stargazersCount` INT NOT NULL DEFAULT 0 COMMENT '点赞人数',
@@ -197,16 +197,18 @@ CREATE TABLE `t_php_project`(
     `createdAt` DATETIME COMMENT '创建时间',
     `updatedAt` DATETIME COMMENT '更新时间',
     `pushedAt` DATETIME COMMENT '推送时间',
-    `gitUrl` VARCHAR(256) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'git地址',
-    `sshUrl` VARCHAR(256) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'ssh地址',
-    `cloneUrl` VARCHAR(256) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '克隆地址',
-    `svnUrl` VARCHAR(256) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'svn地址',
+    `gitUrl` VARCHAR(256) CHARACTER SET utf8mb4 COMMENT 'git地址',
+    `sshUrl` VARCHAR(256) CHARACTER SET utf8mb4 COMMENT 'ssh地址',
+    `cloneUrl` VARCHAR(256) CHARACTER SET utf8mb4 COMMENT '克隆地址',
+    `svnUrl` VARCHAR(256) CHARACTER SET utf8mb4 COMMENT 'svn地址',
     
     `updateTime` DATETIME NOT NULL COMMENT '更新时间',
     
     PRIMARY KEY (`ppId`),
     UNIQUE KEY (`acctountName`,`repoName`)
 )ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '工程项目表';
+
+
 
 
 

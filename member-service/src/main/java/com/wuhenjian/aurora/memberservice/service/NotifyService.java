@@ -6,6 +6,7 @@ import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author 無痕剑
@@ -16,5 +17,5 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface NotifyService {
 
 	@RequestMapping(value = "/email/getCaptcha", method = RequestMethod.POST)
-	ApiResult getCaptcha(String to, Integer type);
+	ApiResult getCaptcha(@RequestParam("to") String to, @RequestParam("type") Integer type);
 }

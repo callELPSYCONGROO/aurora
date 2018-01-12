@@ -44,6 +44,11 @@ public class PhpProjectServiceExceptionHandler implements PhpProjectService {
 		return this.exceptionResult();
 	}
 
+	@Override
+	public ApiResult selectByAcctAndRepo(String acct, String repo) {
+		return this.exceptionResult();
+	}
+
 	private ApiResult exceptionResult() {
 		return ApiResult.fail(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}

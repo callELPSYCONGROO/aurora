@@ -6,10 +6,9 @@ import com.wuhenjian.aurora.utils.AuthUtil;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
 
 /**
  * @author 無痕剑
@@ -18,7 +17,7 @@ import javax.annotation.Resource;
 @RestController
 public class TokenAuthController {
 
-	@Resource(name = "redisService")
+	@Autowired
 	private RedisService redisService;
 
 	/**

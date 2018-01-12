@@ -10,9 +10,9 @@ import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.dao.MemberAuth;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Date;
 
 /**
@@ -22,10 +22,10 @@ import java.util.Date;
 @Service("memberService")
 public class MemberUpdateServiceImpl implements MemberUpdateService {
 
-	@Resource(name = "memberAuthService")
+	@Autowired
 	private MemberAuthService memberAuthService;
 
-	@Resource(name = "redisService")
+	@Autowired
 	private RedisService redisService;
 
 	@Override

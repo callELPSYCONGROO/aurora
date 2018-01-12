@@ -16,9 +16,9 @@ import com.wuhenjian.aurora.utils.entity.dao.MemberInfo;
 import com.wuhenjian.aurora.utils.entity.bo.AuthParam;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,19 +30,19 @@ import java.util.Map;
 @Service("memberLoginService")
 public class MemberLoginServiceImpl implements MemberLoginService {
 
-	@Resource(name = "memberAuthService")
+	@Autowired
 	private MemberAuthService memberAuthService;
 
-	@Resource(name = "memberInfoService")
+	@Autowired
 	private MemberInfoService memberInfoService;
 
-	@Resource(name = "redisService")
+	@Autowired
 	private RedisService redisService;
 
-	@Resource(name = "commonCountService")
+	@Autowired
 	private CommonCountService commonCountService;
 
-	@Resource(name = "notifyService")
+	@Autowired
 	private NotifyService notifyService;
 
 	@Override

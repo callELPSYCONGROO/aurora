@@ -521,4 +521,13 @@
       <include refid="Model_Where_Clause" />
     </if>
   </select>
+    <select id="selectByAcctAndRepo" resultType="com.wuhenjian.aurora.utils.entity.dao.PhpProject">
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM t_php_project
+      WHERE
+        acctountName = #{acct}
+        AND
+        repoName = #{repo}
+    </select>
 </mapper>

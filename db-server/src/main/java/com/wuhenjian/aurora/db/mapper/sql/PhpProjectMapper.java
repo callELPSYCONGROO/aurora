@@ -33,4 +33,6 @@ public interface PhpProjectMapper {
 	int countByModel(PhpProject model);
 
 	List<PhpProject> selectByModel(PhpProject model);
+
+	PhpProject selectByAcctAndRepo(@Param("acct") String acct, @Param("repo") String repo);
 }
