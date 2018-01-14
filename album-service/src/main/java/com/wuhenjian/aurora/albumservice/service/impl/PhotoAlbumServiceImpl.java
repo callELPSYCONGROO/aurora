@@ -1,9 +1,9 @@
 package com.wuhenjian.aurora.albumservice.service.impl;
 
-import com.wuhenjian.aurora.albumservice.service.MemberPhotoAlbumPictureService;
-import com.wuhenjian.aurora.albumservice.service.MemberPhotoAlbumService;
 import com.wuhenjian.aurora.albumservice.service.PhotoAlbumService;
-import com.wuhenjian.aurora.albumservice.service.ZimgService;
+import com.wuhenjian.aurora.consumer.service.MemberPhotoAlbumPictureService;
+import com.wuhenjian.aurora.consumer.service.MemberPhotoAlbumService;
+import com.wuhenjian.aurora.consumer.service.ZimgService;
 import com.wuhenjian.aurora.utils.ApiResultUtil;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbum;
@@ -96,7 +96,7 @@ public class PhotoAlbumServiceImpl implements PhotoAlbumService {
 		}
 		MemberPhotoAlbumPicture mpap = new MemberPhotoAlbumPicture();
 		mpap.setMpaId(mpaId);
-		ApiResult r2 = memberPhotoAlbumPictureService.selectByModel(mpap, null);
+		ApiResult r2 = memberPhotoAlbumPictureService.selectByModel(mpap);
 		List<MemberPhotoAlbumPicture> pictureList = (List<MemberPhotoAlbumPicture>) ApiResultUtil.getObject(r2);
 		MemberPhotoAlbumInfo mpaInfo = new MemberPhotoAlbumInfo();
 		mpaInfo.setTitle(mpa.getTitle());

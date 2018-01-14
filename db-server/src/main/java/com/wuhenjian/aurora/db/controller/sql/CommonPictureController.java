@@ -3,15 +3,18 @@ package com.wuhenjian.aurora.db.controller.sql;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wuhenjian.aurora.db.mapper.sql.CommonPictureMapper;
+import com.wuhenjian.aurora.utils.BeanUtil;
+import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.bo.Page;
 import com.wuhenjian.aurora.utils.entity.dao.CommonPicture;
-import com.wuhenjian.aurora.utils.entity.dao.CommonPictureCriteria;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 無痕剑
@@ -19,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(AbstractSqlBaseController.BASE_PATH + "/commonPicture")
-public class CommonPictureController extends AbstractSqlBaseController<CommonPicture, CommonPictureCriteria> {
+public class CommonPictureController extends AbstractSqlBaseController<CommonPicture> {
 
 	@Resource(name = "commonPictureMapper")
 	private CommonPictureMapper mapper;
@@ -31,23 +34,9 @@ public class CommonPictureController extends AbstractSqlBaseController<CommonPic
 	}
 
 	@Override
-	public ApiResult insertSelective(CommonPicture record) {
-		mapper.insertSelective(record);
-		return ApiResult.success(record);
-	}
-
-	@Override
-	public ApiResult selectByCriteria(CommonPictureCriteria criteria, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
-		}
-		List<CommonPicture> list = mapper.selectByCriteria(criteria);
-		if (page != null) {
-			PageInfo<CommonPicture> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
+	public ApiResult insertSelective(CommonPicture m) {
+		mapper.insertSelective(m);
+		return ApiResult.success(m);
 	}
 
 	@Override
@@ -57,18 +46,19 @@ public class CommonPictureController extends AbstractSqlBaseController<CommonPic
 	}
 
 	@Override
-	public ApiResult updateByPrimaryKeySelective(CommonPicture record) {
-		mapper.updateByPrimaryKeySelective(record);
-		return ApiResult.success();
+	public ApiResult updateByPrimaryKeySelective(CommonPicture m) {
+		mapper.updateByPrimaryKeySelective(m);
+		return ApiResult.success(m);
 	}
 
 	@Override
-	public ApiResult selectByModel(CommonPicture model, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
+	public ApiResult selectByModel(CommonPicture m) throws BusinessException {
+		boolean pageFlag = !m.isNullPage();
+		if (pageFlag) {
+			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
 		}
-		List<CommonPicture> list = mapper.selectByModel(model);
-		if (page != null && !page.isNull()) {
+		List<CommonPicture> list = mapper.selectByModel(m);
+		if (pageFlag) {
 			PageInfo<CommonPicture> pageInfo = new PageInfo<>(list);
 			return ApiResult.success(pageInfo);
 		} else {

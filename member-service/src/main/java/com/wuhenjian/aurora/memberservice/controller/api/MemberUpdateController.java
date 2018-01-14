@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2017/12/28 9:07
  */
 @RestController
-@RequestMapping("/update")
+@RequestMapping("/memberUpdate")
 public class MemberUpdateController {
 
 	@Resource(name = "memberService")
@@ -42,18 +42,18 @@ public class MemberUpdateController {
 	}
 
 	/**
-	 * 获取邮箱验证码
+	 * 发送邮箱验证码
 	 * @param memberAccount 登录账号
 	 * @param captchaType 验证码类型
 	 * @return 验证码缓存key
 	 * @throws BusinessException 发生异常
 	 */
-	@RequestMapping(value = "/getCaptcha", method = RequestMethod.POST)
-	public ApiResult getCaptcha(String memberAccount, Integer captchaType) throws BusinessException {
+	@RequestMapping(value = "/sendCaptcha", method = RequestMethod.POST)
+	public ApiResult sendCaptcha(String memberAccount, Integer captchaType) throws BusinessException {
 		if (StringUtil.hasBlank(new String[]{memberAccount, String.valueOf(captchaType)})) {
 			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
 		}
-		ApiResult r1 = notifyService.getCaptcha(memberAccount, captchaType);
+		ApiResult r1 = notifyService.sendCaptcha(memberAccount, captchaType);
 		String captchaKey = (String) ApiResultUtil.getObject(r1);
 		return ApiResult.success(captchaKey);
 	}

@@ -44,7 +44,7 @@ public class DateUtilTest {
 	public void linkedListTest() {
 		LinkedList<String> linkedList = new LinkedList<>();
 		linkedList.addAll(Arrays.asList(EARTH_BRANCH_STR));
-		System.out.println(linkedList.get(12));
+//		System.out.println(linkedList.get(12));
 	}
 
 	@Test

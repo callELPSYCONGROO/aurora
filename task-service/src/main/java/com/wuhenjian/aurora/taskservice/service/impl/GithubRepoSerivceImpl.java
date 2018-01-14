@@ -1,7 +1,7 @@
 package com.wuhenjian.aurora.taskservice.service.impl;
 
+import com.wuhenjian.aurora.consumer.service.PhpProjectService;
 import com.wuhenjian.aurora.taskservice.service.GithubRepoService;
-import com.wuhenjian.aurora.taskservice.service.PhpProjectService;
 import com.wuhenjian.aurora.utils.*;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.dao.PhpProject;
@@ -73,7 +73,7 @@ public class GithubRepoSerivceImpl implements GithubRepoService {
 		PhpProject phpProject = new PhpProject();
 		phpProject.setAcctountName(accountName);
 		//查询该帐号下所有源
-		ApiResult r1 = phpProjectService.selectByModel(phpProject, null);
+		ApiResult r1 = phpProjectService.selectByModel(phpProject);
 		List<PhpProject> list = (List<PhpProject>) ApiResultUtil.getObject(r1);
 		for (PhpProject p : list) {
 			String api = API_PATH + accountName + "/" + p.getRepoName();

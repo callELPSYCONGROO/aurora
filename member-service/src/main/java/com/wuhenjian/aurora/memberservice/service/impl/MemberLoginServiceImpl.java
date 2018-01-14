@@ -1,10 +1,8 @@
 package com.wuhenjian.aurora.memberservice.service.impl;
 
-import com.wuhenjian.aurora.memberservice.service.*;
-import com.wuhenjian.aurora.utils.ApiResultUtil;
-import com.wuhenjian.aurora.utils.AuthUtil;
-import com.wuhenjian.aurora.utils.StringUtil;
-import com.wuhenjian.aurora.utils.UUIDUtil;
+import com.wuhenjian.aurora.consumer.service.*;
+import com.wuhenjian.aurora.memberservice.service.MemberLoginService;
+import com.wuhenjian.aurora.utils.*;
 import com.wuhenjian.aurora.utils.constant.CommonContant;
 import com.wuhenjian.aurora.utils.constant.DeviceType;
 import com.wuhenjian.aurora.utils.constant.MemberStatus;
@@ -121,7 +119,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 	}
 
 	@Override
-	public String getCaptcha(String memberAccount, Integer captchaType, String timestamp, String paramSign) throws BusinessException {
+	public String sendCaptcha(String memberAccount, Integer captchaType, String timestamp, String paramSign) throws BusinessException {
 		Map<String,String> params = new HashMap<>();
 		params.put("memberAccount", memberAccount);
 		params.put("captchaType", String.valueOf(captchaType));
@@ -129,7 +127,7 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 		if (!AuthUtil.verifySign(params, paramSign)) {
 			throw new BusinessException(ResultStatus.SIGN_FAIL);
 		}
-		ApiResult r1 = notifyService.getCaptcha(memberAccount, captchaType);
+		ApiResult r1 = notifyService.sendCaptcha(memberAccount, captchaType);
 		return (String) ApiResultUtil.getObject(r1);
 	}
 

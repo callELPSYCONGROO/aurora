@@ -3,15 +3,18 @@ package com.wuhenjian.aurora.db.controller.sql;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wuhenjian.aurora.db.mapper.sql.MemberPhotoAlbumPictureMapper;
+import com.wuhenjian.aurora.utils.BeanUtil;
+import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.bo.Page;
 import com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbumPicture;
-import com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbumPictureCriteria;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 無痕剑
@@ -19,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(AbstractSqlBaseController.BASE_PATH + "/memberPhotoAlbumPicture")
-public class MemberPhotoAlbumPictureController extends AbstractSqlBaseController<MemberPhotoAlbumPicture,MemberPhotoAlbumPictureCriteria> {
+public class MemberPhotoAlbumPictureController extends AbstractSqlBaseController<MemberPhotoAlbumPicture> {
 
 	@Resource(name = "memberPhotoAlbumPictureMapper")
 	private MemberPhotoAlbumPictureMapper mapper;
@@ -31,23 +34,9 @@ public class MemberPhotoAlbumPictureController extends AbstractSqlBaseController
 	}
 
 	@Override
-	public ApiResult insertSelective(MemberPhotoAlbumPicture record) {
-		mapper.insertSelective(record);
-		return ApiResult.success(record);
-	}
-
-	@Override
-	public ApiResult selectByCriteria(MemberPhotoAlbumPictureCriteria criteria, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
-		}
-		List<MemberPhotoAlbumPicture> list = mapper.selectByCriteria(criteria);
-		if (page != null && !page.isNull()) {
-			PageInfo<MemberPhotoAlbumPicture> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
+	public ApiResult insertSelective(MemberPhotoAlbumPicture m) {
+		mapper.insertSelective(m);
+		return ApiResult.success(m);
 	}
 
 	@Override
@@ -57,18 +46,19 @@ public class MemberPhotoAlbumPictureController extends AbstractSqlBaseController
 	}
 
 	@Override
-	public ApiResult updateByPrimaryKeySelective(MemberPhotoAlbumPicture record) {
-		mapper.updateByPrimaryKeySelective(record);
-		return ApiResult.success();
+	public ApiResult updateByPrimaryKeySelective(MemberPhotoAlbumPicture m) {
+		mapper.updateByPrimaryKeySelective(m);
+		return ApiResult.success(m);
 	}
 
 	@Override
-	public ApiResult selectByModel(MemberPhotoAlbumPicture model, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
+	public ApiResult selectByModel(MemberPhotoAlbumPicture m) throws BusinessException {
+		boolean pageFlag = !m.isNullPage();
+		if (pageFlag) {
+			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
 		}
-		List<MemberPhotoAlbumPicture> list = mapper.selectByModel(model);
-		if (page != null && !page.isNull()) {
+		List<MemberPhotoAlbumPicture> list = mapper.selectByModel(m);
+		if (pageFlag) {
 			PageInfo<MemberPhotoAlbumPicture> pageInfo = new PageInfo<>(list);
 			return ApiResult.success(pageInfo);
 		} else {

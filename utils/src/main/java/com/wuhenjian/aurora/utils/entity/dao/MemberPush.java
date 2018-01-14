@@ -1,9 +1,11 @@
 package com.wuhenjian.aurora.utils.entity.dao;
 
+import com.wuhenjian.aurora.utils.entity.bo.Page;
+
 import java.io.Serializable;
 import java.util.Date;
 
-public class MemberPush implements Serializable {
+public class MemberPush extends Page implements Serializable {
     private Long mpId;
 
     private Long maId;

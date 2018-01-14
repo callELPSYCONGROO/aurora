@@ -12,7 +12,7 @@ public interface MemberLoginService {
 
 	TokenInfo login(AuthParam authParam) throws BusinessException;
 
-	String getCaptcha(String memberAccount, Integer captchaType, String timestamp, String paramSign) throws BusinessException;
+	String sendCaptcha(String memberAccount, Integer captchaType, String timestamp, String paramSign) throws BusinessException;
 
 	void register(AuthParam authParam) throws BusinessException;
 

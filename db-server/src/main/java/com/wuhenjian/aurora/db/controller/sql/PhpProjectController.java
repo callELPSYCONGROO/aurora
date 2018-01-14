@@ -3,16 +3,20 @@ package com.wuhenjian.aurora.db.controller.sql;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wuhenjian.aurora.db.mapper.sql.PhpProjectMapper;
+import com.wuhenjian.aurora.utils.ApiResultUtil;
+import com.wuhenjian.aurora.utils.BeanUtil;
+import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.bo.Page;
 import com.wuhenjian.aurora.utils.entity.dao.PhpProject;
-import com.wuhenjian.aurora.utils.entity.dao.PhpProjectCriteria;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 無痕剑
@@ -20,7 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(AbstractSqlBaseController.BASE_PATH + "/phpProject")
-public class PhpProjectController extends AbstractSqlBaseController<PhpProject, PhpProjectCriteria> {
+public class PhpProjectController extends AbstractSqlBaseController<PhpProject> {
 	
 	@Resource(name = "phpProjectMapper")
 	private PhpProjectMapper mapper;
@@ -32,23 +36,9 @@ public class PhpProjectController extends AbstractSqlBaseController<PhpProject, 
 	}
 
 	@Override
-	public ApiResult insertSelective(PhpProject record) {
-		mapper.insertSelective(record);
-		return ApiResult.success(record);
-	}
-
-	@Override
-	public ApiResult selectByCriteria(PhpProjectCriteria criteria, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
-		}
-		List<PhpProject> list = mapper.selectByCriteria(criteria);
-		if (page != null) {
-			PageInfo<PhpProject> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
+	public ApiResult insertSelective(PhpProject m) {
+		mapper.insertSelective(m);
+		return ApiResult.success(m);
 	}
 
 	@Override
@@ -58,18 +48,19 @@ public class PhpProjectController extends AbstractSqlBaseController<PhpProject, 
 	}
 
 	@Override
-	public ApiResult updateByPrimaryKeySelective(PhpProject record) {
-		mapper.updateByPrimaryKeySelective(record);
-		return ApiResult.success();
+	public ApiResult updateByPrimaryKeySelective(PhpProject m) {
+		mapper.updateByPrimaryKeySelective(m);
+		return ApiResult.success(m);
 	}
 
 	@Override
-	public ApiResult selectByModel(PhpProject model, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
+	public ApiResult selectByModel(PhpProject m) throws BusinessException {
+		boolean pageFlag = !m.isNullPage();
+		if (pageFlag) {
+			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
 		}
-		List<PhpProject> list = mapper.selectByModel(model);
-		if (page != null) {
+		List<PhpProject> list = mapper.selectByModel(m);
+		if (pageFlag) {
 			PageInfo<PhpProject> pageInfo = new PageInfo<>(list);
 			return ApiResult.success(pageInfo);
 		} else {
@@ -78,8 +69,13 @@ public class PhpProjectController extends AbstractSqlBaseController<PhpProject, 
 	}
 
 	@RequestMapping(value = "/selectByAcctAndRepo", method = RequestMethod.GET)
-	public ApiResult selectByAcctAndRepo(String acct, String repo) {
+	public ApiResult selectByAcctAndRepo(@RequestParam("acct") String acct, @RequestParam("repo") String repo) {
 		PhpProject phpProject = mapper.selectByAcctAndRepo(acct, repo);
 		return ApiResult.success(phpProject);
+	}
+
+	@RequestMapping("/getList")
+	public List<PhpProject> getList() {
+		return mapper.selectByModel(null);
 	}
 }

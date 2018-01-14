@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2017/12/4 23:13
  */
 @RestController
-@RequestMapping("/entry")
+@RequestMapping("/memberEntry")
 public class MemberLoginController {
 
 	@Resource(name = "memberLoginService")
@@ -42,7 +42,7 @@ public class MemberLoginController {
 	}
 
 	/**
-	 * 获取邮箱验证码
+	 * 发送邮箱验证码
 	 * @param memberAccount 登录账号
 	 * @param captchaType 验证码类型
 	 * @param timestamp 时间戳
@@ -50,12 +50,12 @@ public class MemberLoginController {
 	 * @return 验证码缓存key
 	 * @throws BusinessException 发生异常
 	 */
-	@RequestMapping(value = "/getCaptcha", method = RequestMethod.POST)
-	public ApiResult getCaptcha(String memberAccount, Integer captchaType, String timestamp, String paramSign) throws BusinessException {
+	@RequestMapping(value = "/sendCaptcha", method = RequestMethod.POST)
+	public ApiResult sendCaptcha(String memberAccount, Integer captchaType, String timestamp, String paramSign) throws BusinessException {
 		if (StringUtil.hasBlank(new String[]{memberAccount, String.valueOf(captchaType), timestamp, paramSign})) {
 			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
 		}
-		String captchaKey = memberLoginService.getCaptcha(memberAccount, captchaType, timestamp, paramSign);
+		String captchaKey = memberLoginService.sendCaptcha(memberAccount, captchaType, timestamp, paramSign);
 		return ApiResult.success(captchaKey);
 	}
 

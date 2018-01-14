@@ -1,8 +1,8 @@
 package com.wuhenjian.aurora.memberservice.service.impl;
 
-import com.wuhenjian.aurora.memberservice.service.MemberAuthService;
+import com.wuhenjian.aurora.consumer.service.MemberAuthService;
+import com.wuhenjian.aurora.consumer.service.RedisService;
 import com.wuhenjian.aurora.memberservice.service.MemberUpdateService;
-import com.wuhenjian.aurora.memberservice.service.RedisService;
 import com.wuhenjian.aurora.utils.*;
 import com.wuhenjian.aurora.utils.constant.CommonContant;
 import com.wuhenjian.aurora.utils.constant.MemberStatus;

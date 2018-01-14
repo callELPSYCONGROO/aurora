@@ -1,9 +1,11 @@
 package com.wuhenjian.aurora.utils.entity.dao;
 
+import com.wuhenjian.aurora.utils.entity.bo.Page;
+
 import java.io.Serializable;
 import java.util.Date;
 
-public class MemberPhotoAlbum implements Serializable {
+public class MemberPhotoAlbum extends Page implements Serializable {
     private Long mpaId;
 
     private Long maId;

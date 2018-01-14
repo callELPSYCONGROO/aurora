@@ -1,6 +1,6 @@
 package com.wuhenjian.aurora.authservice.controller;
 
-import com.wuhenjian.aurora.authservice.service.RedisService;
+import com.wuhenjian.aurora.consumer.service.RedisService;
 import com.wuhenjian.aurora.utils.ApiResultUtil;
 import com.wuhenjian.aurora.utils.AuthUtil;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;

@@ -3,15 +3,18 @@ package com.wuhenjian.aurora.db.controller.sql;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wuhenjian.aurora.db.mapper.sql.MemberPhotoAlbumMapper;
+import com.wuhenjian.aurora.utils.BeanUtil;
+import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.bo.Page;
 import com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbum;
-import com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbumCriteria;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 無痕剑
@@ -19,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(AbstractSqlBaseController.BASE_PATH + "/memberPhotoAlbum")
-public class MemberPhotoAlbumController extends AbstractSqlBaseController<MemberPhotoAlbum,MemberPhotoAlbumCriteria> {
+public class MemberPhotoAlbumController extends AbstractSqlBaseController<MemberPhotoAlbum> {
 
 	@Resource(name = "memberPhotoAlbumMapper")
 	private MemberPhotoAlbumMapper mapper;
@@ -31,23 +34,9 @@ public class MemberPhotoAlbumController extends AbstractSqlBaseController<Member
 	}
 
 	@Override
-	public ApiResult insertSelective(MemberPhotoAlbum record) {
-		mapper.insertSelective(record);
-		return ApiResult.success(record);
-	}
-
-	@Override
-	public ApiResult selectByCriteria(MemberPhotoAlbumCriteria criteria, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
-		}
-		List<MemberPhotoAlbum> list = mapper.selectByCriteria(criteria);
-		if (page != null && !page.isNull()) {
-			PageInfo<MemberPhotoAlbum> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
+	public ApiResult insertSelective(MemberPhotoAlbum m) {
+		mapper.insertSelective(m);
+		return ApiResult.success(m);
 	}
 
 	@Override
@@ -57,18 +46,19 @@ public class MemberPhotoAlbumController extends AbstractSqlBaseController<Member
 	}
 
 	@Override
-	public ApiResult updateByPrimaryKeySelective(MemberPhotoAlbum record) {
-		mapper.updateByPrimaryKeySelective(record);
-		return ApiResult.success();
+	public ApiResult updateByPrimaryKeySelective(MemberPhotoAlbum m) {
+		mapper.updateByPrimaryKeySelective(m);
+		return ApiResult.success(m);
 	}
 
 	@Override
-	public ApiResult selectByModel(MemberPhotoAlbum model, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
+	public ApiResult selectByModel(MemberPhotoAlbum m) throws BusinessException {
+		boolean pageFlag = !m.isNullPage();
+		if (pageFlag) {
+			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
 		}
-		List<MemberPhotoAlbum> list = mapper.selectByModel(model);
-		if (page != null && !page.isNull()) {
+		List<MemberPhotoAlbum> list = mapper.selectByModel(m);
+		if (pageFlag) {
 			PageInfo<MemberPhotoAlbum> pageInfo = new PageInfo<>(list);
 			return ApiResult.success(pageInfo);
 		} else {

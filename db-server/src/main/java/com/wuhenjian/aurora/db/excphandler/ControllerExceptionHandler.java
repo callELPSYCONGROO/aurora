@@ -2,6 +2,7 @@ package com.wuhenjian.aurora.db.excphandler;
 
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ControllerExceptionHandler {
 
 	@ExceptionHandler(Exception.class)
-	public ApiResult handler() {
-		return ApiResult.fail(ResultStatus.DATABASE_EXCEPTION);
+	public ApiResult handler(Exception e) {
+		if (e instanceof BusinessException) {
+			return ApiResult.fail((BusinessException) e);
+		}
+		return ApiResult.fail(ResultStatus.SYSTEM_EXCEPTION);
 	}
 }

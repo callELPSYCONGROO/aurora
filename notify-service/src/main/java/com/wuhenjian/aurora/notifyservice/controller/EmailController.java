@@ -1,7 +1,7 @@
 package com.wuhenjian.aurora.notifyservice.controller;
 
+import com.wuhenjian.aurora.consumer.service.RedisService;
 import com.wuhenjian.aurora.notifyservice.service.EmailService;
-import com.wuhenjian.aurora.notifyservice.service.RedisService;
 import com.wuhenjian.aurora.utils.DateUtil;
 import com.wuhenjian.aurora.utils.StringUtil;
 import com.wuhenjian.aurora.utils.UUIDUtil;
@@ -43,8 +43,8 @@ public class EmailController {
 	 * @return 验证码redis缓存的key
 	 * @throws BusinessException 发生异常
 	 */
-	@RequestMapping(value = "/getCaptcha", method = RequestMethod.POST)
-	public ApiResult getCaptcha(String to, Integer type) throws BusinessException {
+	@RequestMapping(value = "/sendCaptcha", method = RequestMethod.POST)
+	public ApiResult sendCaptcha(String to, Integer type) throws BusinessException {
 		String typeStr = CaptchaType.getName(type);
 		if (typeStr == null) {
 			throw new BusinessException(ResultStatus.CAPTCHA_TYPE_ERROR);

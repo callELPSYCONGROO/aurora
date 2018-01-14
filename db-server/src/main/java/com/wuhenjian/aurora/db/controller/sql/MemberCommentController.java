@@ -3,15 +3,18 @@ package com.wuhenjian.aurora.db.controller.sql;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wuhenjian.aurora.db.mapper.sql.MemberCommentMapper;
+import com.wuhenjian.aurora.utils.BeanUtil;
+import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.bo.Page;
 import com.wuhenjian.aurora.utils.entity.dao.MemberComment;
-import com.wuhenjian.aurora.utils.entity.dao.MemberCommentCriteria;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 無痕剑
@@ -19,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(AbstractSqlBaseController.BASE_PATH + "/memberComment")
-public class MemberCommentController extends AbstractSqlBaseController<MemberComment,MemberCommentCriteria> {
+public class MemberCommentController extends AbstractSqlBaseController<MemberComment> {
 
 	@Resource(name = "memberCommentMapper")
 	private MemberCommentMapper mapper;
@@ -31,23 +34,9 @@ public class MemberCommentController extends AbstractSqlBaseController<MemberCom
 	}
 
 	@Override
-	public ApiResult insertSelective(MemberComment record) {
-		mapper.insertSelective(record);
-		return ApiResult.success(record);
-	}
-
-	@Override
-	public ApiResult selectByCriteria(MemberCommentCriteria criteria, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
-		}
-		List<MemberComment> list = mapper.selectByCriteria(criteria);
-		if (page != null) {
-			PageInfo<MemberComment> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
+	public ApiResult insertSelective(MemberComment m) {
+		mapper.insertSelective(m);
+		return ApiResult.success(m);
 	}
 
 	@Override
@@ -57,18 +46,19 @@ public class MemberCommentController extends AbstractSqlBaseController<MemberCom
 	}
 
 	@Override
-	public ApiResult updateByPrimaryKeySelective(MemberComment record) {
-		mapper.updateByPrimaryKeySelective(record);
-		return ApiResult.success();
+	public ApiResult updateByPrimaryKeySelective(MemberComment m) {
+		mapper.updateByPrimaryKeySelective(m);
+		return ApiResult.success(m);
 	}
 
 	@Override
-	public ApiResult selectByModel(MemberComment model, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
+	public ApiResult selectByModel(MemberComment m) throws BusinessException {
+		boolean pageFlag = !m.isNullPage();
+		if (pageFlag) {
+			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
 		}
-		List<MemberComment> list = mapper.selectByModel(model);
-		if (page != null && !page.isNull()) {
+		List<MemberComment> list = mapper.selectByModel(m);
+		if (pageFlag) {
 			PageInfo<MemberComment> pageInfo = new PageInfo<>(list);
 			return ApiResult.success(pageInfo);
 		} else {

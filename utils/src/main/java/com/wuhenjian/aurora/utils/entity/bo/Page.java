@@ -1,5 +1,8 @@
 package com.wuhenjian.aurora.utils.entity.bo;
 
+import com.wuhenjian.aurora.utils.constant.ResultStatus;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
+
 /**
  * 分页信息
  * @author 無痕剑
@@ -45,7 +48,13 @@ public class Page {
 		this.orderBy = orderBy;
 	}
 
-	public boolean isNull() {
-		return this.num == null || this.size == null;
+	public boolean isNullPage() throws BusinessException {
+		if (this.num == null && this.size != null) {
+			throw new BusinessException(ResultStatus.PAGE_PARAM_INVALID);
+		}
+		if (this.num != null && this.size == null) {
+			throw new BusinessException(ResultStatus.PAGE_PARAM_INVALID);
+		}
+		return this.num == null && this.size == null && this.orderBy == null;
 	}
 }

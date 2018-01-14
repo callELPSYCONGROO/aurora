@@ -3,10 +3,9 @@ package com.wuhenjian.aurora.db.controller.sql;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wuhenjian.aurora.db.mapper.sql.CommonAdMapper;
-import com.wuhenjian.aurora.utils.entity.bo.Page;
 import com.wuhenjian.aurora.utils.entity.dao.CommonAd;
-import com.wuhenjian.aurora.utils.entity.dao.CommonAdCriteria;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(AbstractSqlBaseController.BASE_PATH + "/commonAd")
-public class CommonAdController extends AbstractSqlBaseController<CommonAd, CommonAdCriteria> {
+public class CommonAdController extends AbstractSqlBaseController<CommonAd> {
 
 	@Resource(name = "commonAdMapper")
 	private CommonAdMapper mapper;
@@ -31,23 +30,9 @@ public class CommonAdController extends AbstractSqlBaseController<CommonAd, Comm
 	}
 
 	@Override
-	public ApiResult insertSelective(CommonAd record) {
-		mapper.insertSelective(record);
-		return ApiResult.success(record);
-	}
-
-	@Override
-	public ApiResult selectByCriteria(CommonAdCriteria criteria, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
-		}
-		List<CommonAd> list = mapper.selectByCriteria(criteria);
-		if (page != null && !page.isNull()) {
-			PageInfo<CommonAd> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
+	public ApiResult insertSelective(CommonAd m) {
+		mapper.insertSelective(m);
+		return ApiResult.success(m);
 	}
 
 	@Override
@@ -57,18 +42,19 @@ public class CommonAdController extends AbstractSqlBaseController<CommonAd, Comm
 	}
 
 	@Override
-	public ApiResult updateByPrimaryKeySelective(CommonAd record) {
-		mapper.updateByPrimaryKeySelective(record);
+	public ApiResult updateByPrimaryKeySelective(CommonAd m) {
+		mapper.updateByPrimaryKeySelective(m);
 		return ApiResult.success();
 	}
 
 	@Override
-	public ApiResult selectByModel(CommonAd model, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
+	public ApiResult selectByModel(CommonAd m) throws BusinessException {
+		boolean pageFlag = !m.isNullPage();
+		if (pageFlag) {
+			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
 		}
-		List<CommonAd> list = mapper.selectByModel(model);
-		if (page != null && !page.isNull()) {
+		List<CommonAd> list = mapper.selectByModel(m);
+		if (pageFlag) {
 			PageInfo<CommonAd> pageInfo = new PageInfo<>(list);
 			return ApiResult.success(pageInfo);
 		} else {

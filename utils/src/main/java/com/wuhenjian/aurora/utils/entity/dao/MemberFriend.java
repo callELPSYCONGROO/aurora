@@ -1,9 +1,11 @@
 package com.wuhenjian.aurora.utils.entity.dao;
 
+import com.wuhenjian.aurora.utils.entity.bo.Page;
+
 import java.io.Serializable;
 import java.util.Date;
 
-public class MemberFriend implements Serializable {
+public class MemberFriend extends Page implements Serializable {
     private Long mfId;
 
     private Long ownerId;
