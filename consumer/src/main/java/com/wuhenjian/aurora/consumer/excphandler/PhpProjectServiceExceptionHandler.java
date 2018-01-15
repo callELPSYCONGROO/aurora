@@ -2,9 +2,7 @@ package com.wuhenjian.aurora.consumer.excphandler;
 
 import com.wuhenjian.aurora.consumer.service.PhpProjectService;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
-import com.wuhenjian.aurora.utils.entity.dao.MemberAuth;
 import com.wuhenjian.aurora.utils.entity.dao.PhpProject;
-import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.stereotype.Component;
 
@@ -44,6 +42,10 @@ public class PhpProjectServiceExceptionHandler implements PhpProjectService {
 
 	@Override
 	public PhpProject selectByAcctAndRepo(String acct, String repo) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
+	}
+
+	public List<PhpProject> selectRepoByAcct(String accountName) throws BusinessException {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 }

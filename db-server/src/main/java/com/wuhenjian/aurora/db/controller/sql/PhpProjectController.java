@@ -53,4 +53,9 @@ public class PhpProjectController {
 	public PhpProject selectByAcctAndRepo(@RequestParam("acct") String acct, @RequestParam("repo") String repo) {
 		return mapper.selectByAcctAndRepo(acct, repo);
 	}
+
+	@RequestMapping(value = "/selectRepoByAcct", method = RequestMethod.GET)
+	public List<PhpProject> selectRepoByAcct(@RequestParam("accountName") String accountName) {
+		return mapper.selectRepoByAcct(accountName);
+	}
 }

@@ -35,4 +35,6 @@ public interface PhpProjectMapper {
 	List<PhpProject> selectByModel(PhpProject model);
 
 	PhpProject selectByAcctAndRepo(@Param("acct") String acct, @Param("repo") String repo);
+
+	List<PhpProject> selectRepoByAcct(@Param("accountName") String acountName);
 }

@@ -19,21 +19,21 @@ zuul:
     game:                     #9631
       path: /api/game/**
       serverId: game
-    notify:                   #9641
-      path: /notify/**
-      serverId: notify
-    rabbitmq:                 #9651
-      path: /rabbitmq/**
-      serverId: rabbitmq
-    file:                     #9661
-      path: /file/**
-      serverId: file
+#    notify:                   #9641
+#      path: /notify/**
+#      serverId: notify
+#    rabbitmq:                 #9651
+#      path: /rabbitmq/**
+#      serverId: rabbitmq
+#    file:                     #9661
+#      path: /file/**
+#      serverId: file
     album:                    #9671
       path: /api/album/**
       serverId: album
-    auth:                     #9681
-      path: /auth/**
-      serverId: auth
+#    auth:                     #9681
+#      path: /auth/**
+#      serverId: auth
     php:                      #9691
-      path: /php/**
+      path: /api/php/**
       serverId: php

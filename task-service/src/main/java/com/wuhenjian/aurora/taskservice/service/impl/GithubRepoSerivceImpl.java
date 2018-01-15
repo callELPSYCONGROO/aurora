@@ -48,17 +48,15 @@ public class GithubRepoSerivceImpl implements GithubRepoService {
 				if (StringUtil.isBlank(repoName)) {
 					throw new BusinessException(ResultStatus.REPO_NAME_EMPTY);
 				}
-				ApiResult r1 = phpProjectService.selectByAcctAndRepo(accountName, repoName);
-				Object object = ApiResultUtil.getObject(r1);
-				if (object != null) {
+				PhpProject phpProject = phpProjectService.selectByAcctAndRepo(accountName, repoName);
+				if (phpProject != null) {
 					continue;
 				}
 				PhpProject p = new PhpProject();
 				p.setAcctountName(accountName);
 				p.setRepoName(repoName);
 				p.setUpdateTime(new Date());
-				ApiResult r2 = phpProjectService.insertSelective(p);
-				ApiResultUtil.isSuccess(r2);
+				phpProjectService.insertSelective(p);
 			}
 			currentPage++;
 		} while (currentPage <= max);
@@ -73,15 +71,13 @@ public class GithubRepoSerivceImpl implements GithubRepoService {
 		PhpProject phpProject = new PhpProject();
 		phpProject.setAcctountName(accountName);
 		//查询该帐号下所有源
-		ApiResult r1 = phpProjectService.selectByModel(phpProject);
-		List<PhpProject> list = (List<PhpProject>) ApiResultUtil.getObject(r1);
+		List<PhpProject> list = phpProjectService.selectByModel(phpProject);
 		for (PhpProject p : list) {
 			String api = API_PATH + accountName + "/" + p.getRepoName();
 			String method = HttpClientUtil.getMethod(api, null);
 			p = JsonUtil.json2PhpProjectObj(method, p);
 			p.setUpdateTime(new Date());
-			ApiResult r2 = phpProjectService.updateByPrimaryKeySelective(p);
-			ApiResultUtil.isSuccess(r2);
+			phpProjectService.updateByPrimaryKeySelective(p);
 		}
 	}
 }
