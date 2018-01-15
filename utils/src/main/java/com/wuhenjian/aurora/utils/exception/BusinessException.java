@@ -1,7 +1,7 @@
 package com.wuhenjian.aurora.utils.exception;
 
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
+import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 
 /**
  * 业务处理异常

@@ -51,4 +51,16 @@ public class StringUtilTest {
 		});
 		System.out.println(keyList);
 	}
+
+	@Test
+	public void isUrlTest() {
+		String url = "https:///www.cnblogs.com/woaiadu/p/7084250.html?fsdf=3r";
+		System.out.println(StringUtil.isUrl(url));
+	}
+
+	@Test
+	public void substringTest() {
+		String s = "asd1";
+		System.out.println(s.substring(s.length() - 1));
+	}
 }

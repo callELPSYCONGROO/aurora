@@ -55,4 +55,22 @@ public enum CaptchaType {
 		}
 		return null;
 	}
+
+	public static boolean intCaptchaType(Integer code) {
+		for (CaptchaType captchaType : CaptchaType.values()) {
+			if (captchaType.getCode().compareTo(code) == 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean strCaptchaType(String name) {
+		for (CaptchaType captchaType : CaptchaType.values()) {
+			if (captchaType.getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

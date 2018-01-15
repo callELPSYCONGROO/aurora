@@ -3,7 +3,7 @@ package com.wuhenjian.aurora.db.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.wuhenjian.aurora.db.mapper.nosql.redis.RedisTemplateRepository;
 import com.wuhenjian.aurora.db.service.RedisService;
-import com.wuhenjian.aurora.utils.entity.MemberAcctInfo;
+import com.wuhenjian.aurora.utils.entity.bo.MemberAcctInfo;
 import com.wuhenjian.aurora.utils.constant.CommonContant;
 import org.springframework.stereotype.Service;
 

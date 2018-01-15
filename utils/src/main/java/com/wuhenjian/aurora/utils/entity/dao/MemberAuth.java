@@ -1,9 +1,11 @@
 package com.wuhenjian.aurora.utils.entity.dao;
 
+import com.wuhenjian.aurora.utils.entity.bo.Page;
+
 import java.io.Serializable;
 import java.util.Date;
 
-public class MemberAuth implements Serializable {
+public class MemberAuth extends Page implements Serializable {
     private Long maId;
 
     private Long accountCode;

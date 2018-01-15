@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wuhenjian.aurora.db.mapper.sql.MemberPhotoAlbumMapper" >
+  <resultMap id="BaseResultMap" type="com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbum" >
+    <id column="mpaId" property="mpaId" jdbcType="BIGINT" />
+    <result column="maId" property="maId" jdbcType="BIGINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="des" property="des" jdbcType="VARCHAR" />
+    <result column="model" property="model" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="isShow" property="isShow" jdbcType="INTEGER" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Criteria_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Criteria_Where_Clause" >
+    <where >
+      <foreach collection="criteria.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    mpaId, maId, title, des, model, num, isShow, updateTime, createTime
+  </sql>
+  <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbumCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_member_photo_album
+    <if test="_parameter != null" >
+      <include refid="Criteria_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from t_member_photo_album
+    where mpaId = #{mpaId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_member_photo_album
+    where mpaId = #{mpaId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByCriteria" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbumCriteria" >
+    delete from t_member_photo_album
+    <if test="_parameter != null" >
+      <include refid="Criteria_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbum" >
+    <selectKey resultType="java.lang.Long" keyProperty="mpaId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_member_photo_album (maId, title, des,
+      model, num, isShow,
+      updateTime, createTime)
+    values (#{maId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{des,jdbcType=VARCHAR},
+      #{model,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{isShow,jdbcType=INTEGER},
+      #{updateTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbum" >
+    <selectKey resultType="java.lang.Long" keyProperty="mpaId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_member_photo_album
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="maId != null" >
+        maId,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="des != null" >
+        des,
+      </if>
+      <if test="model != null" >
+        model,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="isShow != null" >
+        isShow,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="maId != null" >
+        #{maId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="des != null" >
+        #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="isShow != null" >
+        #{isShow,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByCriteriaSelective" parameterType="map" >
+    update t_member_photo_album
+    <set >
+      <if test="record.mpaId != null" >
+        mpaId = #{record.mpaId,jdbcType=BIGINT},
+      </if>
+      <if test="record.maId != null" >
+        maId = #{record.maId,jdbcType=BIGINT},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.des != null" >
+        des = #{record.des,jdbcType=VARCHAR},
+      </if>
+      <if test="record.model != null" >
+        model = #{record.model,jdbcType=VARCHAR},
+      </if>
+      <if test="record.num != null" >
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.isShow != null" >
+        isShow = #{record.isShow,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null" >
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null" >
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByCriteria" parameterType="map" >
+    update t_member_photo_album
+    set mpaId = #{record.mpaId,jdbcType=BIGINT},
+      maId = #{record.maId,jdbcType=BIGINT},
+      title = #{record.title,jdbcType=VARCHAR},
+      des = #{record.des,jdbcType=VARCHAR},
+      model = #{record.model,jdbcType=VARCHAR},
+      num = #{record.num,jdbcType=INTEGER},
+      isShow = #{record.isShow,jdbcType=INTEGER},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbum" >
+    update t_member_photo_album
+    <set >
+      <if test="maId != null" >
+        maId = #{maId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="des != null" >
+        des = #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        model = #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="isShow != null" >
+        isShow = #{isShow,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where mpaId = #{mpaId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbum" >
+    update t_member_photo_album
+    set maId = #{maId,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+      des = #{des,jdbcType=VARCHAR},
+      model = #{model,jdbcType=VARCHAR},
+      num = #{num,jdbcType=INTEGER},
+      isShow = #{isShow,jdbcType=INTEGER},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      createTime = #{createTime,jdbcType=TIMESTAMP}
+    where mpaId = #{mpaId,jdbcType=BIGINT}
+  </update>
+  <sql id="Model_Where_Clause" >
+    <where >
+      <if test="mpaId != null" >
+         and mpaId=#{mpaId}
+      </if>
+      <if test="maId != null" >
+         and maId=#{maId}
+      </if>
+      <if test="title != null" >
+         and title=#{title}
+      </if>
+      <if test="des != null" >
+         and des=#{des}
+      </if>
+      <if test="model != null" >
+         and model=#{model}
+      </if>
+      <if test="num != null" >
+         and num=#{num}
+      </if>
+      <if test="isShow != null" >
+         and isShow=#{isShow}
+      </if>
+      <if test="updateTime != null" >
+         and updateTime=#{updateTime}
+      </if>
+      <if test="createTime != null" >
+         and createTime=#{createTime}
+      </if>
+    </where>
+  </sql>
+  <select id="countByModel" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbum" resultType="java.lang.Integer" >
+    select count(*) from t_member_photo_album
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByModel" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbum" >
+    select
+    <include refid="Base_Column_List" />
+    from t_member_photo_album
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+</mapper>

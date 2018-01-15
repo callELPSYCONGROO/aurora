@@ -1,9 +1,11 @@
 package com.wuhenjian.aurora.utils.entity.dao;
 
+import com.wuhenjian.aurora.utils.entity.bo.Page;
+
 import java.io.Serializable;
 import java.util.Date;
 
-public class MemberComment implements Serializable {
+public class MemberComment extends Page implements Serializable {
     private Long mcId;
 
     private Long maId;

@@ -30,4 +30,7 @@ public class CommonContant {
 	public final static Integer ACCOUNT_EXIST = 1;
 	/** 账号不存在 */
 	public final static Integer ACCOUNT_NOT_EXIST = 2;
+	/** 数据库 */
+	public final static String SQL = "/sql";
+	public final static String NO_SQL = "/nosql";
 }

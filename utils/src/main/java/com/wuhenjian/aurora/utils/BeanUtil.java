@@ -28,7 +28,7 @@ public class BeanUtil {
 	 * @throws InstantiationException 如果实例化 JavaBean 失败
 	 * @throws InvocationTargetException 如果调用属性的 setter 方法失败
 	 */
-	public static Object map2Bean(Class<?> type, Map<?, ?> map) throws IntrospectionException, IllegalAccessException, InstantiationException, InvocationTargetException {
+	public static Object map2Bean(Map<?, ?> map, Class<?> type) throws IntrospectionException, IllegalAccessException, InstantiationException, InvocationTargetException {
 		BeanInfo beanInfo = Introspector.getBeanInfo(type); // 获取类属性
 		Object obj = type.newInstance(); // 创建 JavaBean 对象
 		// 给 JavaBean 对象的属性赋值
@@ -67,9 +67,10 @@ public class BeanUtil {
 				Object result = readMethod.invoke(bean);
 				if (result != null && result != "") {
 					returnMap.put(propertyName, result);
-				} else {
-					returnMap.put(propertyName, "");
 				}
+//				else {
+//					returnMap.put(propertyName, "");
+//				}
 			}
 		}
 		return returnMap;

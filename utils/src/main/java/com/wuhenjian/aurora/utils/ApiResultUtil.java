@@ -1,6 +1,7 @@
 package com.wuhenjian.aurora.utils;
 
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
+import com.wuhenjian.aurora.utils.constant.ResultStatus;
+import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 
 /**
@@ -19,9 +20,18 @@ public class ApiResultUtil {
      * @throws BusinessException 发生异常
      */
     public static Object getObject(ApiResult apiResult) throws BusinessException {
-        if (apiResult.getCode() != 1000) {
+        isSuccess(apiResult);
+        return apiResult.getData();
+    }
+
+    /**
+     * 判断结果集是否成功
+     * @param apiResult 结果集
+     * @throws BusinessException 发生异常
+     */
+    public static void isSuccess(ApiResult apiResult) throws BusinessException {
+        if (apiResult.getCode() != ResultStatus.SUCCESS.getCode()) {
             throw new BusinessException(apiResult);
         }
-        return apiResult.getData();
     }
 }

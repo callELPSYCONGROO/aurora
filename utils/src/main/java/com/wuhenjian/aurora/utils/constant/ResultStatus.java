@@ -11,28 +11,29 @@ public enum ResultStatus {
 
 	SUCCESS(1000, "success"),
 	//filter
-	OUT_OF_TIME(1001, "timestamp is out of time"),
-	KEY_PARAM_IS_EMPTY(1002, "The key parameter of the request is empty"),
-	SIGN_ERROR(1003, "sign error"),
-	TOKEN_ISVALID_FILTER(1004, "token is invalid"),
-	TOKEN_OVERDUE(1005, "token is overdue"),
-	TIMESTAMP_FORMAT_ERROR(1006, "timestamp is error"),
-	TIMESTAMP_OVERTIME(1007, "timestamp over time"),
+	KEY_PARAM_IS_EMPTY(1001, "The key parameter of the request is empty"),
 	//controller
 	PARAM_IS_EMPTY(2001, "input param is empty"),
 	SYSTEM_EXCEPTION(2002, "system exception"),
-	TOKEN_ISVALID_CTRL(2003, "token is invalid"),
+	TOKEN_INVALID_CTRL(2003, "token is invalid"),
 	DATABASE_EXCEPTION(2004, "database exception"),
 	CAPTCHA_TYPE_ERROR(2005, "captcha type is error"),
 	RECEIVE_IS_NULL(2006, "receive is null"),
 	RECEIVE_EMAIL_FORMAT_ERROR(2007, "Recipient mailbox format error"),
 	PASSWORD_MODIFY_COUNT(2008, "password modify count over"),
+	SIGN_ERROR(2009, "sign error"),
+	TOKEN_OVERDUE(2010, "token is overdue"),
+	TIMESTAMP_FORMAT_ERROR(2011, "timestamp is error"),
+	TIMESTAMP_OVERTIME(2012, "timestamp over time"),
+	DECODE_TOKEN_EXCEPTION(2013, "decode token exception"),
+	OBJECT_TRANSFORMATION_EXCEPTION(2014, "Object transformation exception"),
+	CAPTCHA_TYPE_INVALID(2015, "captcha type is invalid"),
 	//service
 	REMOTE_SERVICE_EXCEPTION(3001, "Remote call services are exceptions"),
 	ACCOUNT_FORMAT_ERROR(3002, "account format error"),
 	LOGIN_TYPE_ERROR(3003, "loginType is non-existent"),
 	ACCOUNT_NOT_EXIST(3004, "account is non-existent"),
-	PASSWORD_ISVALID(3005, "password is invalid"),
+	PASSWORD_INVALID(3005, "password is invalid"),
 	MEMBER_AUTH_OVERTIME(3006, "More than 5 times the number of user authentication"),
 	MEMBER_LOCKED_BY_ADMIN(3007, "member is locked by admin"),
 	SIGN_FAIL(3008, "signature verification failed;"),
@@ -44,15 +45,22 @@ public enum ResultStatus {
 	PARAMS_SIGN_VERIFY_FAIL(3014, "Failure of signature authentication"),
 	EMAIL_FAILURE(3015, "service failure"),
 	CAPTCHA_ERROR(3016, "captcha is error"),
-	//other
-	SHA256_ENCODE(5001, "sha256'encoding is NoSuchAlgorithm or UnsupportedEncoding"),
-	BASE64_ENCODE(5002, "base64'encoding is UnsupportedEncoding"),
-	RSA_ERROR(5003, "rsa'encoding is InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException"),
-	ACCOUNTCODE_LENGTH(5004, "account length is invalid"),
-	UUID_LENGTH(5005, "uuid length is invalid"),
+	HTTPCLIENT_EXCP(3017, "httpclient exception"),
+	MAP_EMPTY(3018, "Map Object is Empty"),
+	FILE_PARAM_IS_EMPTY(3019, "file param is empty"),
+	FILE_TYPE_INVALID(3020, "file type is invalid"),
+	MEMBER_ALBUM_NON_EXISTENT(3021, "member album is non-existent"),
+	ALBUM_NOT_BELONG_WITH_MEMBER(3022, "this album is not belong with the member"),
+	UPLOAD_IMG_FAIL(3023, "picture uploaded fail"),
+	DECRYPTION_EXCEPTION(3024, "Decryption exception"),
+	ENCODING_EXCEPTION(3024, "Decryption exception"),
+		//other
+	ACCOUNTCODE_LENGTH(4001, "account length is invalid"),
+	UUID_LENGTH(4002, "uuid length is invalid"),
+	REPO_NAME_EMPTY(4003, "repo name is empty"),
+	PAGE_PARAM_INVALID(4004, "param of PageObj is invalid"),
 
-	END_EXCEPTION(5999, "")
-	;
+	END_EXCEPTION(9999, "");
 
 	private Integer code;
 

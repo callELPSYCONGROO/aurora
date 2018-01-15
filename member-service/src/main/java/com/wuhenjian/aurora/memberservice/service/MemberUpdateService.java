@@ -12,5 +12,5 @@ public interface MemberUpdateService {
 
 	Integer modifyPasswordCount(Long maId) throws BusinessException;
 
-	void addOneModifyPassword(Long maId, Integer lastCount);
+	void addOneModifyPassword(Long maId, Integer lastCount) throws BusinessException;
 }

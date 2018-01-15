@@ -1,7 +1,6 @@
 package com.wuhenjian.aurora.utils;
 
-import com.wuhenjian.aurora.utils.entity.TokenModel;
-import com.wuhenjian.aurora.utils.exception.BusinessException;
+import com.wuhenjian.aurora.utils.entity.bo.TokenModel;
 import com.wuhenjian.aurora.utils.security.Base64Util;
 import com.wuhenjian.aurora.utils.security.RSAUtil;
 import org.junit.Test;
@@ -51,7 +50,7 @@ public class NumUtilTest {
     }
 
     @Test
-    public void signLengthTest() throws BusinessException {
+    public void signLengthTest() throws Exception {
         String uuid = UUIDUtil.getUuid(RadixUtil.MAX_RADIX);
         TokenModel tokenModel = new TokenModel();
         tokenModel.setAccountCode(1145485414L);

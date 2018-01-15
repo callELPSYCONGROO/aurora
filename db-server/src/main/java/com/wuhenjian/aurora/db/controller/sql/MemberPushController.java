@@ -1,14 +1,11 @@
 package com.wuhenjian.aurora.db.controller.sql;
 
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.wuhenjian.aurora.db.mapper.sql.MemberPushMapper;
-import com.wuhenjian.aurora.utils.entity.Page;
+import com.wuhenjian.aurora.utils.constant.CommonContant;
 import com.wuhenjian.aurora.utils.entity.dao.MemberPush;
-import com.wuhenjian.aurora.utils.entity.dao.MemberPushCriteria;
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -18,61 +15,37 @@ import java.util.List;
  * @date 2017/12/19 15:31
  */
 @RestController
-@RequestMapping(AbstractSqlBaseController.BASE_PATH + "/memberPush")
-public class MemberPushController extends AbstractSqlBaseController<MemberPush,MemberPushCriteria> {
+@RequestMapping(CommonContant.SQL + "/memberPush")
+public class MemberPushController {
 
 	@Resource(name = "memberPushMapper")
 	private MemberPushMapper mapper;
 
-	@Override
-	public ApiResult deleteByPrimaryKey(Long id) {
-		mapper.deleteByPrimaryKey(id);
-		return ApiResult.success();
+	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
+	public MemberPush selectByPrimaryKey(@RequestParam("id")Long id) {
+		return mapper.selectByPrimaryKey(id);
 	}
 
-	@Override
-	public ApiResult insertSelective(MemberPush record) {
-		mapper.insertSelective(record);
-		return ApiResult.success(record);
-	}
-
-	@Override
-	public ApiResult selectByCriteria(MemberPushCriteria criteria, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
+	@RequestMapping(value = "/selectByModel", method = RequestMethod.POST)
+	public List<MemberPush> selectByModel(@RequestBody(required = false) MemberPush m) throws BusinessException {
+		if (m != null && !m.isNullPage()) {
+			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
 		}
-		List<MemberPush> list = mapper.selectByCriteria(criteria);
-		if (page != null) {
-			PageInfo<MemberPush> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
+		return mapper.selectByModel(m);
 	}
 
-	@Override
-	public ApiResult selectByPrimaryKey(Long id) {
-		MemberPush m = mapper.selectByPrimaryKey(id);
-		return ApiResult.success(m);
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public int updateByPrimaryKeySelective(@RequestBody MemberPush m) {
+		return mapper.updateByPrimaryKeySelective(m);
 	}
 
-	@Override
-	public ApiResult updateByPrimaryKeySelective(MemberPush record) {
-		mapper.updateByPrimaryKeySelective(record);
-		return ApiResult.success();
+	@RequestMapping(value = "/insert", method = RequestMethod.POST)
+	public int insertSelective(@RequestBody MemberPush m) {
+		return mapper.insertSelective(m);
 	}
 
-	@Override
-	public ApiResult selectByModel(MemberPush model, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
-		}
-		List<MemberPush> list = mapper.selectByModel(model);
-		if (page != null && !page.isNull()) {
-			PageInfo<MemberPush> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public int deleteByPrimaryKey(@RequestParam("id") Long id) {
+		return mapper.deleteByPrimaryKey(id);
 	}
 }

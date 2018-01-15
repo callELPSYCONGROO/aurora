@@ -1,6 +1,6 @@
 package com.wuhenjian.aurora.notifyservice.service;
 
-import com.wuhenjian.aurora.utils.entity.param.SendEmailParam;
+import com.wuhenjian.aurora.utils.entity.bo.SendEmailParam;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 
 /**

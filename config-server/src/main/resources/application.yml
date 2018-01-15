@@ -1,5 +1,5 @@
 server:
-  port: 7700
+  port: 7701
 spring:
   application:
     name: configserver
@@ -13,4 +13,4 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://127.0.0.1:8801/eureka/
+      defaultZone: http://127.0.0.1:7901/eureka/

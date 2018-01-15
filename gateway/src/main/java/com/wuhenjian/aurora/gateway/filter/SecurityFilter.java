@@ -2,23 +2,15 @@ package com.wuhenjian.aurora.gateway.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import com.wuhenjian.aurora.gateway.service.RedisService;
-import com.wuhenjian.aurora.utils.ApiResultUtil;
-import com.wuhenjian.aurora.utils.AuthUtil;
-import com.wuhenjian.aurora.utils.DateUtil;
-import com.wuhenjian.aurora.utils.JsonUtil;
-import com.wuhenjian.aurora.utils.constant.CommonContant;
+import com.wuhenjian.aurora.utils.*;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
-import com.wuhenjian.aurora.utils.exception.BusinessException;
-import com.wuhenjian.aurora.utils.security.SHA256;
+import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.Map;
 
 /**
  * API接口安全验证
@@ -27,9 +19,6 @@ import java.util.*;
  */
 @Component
 public class SecurityFilter extends ZuulFilter {
-
-	@Resource(name = "redisService")
-	private RedisService redisService;
 
 	/**
 	 * 返回一个字符串代表过滤器的类型，在zuul中定义了四种不同生命周期的过滤器类型，具体如下：
@@ -58,76 +47,23 @@ public class SecurityFilter extends ZuulFilter {
 	 */
 	@Override
 	public boolean shouldFilter() {
-		HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
-		String requestURI = request.getRequestURI();
-		return !requestURI.contains("/entry/");
+		return true;
 	}
 
 	@Override
 	public Object run() {
 		RequestContext context = RequestContext.getCurrentContext();
 		HttpServletRequest request = context.getRequest();
-		//TODO 调试的时候使用debug参数
-		/******debug*******/
-		String d = request.getParameter("d");
-		if ("1".equals(d)) {
-			return null;
-		}
-		/******debug*******/
-		//验证时间戳
-		String timestamp = request.getParameter("timestamp");//时间戳
-		if (DateUtil.isTimestamp(timestamp)) {
-			this.response(context, ResultStatus.TIMESTAMP_FORMAT_ERROR);
-			return null;
-		}
-		long ts = Long.valueOf(timestamp);
-		long diffTime = System.currentTimeMillis() - ts;
-		if (diffTime > DateUtil.TEN_SECONDS_MS || diffTime < 0) {//与当前时间大于10秒，或在当前时间之后
-			this.response(context, ResultStatus.TIMESTAMP_OVERTIME);
-			return null;
-		}
-		//验证签名
-		String paramSign = request.getParameter("paramSign");//签名
 		Map<String, String[]> parameterMap = request.getParameterMap();
-		parameterMap.remove("paramSign");
-		Map<String,String> paramMap = new HashMap<>();
 		for (String key : parameterMap.keySet()) {
-			String val = parameterMap.get(key)[0];
-			paramMap.put(key, val);
-		}
-		try {
-			if (!AuthUtil.verifySign(paramMap, paramSign)) {
-				this.response(context, ResultStatus.SIGN_ERROR);
-				return null;
+			String[] values = parameterMap.get(key);
+			for (String val : values) {
+				if (StringUtil.isBlank(val)) {
+					this.response(context, ResultStatus.KEY_PARAM_IS_EMPTY);
+					return null;
+				}
 			}
-		} catch (BusinessException e) {
-			this.response(context, e.getRs());
-			return null;
 		}
-		//解析token
-		String accessToken = request.getParameter("accessToken");//令牌
-		String token;
-		try {
-			token = AuthUtil.decodeToken(accessToken);
-		} catch (BusinessException e) {
-			this.response(context, e.getRs());
-			return null;
-		}
-		//判断token是否过期
-		ApiResult r1 = redisService.getToken(token);
-		Object mai;
-		try {
-			mai = ApiResultUtil.getObject(r1);
-		} catch (BusinessException e) {
-			this.response(context, ResultStatus.REMOTE_SERVICE_EXCEPTION);
-			return null;
-		}
-		if (mai == null) {
-			this.response(context, ResultStatus.TOKEN_OVERDUE);
-			return null;
-		}
-		//将用户账户信息放到请求中去
-		request.setAttribute(CommonContant.REQUEST_MEMBER_INFO, mai);
 		return null;
 	}
 

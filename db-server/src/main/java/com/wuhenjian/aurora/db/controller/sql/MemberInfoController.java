@@ -1,16 +1,12 @@
 package com.wuhenjian.aurora.db.controller.sql;
 
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.wuhenjian.aurora.db.mapper.sql.MemberInfoMapper;
-import com.wuhenjian.aurora.utils.entity.MemberAcctInfo;
-import com.wuhenjian.aurora.utils.entity.Page;
+import com.wuhenjian.aurora.utils.constant.CommonContant;
+import com.wuhenjian.aurora.utils.entity.bo.MemberAcctInfo;
 import com.wuhenjian.aurora.utils.entity.dao.MemberInfo;
-import com.wuhenjian.aurora.utils.entity.dao.MemberInfoCriteria;
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -20,73 +16,47 @@ import java.util.List;
  * @date 2017/12/19 15:31
  */
 @RestController
-@RequestMapping(AbstractSqlBaseController.BASE_PATH + "/memberInfo")
-public class MemberInfoController extends AbstractSqlBaseController<MemberInfo,MemberInfoCriteria> {
+@RequestMapping(CommonContant.SQL + "/memberInfo")
+public class MemberInfoController {
 
 	@Resource(name = "memberInfoMapper")
 	private MemberInfoMapper mapper;
 
-	@Override
-	public ApiResult deleteByPrimaryKey(Long id) {
-		mapper.deleteByPrimaryKey(id);
-		return ApiResult.success();
+	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
+	public MemberInfo selectByPrimaryKey(@RequestParam("id")Long id) {
+		return mapper.selectByPrimaryKey(id);
 	}
 
-	@Override
-	public ApiResult insertSelective(MemberInfo record) {
-		mapper.insertSelective(record);
-		return ApiResult.success(record);
-	}
-
-	@Override
-	public ApiResult selectByCriteria(MemberInfoCriteria criteria, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
+	@RequestMapping(value = "/selectByModel", method = RequestMethod.POST)
+	public List<MemberInfo> selectByModel(@RequestBody(required = false) MemberInfo m) throws BusinessException {
+		if (m != null && !m.isNullPage()) {
+			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
 		}
-		List<MemberInfo> list = mapper.selectByCriteria(criteria);
-		if (page != null) {
-			PageInfo<MemberInfo> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
+		return mapper.selectByModel(m);
 	}
 
-	@Override
-	public ApiResult selectByPrimaryKey(Long id) {
-		MemberInfo m = mapper.selectByPrimaryKey(id);
-		return ApiResult.success(m);
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public int updateByPrimaryKeySelective(@RequestBody MemberInfo m) {
+		return mapper.updateByPrimaryKeySelective(m);
 	}
 
-	@Override
-	public ApiResult updateByPrimaryKeySelective(MemberInfo record) {
-		mapper.updateByPrimaryKeySelective(record);
-		return ApiResult.success();
+	@RequestMapping(value = "/insert", method = RequestMethod.POST)
+	public int insertSelective(@RequestBody MemberInfo m) {
+		return mapper.insertSelective(m);
 	}
 
-	@Override
-	public ApiResult selectByModel(MemberInfo model, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
-		}
-		List<MemberInfo> list = mapper.selectByModel(model);
-		if (page != null) {
-			PageInfo<MemberInfo> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public int deleteByPrimaryKey(@RequestParam("id") Long id) {
+		return mapper.deleteByPrimaryKey(id);
 	}
 
 	@RequestMapping(value = "selectByMaid", method = RequestMethod.GET)
-	public ApiResult selectByMaid(Long maId) {
-		MemberAcctInfo memberAcctInfo = mapper.selectByMaid(maId);
-		return ApiResult.success(memberAcctInfo);
+	public MemberAcctInfo selectByMaid(@RequestParam("maId") Long maId) {
+		return mapper.selectByMaid(maId);
 	}
 
 	@RequestMapping(value = "/updateMemberInfoByMaId", method = RequestMethod.POST)
-	public ApiResult updateMemberInfoByMaId(MemberInfo memberInfo) {
-		mapper.updateMemberInfoByMaId(memberInfo);
-		return ApiResult.success();
+	public int updateMemberInfoByMaId(@RequestBody MemberInfo m) {
+		return mapper.updateMemberInfoByMaId(m);
 	}
 }

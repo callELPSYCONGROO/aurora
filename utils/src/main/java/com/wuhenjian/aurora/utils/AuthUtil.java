@@ -1,6 +1,5 @@
 package com.wuhenjian.aurora.utils;
 
-import com.wuhenjian.aurora.utils.exception.BusinessException;
 import com.wuhenjian.aurora.utils.security.Base64Util;
 import com.wuhenjian.aurora.utils.security.RSAUtil;
 import com.wuhenjian.aurora.utils.security.SHA256;
@@ -18,9 +17,9 @@ public class AuthUtil {
     /**
      * 创建加密Token
      * @return 加密token
-     * @throws BusinessException 发生异常
+     * @throws Exception 发生异常
      */
-    public static String createToken() throws BusinessException {
+    public static String createToken() throws Exception {
         String uuid = UUIDUtil.getUuid(RadixUtil.MAX_RADIX);//获取uuid
         String encrypt = RSAUtil.encrypt(uuid);
         return Base64Util.encode2Str(encrypt);//RSA加密Base64加密得到Token
@@ -30,9 +29,9 @@ public class AuthUtil {
      * 解密Token
      * @param token 加密Token
      * @return 解密Token
-     * @throws BusinessException 发生异常
+     * @throws Exception 发生异常
      */
-    public static String decodeToken(String token) throws BusinessException {
+    public static String decodeToken(String token) throws Exception {
         String decode2Str = Base64Util.decode2Str(token);
         return RSAUtil.decrypt(decode2Str);
     }
@@ -43,7 +42,7 @@ public class AuthUtil {
      * @param sign 签名
      * @return 结果
      */
-    public static boolean verifySign(Map<String,String> params, String sign) throws BusinessException {
+    public static boolean verifySign(Map<String,String> params, String sign) {
         return SHA256.encode(params).equals(sign);
     }
 
@@ -53,7 +52,7 @@ public class AuthUtil {
      * @param salt 盐值
      * @return 加盐密码
      */
-    public static String passwordEncrypt(String pawword, String salt) throws BusinessException {
+    public static String passwordEncrypt(String pawword, String salt) {
         String encode = SHA256.encode(pawword);
         String string = encode + salt;
         return SHA256.encode(string);
@@ -66,7 +65,7 @@ public class AuthUtil {
      * @param ciphertext 密文密码
      * @return 结果
      */
-    public static boolean verifyPassword(String pawword, String salt, String ciphertext) throws BusinessException {
+    public static boolean verifyPassword(String pawword, String salt, String ciphertext) {
         String passwordEncrypt = passwordEncrypt(pawword, salt);
         return ciphertext.equals(passwordEncrypt);
     }
@@ -76,7 +75,7 @@ public class AuthUtil {
      * @param ciphertext 密文
      * @return 明文
      */
-    public static String convert2Plaintext(String ciphertext) throws BusinessException {
+    public static String convert2Plaintext(String ciphertext) throws Exception {
         String decode2Str = Base64Util.decode2Str(ciphertext);
         return RSAUtil.decrypt(decode2Str);
     }

@@ -1,9 +1,11 @@
 package com.wuhenjian.aurora.utils.entity.dao;
 
+import com.wuhenjian.aurora.utils.entity.bo.Page;
+
 import java.io.Serializable;
 import java.util.Date;
 
-public class GameMatchInfo implements Serializable {
+public class GameMatchInfo extends Page implements Serializable {
     private Long gmiId;
 
     private Long offensive;

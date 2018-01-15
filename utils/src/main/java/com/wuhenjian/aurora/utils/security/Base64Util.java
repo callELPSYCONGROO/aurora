@@ -1,7 +1,5 @@
 package com.wuhenjian.aurora.utils.security;
 
-import com.wuhenjian.aurora.utils.constant.ResultStatus;
-import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.UnsupportedEncodingException;
@@ -17,12 +15,8 @@ public class Base64Util {
 	 * @param string 字符串
 	 * @return 加密结果
 	 */
-	public static String encode2Str(String string) throws BusinessException {
-		try {
-			return Base64.encodeBase64String(string.getBytes("UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			throw new BusinessException(ResultStatus.BASE64_ENCODE);
-		}
+	public static String encode2Str(String string) throws UnsupportedEncodingException {
+		return Base64.encodeBase64String(string.getBytes("UTF-8"));
 	}
 
 	public static String encode2Str(byte[] bytes) {

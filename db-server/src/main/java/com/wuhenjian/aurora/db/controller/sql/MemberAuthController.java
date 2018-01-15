@@ -1,15 +1,11 @@
 package com.wuhenjian.aurora.db.controller.sql;
 
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.wuhenjian.aurora.db.mapper.sql.MemberAuthMapper;
-import com.wuhenjian.aurora.utils.entity.Page;
+import com.wuhenjian.aurora.utils.constant.CommonContant;
 import com.wuhenjian.aurora.utils.entity.dao.MemberAuth;
-import com.wuhenjian.aurora.utils.entity.dao.MemberAuthCriteria;
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -19,73 +15,46 @@ import java.util.List;
  * @date 2017/12/19 15:30
  */
 @RestController
-@RequestMapping(AbstractSqlBaseController.BASE_PATH + "/memberAuth")
-public class MemberAuthController extends AbstractSqlBaseController<MemberAuth,MemberAuthCriteria> {
+@RequestMapping(CommonContant.SQL + "/memberAuth")
+public class MemberAuthController {
 
 	@Resource(name = "memberAuthMapper")
 	private MemberAuthMapper mapper;
-
-	@Override
-	public ApiResult deleteByPrimaryKey(Long id) {
-		mapper.deleteByPrimaryKey(id);
-		return ApiResult.success();
+	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
+	public MemberAuth selectByPrimaryKey(@RequestParam("id")Long id) {
+		return mapper.selectByPrimaryKey(id);
 	}
 
-	@Override
-	public ApiResult insertSelective(MemberAuth record) {
-		mapper.insertSelective(record);
-		return ApiResult.success(record);
-	}
-
-	@Override
-	public ApiResult selectByCriteria(MemberAuthCriteria criteria, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
+	@RequestMapping(value = "/selectByModel", method = RequestMethod.POST)
+	public List<MemberAuth> selectByModel(@RequestBody(required = false) MemberAuth m) throws BusinessException {
+		if (m != null && !m.isNullPage()) {
+			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
 		}
-		List<MemberAuth> list = mapper.selectByCriteria(criteria);
-		if (page != null && !page.isNull()) {
-			PageInfo<MemberAuth> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
+		return mapper.selectByModel(m);
 	}
 
-	@Override
-	public ApiResult selectByPrimaryKey(Long id) {
-		MemberAuth m = mapper.selectByPrimaryKey(id);
-		return ApiResult.success(m);
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public int updateByPrimaryKeySelective(@RequestBody MemberAuth m) {
+		return mapper.updateByPrimaryKeySelective(m);
 	}
 
-	@Override
-	public ApiResult updateByPrimaryKeySelective(MemberAuth record) {
-		mapper.updateByPrimaryKeySelective(record);
-		return ApiResult.success();
+	@RequestMapping(value = "/insert", method = RequestMethod.POST)
+	public int insertSelective(@RequestBody MemberAuth m) {
+		return mapper.insertSelective(m);
 	}
 
-	@Override
-	public ApiResult selectByModel(MemberAuth model, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
-		}
-		List<MemberAuth> list = mapper.selectByModel(model);
-		if (page != null && !page.isNull()) {
-			PageInfo<MemberAuth> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public int deleteByPrimaryKey(@RequestParam("id") Long id) {
+		return mapper.deleteByPrimaryKey(id);
 	}
 
 	@RequestMapping(value = "/selectByPhone", method = RequestMethod.GET)
-	public ApiResult selectByPhone(String phone) {
-		MemberAuth memberAuth = mapper.selectByPhone(phone);
-		return ApiResult.success(memberAuth);
+	public MemberAuth selectByPhone(@RequestParam("phone") String phone) {
+		return mapper.selectByPhone(phone);
 	}
 
 	@RequestMapping(value = "/selectByEmail", method = RequestMethod.GET)
-	public ApiResult selectByEmail(String email) {
-		MemberAuth memberAuth = mapper.selectByEmail(email);
-		return ApiResult.success(memberAuth);
+	public MemberAuth selectByEmail(@RequestParam("email") String email) {
+		return mapper.selectByEmail(email);
 	}
 }

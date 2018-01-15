@@ -1,7 +1,7 @@
 package com.wuhenjian.aurora.memberservice.service;
 
-import com.wuhenjian.aurora.utils.entity.TokenInfo;
-import com.wuhenjian.aurora.utils.entity.param.AuthParam;
+import com.wuhenjian.aurora.utils.entity.bo.TokenInfo;
+import com.wuhenjian.aurora.utils.entity.bo.AuthParam;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 
 /**
@@ -11,6 +11,8 @@ import com.wuhenjian.aurora.utils.exception.BusinessException;
 public interface MemberLoginService {
 
 	TokenInfo login(AuthParam authParam) throws BusinessException;
+
+	String sendCaptcha(String memberAccount, Integer captchaType, String timestamp, String paramSign) throws BusinessException;
 
 	void register(AuthParam authParam) throws BusinessException;
 

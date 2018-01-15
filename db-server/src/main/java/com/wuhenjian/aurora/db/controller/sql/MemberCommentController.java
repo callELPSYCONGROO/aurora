@@ -1,14 +1,11 @@
 package com.wuhenjian.aurora.db.controller.sql;
 
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.wuhenjian.aurora.db.mapper.sql.MemberCommentMapper;
-import com.wuhenjian.aurora.utils.entity.Page;
+import com.wuhenjian.aurora.utils.constant.CommonContant;
 import com.wuhenjian.aurora.utils.entity.dao.MemberComment;
-import com.wuhenjian.aurora.utils.entity.dao.MemberCommentCriteria;
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -18,61 +15,37 @@ import java.util.List;
  * @date 2017/12/19 15:30
  */
 @RestController
-@RequestMapping(AbstractSqlBaseController.BASE_PATH + "/memberComment")
-public class MemberCommentController extends AbstractSqlBaseController<MemberComment,MemberCommentCriteria> {
+@RequestMapping(CommonContant.SQL + "/memberComment")
+public class MemberCommentController {
 
 	@Resource(name = "memberCommentMapper")
 	private MemberCommentMapper mapper;
 
-	@Override
-	public ApiResult deleteByPrimaryKey(Long id) {
-		mapper.deleteByPrimaryKey(id);
-		return ApiResult.success();
+	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
+	public MemberComment selectByPrimaryKey(@RequestParam("id")Long id) {
+		return mapper.selectByPrimaryKey(id);
 	}
 
-	@Override
-	public ApiResult insertSelective(MemberComment record) {
-		mapper.insertSelective(record);
-		return ApiResult.success(record);
-	}
-
-	@Override
-	public ApiResult selectByCriteria(MemberCommentCriteria criteria, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
+	@RequestMapping(value = "/selectByModel", method = RequestMethod.POST)
+	public List<MemberComment> selectByModel(@RequestBody(required = false) MemberComment m) throws BusinessException {
+		if (m != null && !m.isNullPage()) {
+			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
 		}
-		List<MemberComment> list = mapper.selectByCriteria(criteria);
-		if (page != null) {
-			PageInfo<MemberComment> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
+		return mapper.selectByModel(m);
 	}
 
-	@Override
-	public ApiResult selectByPrimaryKey(Long id) {
-		MemberComment m = mapper.selectByPrimaryKey(id);
-		return ApiResult.success(m);
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public int updateByPrimaryKeySelective(@RequestBody MemberComment m) {
+		return mapper.updateByPrimaryKeySelective(m);
 	}
 
-	@Override
-	public ApiResult updateByPrimaryKeySelective(MemberComment record) {
-		mapper.updateByPrimaryKeySelective(record);
-		return ApiResult.success();
+	@RequestMapping(value = "/insert", method = RequestMethod.POST)
+	public int insertSelective(@RequestBody MemberComment m) {
+		return mapper.insertSelective(m);
 	}
 
-	@Override
-	public ApiResult selectByModel(MemberComment model, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
-		}
-		List<MemberComment> list = mapper.selectByModel(model);
-		if (page != null && !page.isNull()) {
-			PageInfo<MemberComment> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public int deleteByPrimaryKey(@RequestParam("id") Long id) {
+		return mapper.deleteByPrimaryKey(id);
 	}
 }

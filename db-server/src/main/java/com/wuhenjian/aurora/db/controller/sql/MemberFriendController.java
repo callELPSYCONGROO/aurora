@@ -1,14 +1,11 @@
 package com.wuhenjian.aurora.db.controller.sql;
 
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.wuhenjian.aurora.db.mapper.sql.MemberFriendMapper;
-import com.wuhenjian.aurora.utils.entity.Page;
+import com.wuhenjian.aurora.utils.constant.CommonContant;
 import com.wuhenjian.aurora.utils.entity.dao.MemberFriend;
-import com.wuhenjian.aurora.utils.entity.dao.MemberFriendCriteria;
-import com.wuhenjian.aurora.utils.entity.result.ApiResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -18,61 +15,36 @@ import java.util.List;
  * @date 2017/12/19 15:31
  */
 @RestController
-@RequestMapping(AbstractSqlBaseController.BASE_PATH + "/memberFriend")
-public class MemberFriendController extends AbstractSqlBaseController<MemberFriend,MemberFriendCriteria> {
+@RequestMapping(CommonContant.SQL + "/memberFriend")
+public class MemberFriendController {
 
 	@Resource(name = "memberFriendMapper")
 	private MemberFriendMapper mapper;
-
-	@Override
-	public ApiResult deleteByPrimaryKey(Long id) {
-		mapper.deleteByPrimaryKey(id);
-		return ApiResult.success();
+	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
+	public MemberFriend selectByPrimaryKey(@RequestParam("id")Long id) {
+		return mapper.selectByPrimaryKey(id);
 	}
 
-	@Override
-	public ApiResult insertSelective(MemberFriend record) {
-		mapper.insertSelective(record);
-		return ApiResult.success(record);
-	}
-
-	@Override
-	public ApiResult selectByCriteria(MemberFriendCriteria criteria, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
+	@RequestMapping(value = "/selectByModel", method = RequestMethod.POST)
+	public List<MemberFriend> selectByModel(@RequestBody(required = false) MemberFriend m) throws BusinessException {
+		if (m != null && !m.isNullPage()) {
+			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
 		}
-		List<MemberFriend> list = mapper.selectByCriteria(criteria);
-		if (page != null) {
-			PageInfo<MemberFriend> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
+		return mapper.selectByModel(m);
 	}
 
-	@Override
-	public ApiResult selectByPrimaryKey(Long id) {
-		MemberFriend m = mapper.selectByPrimaryKey(id);
-		return ApiResult.success(m);
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public int updateByPrimaryKeySelective(@RequestBody MemberFriend m) {
+		return mapper.updateByPrimaryKeySelective(m);
 	}
 
-	@Override
-	public ApiResult updateByPrimaryKeySelective(MemberFriend record) {
-		mapper.updateByPrimaryKeySelective(record);
-		return ApiResult.success();
+	@RequestMapping(value = "/insert", method = RequestMethod.POST)
+	public int insertSelective(@RequestBody MemberFriend m) {
+		return mapper.insertSelective(m);
 	}
 
-	@Override
-	public ApiResult selectByModel(MemberFriend model, Page page) {
-		if (page != null && !page.isNull()) {
-			PageHelper.startPage(page.getNum(), page.getSize(), page.getOrderBy());
-		}
-		List<MemberFriend> list = mapper.selectByModel(model);
-		if (page != null && !page.isNull()) {
-			PageInfo<MemberFriend> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public int deleteByPrimaryKey(@RequestParam("id") Long id) {
+		return mapper.deleteByPrimaryKey(id);
 	}
 }

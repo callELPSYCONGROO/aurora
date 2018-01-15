@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wuhenjian.aurora.db.mapper.sql.PhpProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.wuhenjian.aurora.utils.entity.dao.PhpProject" >
+    <id column="ppId" property="ppId" jdbcType="BIGINT" />
+    <result column="acctountName" property="acctountName" jdbcType="VARCHAR" />
+    <result column="repoName" property="repoName" jdbcType="VARCHAR" />
+    <result column="lang" property="lang" jdbcType="VARCHAR" />
+    <result column="defaultBranch" property="defaultBranch" jdbcType="VARCHAR" />
+    <result column="homepage" property="homepage" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="fileSize" property="fileSize" jdbcType="INTEGER" />
+    <result column="forksCount" property="forksCount" jdbcType="INTEGER" />
+    <result column="stargazersCount" property="stargazersCount" jdbcType="INTEGER" />
+    <result column="watchersCount" property="watchersCount" jdbcType="INTEGER" />
+    <result column="openIssuesCount" property="openIssuesCount" jdbcType="INTEGER" />
+    <result column="createdAt" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="updatedAt" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="pushedAt" property="pushedAt" jdbcType="TIMESTAMP" />
+    <result column="gitUrl" property="gitUrl" jdbcType="VARCHAR" />
+    <result column="sshUrl" property="sshUrl" jdbcType="VARCHAR" />
+    <result column="cloneUrl" property="cloneUrl" jdbcType="VARCHAR" />
+    <result column="svnUrl" property="svnUrl" jdbcType="VARCHAR" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Criteria_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Criteria_Where_Clause" >
+    <where >
+      <foreach collection="criteria.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ppId, acctountName, repoName, lang, defaultBranch, homepage, description, fileSize, 
+    forksCount, stargazersCount, watchersCount, openIssuesCount, createdAt, updatedAt, 
+    pushedAt, gitUrl, sshUrl, cloneUrl, svnUrl, updateTime
+  </sql>
+  <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpProjectCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_php_project
+    <if test="_parameter != null" >
+      <include refid="Criteria_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_php_project
+    where ppId = #{ppId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_php_project
+    where ppId = #{ppId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByCriteria" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpProjectCriteria" >
+    delete from t_php_project
+    <if test="_parameter != null" >
+      <include refid="Criteria_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpProject" >
+    insert into t_php_project (ppId, acctountName, repoName, 
+      lang, defaultBranch, homepage, 
+      description, fileSize, forksCount, 
+      stargazersCount, watchersCount, openIssuesCount, 
+      createdAt, updatedAt, pushedAt, 
+      gitUrl, sshUrl, cloneUrl, 
+      svnUrl, updateTime)
+    values (#{ppId,jdbcType=BIGINT}, #{acctountName,jdbcType=VARCHAR}, #{repoName,jdbcType=VARCHAR}, 
+      #{lang,jdbcType=VARCHAR}, #{defaultBranch,jdbcType=VARCHAR}, #{homepage,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{fileSize,jdbcType=INTEGER}, #{forksCount,jdbcType=INTEGER}, 
+      #{stargazersCount,jdbcType=INTEGER}, #{watchersCount,jdbcType=INTEGER}, #{openIssuesCount,jdbcType=INTEGER}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{pushedAt,jdbcType=TIMESTAMP}, 
+      #{gitUrl,jdbcType=VARCHAR}, #{sshUrl,jdbcType=VARCHAR}, #{cloneUrl,jdbcType=VARCHAR}, 
+      #{svnUrl,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpProject" >
+    insert into t_php_project
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ppId != null" >
+        ppId,
+      </if>
+      <if test="acctountName != null" >
+        acctountName,
+      </if>
+      <if test="repoName != null" >
+        repoName,
+      </if>
+      <if test="lang != null" >
+        lang,
+      </if>
+      <if test="defaultBranch != null" >
+        defaultBranch,
+      </if>
+      <if test="homepage != null" >
+        homepage,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="fileSize != null" >
+        fileSize,
+      </if>
+      <if test="forksCount != null" >
+        forksCount,
+      </if>
+      <if test="stargazersCount != null" >
+        stargazersCount,
+      </if>
+      <if test="watchersCount != null" >
+        watchersCount,
+      </if>
+      <if test="openIssuesCount != null" >
+        openIssuesCount,
+      </if>
+      <if test="createdAt != null" >
+        createdAt,
+      </if>
+      <if test="updatedAt != null" >
+        updatedAt,
+      </if>
+      <if test="pushedAt != null" >
+        pushedAt,
+      </if>
+      <if test="gitUrl != null" >
+        gitUrl,
+      </if>
+      <if test="sshUrl != null" >
+        sshUrl,
+      </if>
+      <if test="cloneUrl != null" >
+        cloneUrl,
+      </if>
+      <if test="svnUrl != null" >
+        svnUrl,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ppId != null" >
+        #{ppId,jdbcType=BIGINT},
+      </if>
+      <if test="acctountName != null" >
+        #{acctountName,jdbcType=VARCHAR},
+      </if>
+      <if test="repoName != null" >
+        #{repoName,jdbcType=VARCHAR},
+      </if>
+      <if test="lang != null" >
+        #{lang,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultBranch != null" >
+        #{defaultBranch,jdbcType=VARCHAR},
+      </if>
+      <if test="homepage != null" >
+        #{homepage,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null" >
+        #{fileSize,jdbcType=INTEGER},
+      </if>
+      <if test="forksCount != null" >
+        #{forksCount,jdbcType=INTEGER},
+      </if>
+      <if test="stargazersCount != null" >
+        #{stargazersCount,jdbcType=INTEGER},
+      </if>
+      <if test="watchersCount != null" >
+        #{watchersCount,jdbcType=INTEGER},
+      </if>
+      <if test="openIssuesCount != null" >
+        #{openIssuesCount,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pushedAt != null" >
+        #{pushedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gitUrl != null" >
+        #{gitUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sshUrl != null" >
+        #{sshUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="cloneUrl != null" >
+        #{cloneUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="svnUrl != null" >
+        #{svnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByCriteriaSelective" parameterType="map" >
+    update t_php_project
+    <set >
+      <if test="record.ppId != null" >
+        ppId = #{record.ppId,jdbcType=BIGINT},
+      </if>
+      <if test="record.acctountName != null" >
+        acctountName = #{record.acctountName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repoName != null" >
+        repoName = #{record.repoName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lang != null" >
+        lang = #{record.lang,jdbcType=VARCHAR},
+      </if>
+      <if test="record.defaultBranch != null" >
+        defaultBranch = #{record.defaultBranch,jdbcType=VARCHAR},
+      </if>
+      <if test="record.homepage != null" >
+        homepage = #{record.homepage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileSize != null" >
+        fileSize = #{record.fileSize,jdbcType=INTEGER},
+      </if>
+      <if test="record.forksCount != null" >
+        forksCount = #{record.forksCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.stargazersCount != null" >
+        stargazersCount = #{record.stargazersCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.watchersCount != null" >
+        watchersCount = #{record.watchersCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.openIssuesCount != null" >
+        openIssuesCount = #{record.openIssuesCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdAt != null" >
+        createdAt = #{record.createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedAt != null" >
+        updatedAt = #{record.updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pushedAt != null" >
+        pushedAt = #{record.pushedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gitUrl != null" >
+        gitUrl = #{record.gitUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sshUrl != null" >
+        sshUrl = #{record.sshUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cloneUrl != null" >
+        cloneUrl = #{record.cloneUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.svnUrl != null" >
+        svnUrl = #{record.svnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByCriteria" parameterType="map" >
+    update t_php_project
+    set ppId = #{record.ppId,jdbcType=BIGINT},
+      acctountName = #{record.acctountName,jdbcType=VARCHAR},
+      repoName = #{record.repoName,jdbcType=VARCHAR},
+      lang = #{record.lang,jdbcType=VARCHAR},
+      defaultBranch = #{record.defaultBranch,jdbcType=VARCHAR},
+      homepage = #{record.homepage,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      fileSize = #{record.fileSize,jdbcType=INTEGER},
+      forksCount = #{record.forksCount,jdbcType=INTEGER},
+      stargazersCount = #{record.stargazersCount,jdbcType=INTEGER},
+      watchersCount = #{record.watchersCount,jdbcType=INTEGER},
+      openIssuesCount = #{record.openIssuesCount,jdbcType=INTEGER},
+      createdAt = #{record.createdAt,jdbcType=TIMESTAMP},
+      updatedAt = #{record.updatedAt,jdbcType=TIMESTAMP},
+      pushedAt = #{record.pushedAt,jdbcType=TIMESTAMP},
+      gitUrl = #{record.gitUrl,jdbcType=VARCHAR},
+      sshUrl = #{record.sshUrl,jdbcType=VARCHAR},
+      cloneUrl = #{record.cloneUrl,jdbcType=VARCHAR},
+      svnUrl = #{record.svnUrl,jdbcType=VARCHAR},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpProject" >
+    update t_php_project
+    <set >
+      <if test="acctountName != null" >
+        acctountName = #{acctountName,jdbcType=VARCHAR},
+      </if>
+      <if test="repoName != null" >
+        repoName = #{repoName,jdbcType=VARCHAR},
+      </if>
+      <if test="lang != null" >
+        lang = #{lang,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultBranch != null" >
+        defaultBranch = #{defaultBranch,jdbcType=VARCHAR},
+      </if>
+      <if test="homepage != null" >
+        homepage = #{homepage,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null" >
+        fileSize = #{fileSize,jdbcType=INTEGER},
+      </if>
+      <if test="forksCount != null" >
+        forksCount = #{forksCount,jdbcType=INTEGER},
+      </if>
+      <if test="stargazersCount != null" >
+        stargazersCount = #{stargazersCount,jdbcType=INTEGER},
+      </if>
+      <if test="watchersCount != null" >
+        watchersCount = #{watchersCount,jdbcType=INTEGER},
+      </if>
+      <if test="openIssuesCount != null" >
+        openIssuesCount = #{openIssuesCount,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null" >
+        createdAt = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        updatedAt = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pushedAt != null" >
+        pushedAt = #{pushedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gitUrl != null" >
+        gitUrl = #{gitUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sshUrl != null" >
+        sshUrl = #{sshUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="cloneUrl != null" >
+        cloneUrl = #{cloneUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="svnUrl != null" >
+        svnUrl = #{svnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ppId = #{ppId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpProject" >
+    update t_php_project
+    set acctountName = #{acctountName,jdbcType=VARCHAR},
+      repoName = #{repoName,jdbcType=VARCHAR},
+      lang = #{lang,jdbcType=VARCHAR},
+      defaultBranch = #{defaultBranch,jdbcType=VARCHAR},
+      homepage = #{homepage,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      fileSize = #{fileSize,jdbcType=INTEGER},
+      forksCount = #{forksCount,jdbcType=INTEGER},
+      stargazersCount = #{stargazersCount,jdbcType=INTEGER},
+      watchersCount = #{watchersCount,jdbcType=INTEGER},
+      openIssuesCount = #{openIssuesCount,jdbcType=INTEGER},
+      createdAt = #{createdAt,jdbcType=TIMESTAMP},
+      updatedAt = #{updatedAt,jdbcType=TIMESTAMP},
+      pushedAt = #{pushedAt,jdbcType=TIMESTAMP},
+      gitUrl = #{gitUrl,jdbcType=VARCHAR},
+      sshUrl = #{sshUrl,jdbcType=VARCHAR},
+      cloneUrl = #{cloneUrl,jdbcType=VARCHAR},
+      svnUrl = #{svnUrl,jdbcType=VARCHAR},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where ppId = #{ppId,jdbcType=BIGINT}
+  </update>
+  <sql id="Model_Where_Clause" >
+    <where >
+      <if test="ppId != null" >
+         and ppId=#{ppId}
+      </if>
+      <if test="acctountName != null" >
+         and acctountName=#{acctountName}
+      </if>
+      <if test="repoName != null" >
+         and repoName=#{repoName}
+      </if>
+      <if test="lang != null" >
+         and lang=#{lang}
+      </if>
+      <if test="defaultBranch != null" >
+         and defaultBranch=#{defaultBranch}
+      </if>
+      <if test="homepage != null" >
+         and homepage=#{homepage}
+      </if>
+      <if test="description != null" >
+         and description=#{description}
+      </if>
+      <if test="fileSize != null" >
+         and fileSize=#{fileSize}
+      </if>
+      <if test="forksCount != null" >
+         and forksCount=#{forksCount}
+      </if>
+      <if test="stargazersCount != null" >
+         and stargazersCount=#{stargazersCount}
+      </if>
+      <if test="watchersCount != null" >
+         and watchersCount=#{watchersCount}
+      </if>
+      <if test="openIssuesCount != null" >
+         and openIssuesCount=#{openIssuesCount}
+      </if>
+      <if test="createdAt != null" >
+         and createdAt=#{createdAt}
+      </if>
+      <if test="updatedAt != null" >
+         and updatedAt=#{updatedAt}
+      </if>
+      <if test="pushedAt != null" >
+         and pushedAt=#{pushedAt}
+      </if>
+      <if test="gitUrl != null" >
+         and gitUrl=#{gitUrl}
+      </if>
+      <if test="sshUrl != null" >
+         and sshUrl=#{sshUrl}
+      </if>
+      <if test="cloneUrl != null" >
+         and cloneUrl=#{cloneUrl}
+      </if>
+      <if test="svnUrl != null" >
+         and svnUrl=#{svnUrl}
+      </if>
+      <if test="updateTime != null" >
+         and updateTime=#{updateTime}
+      </if>
+    </where>
+  </sql>
+  <select id="countByModel" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpProject" resultType="java.lang.Integer" >
+    select count(*) from t_php_project
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByModel" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpProject" >
+    select
+    <include refid="Base_Column_List" />
+    from t_php_project
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+    <select id="selectByAcctAndRepo" resultType="com.wuhenjian.aurora.utils.entity.dao.PhpProject">
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM t_php_project
+      WHERE
+        acctountName = #{acct}
+        AND
+        repoName = #{repo}
+    </select>
+</mapper>

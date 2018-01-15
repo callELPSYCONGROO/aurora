@@ -1,6 +1,6 @@
 package com.wuhenjian.aurora.db.mapper.sql;
 
-import com.wuhenjian.aurora.utils.entity.MemberAcctInfo;
+import com.wuhenjian.aurora.utils.entity.bo.MemberAcctInfo;
 import com.wuhenjian.aurora.utils.entity.dao.MemberInfo;
 import com.wuhenjian.aurora.utils.entity.dao.MemberInfoCriteria;
 
@@ -35,5 +35,5 @@ public interface MemberInfoMapper {
 
 	MemberAcctInfo selectByMaid(@Param("maId") Long maId);
 
-	void updateMemberInfoByMaId(MemberInfo record);
+	int updateMemberInfoByMaId(MemberInfo record);
 }
