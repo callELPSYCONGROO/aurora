@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author 無痕剑
@@ -35,9 +36,11 @@ public class SqlServiceTest {
 		PhpProject p = new PhpProject();
 		p.setAcctountName("asd");
 		p.setRepoName("rt");
-		PhpProject phpProject = phpProjectMapper.selectByAcctAndRepo(p.getAcctountName(), p.getRepoName());
+//		PhpProject phpProject = phpProjectMapper.selectByAcctAndRepo(p.getAcctountName(), p.getRepoName());
+		List<PhpProject> phpProject = phpProjectMapper.selectByModel(null);
 		System.out.println("*************************************");
 		System.out.println("*************************************");
+		System.out.println(phpProject.size());
 		System.out.println(phpProject);
 		System.out.println("*************************************");
 		System.out.println("*************************************");

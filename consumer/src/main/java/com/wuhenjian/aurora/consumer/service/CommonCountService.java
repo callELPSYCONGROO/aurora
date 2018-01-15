@@ -1,7 +1,7 @@
 package com.wuhenjian.aurora.consumer.service;
 
 import com.wuhenjian.aurora.consumer.excphandler.CommonCountServiceExceptionHandler;
-import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +17,8 @@ public interface CommonCountService {
 	String BASE_PATH = "/sql/commonCount";
 
 	@RequestMapping(value = BASE_PATH + "/getAccountCode", method = RequestMethod.GET)
-	ApiResult getAccountCode();
+	long getAccountCode() throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/addAccountCode", method = RequestMethod.POST)
-	ApiResult addAccountCode();
+	int addAccountCode() throws BusinessException;
 }

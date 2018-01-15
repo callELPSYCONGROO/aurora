@@ -4,7 +4,10 @@ import com.wuhenjian.aurora.consumer.service.MemberAuthService;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.dao.MemberAuth;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author 無痕剑
@@ -13,41 +16,37 @@ import org.springframework.stereotype.Component;
 @Component("memberAuthServiceExceptionHandler")
 public class MemberAuthServiceExceptionHandler implements MemberAuthService {
 	@Override
-	public ApiResult deleteByPrimaryKey(Long id) {
-		return this.exceptionResult();
+	public int deleteByPrimaryKey(Long id) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult insertSelective(MemberAuth m) {
-		return this.exceptionResult();
+	public int insertSelective(MemberAuth m) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult selectByPrimaryKey(Long id) {
-		return this.exceptionResult();
+	public MemberAuth selectByPrimaryKey(Long id) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult updateByPrimaryKeySelective(MemberAuth m) {
-		return this.exceptionResult();
+	public int updateByPrimaryKeySelective(MemberAuth m) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult selectByModel(MemberAuth m) {
-		return this.exceptionResult();
+	public List<MemberAuth> selectByModel(MemberAuth m) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult selectByPhone(String phone) {
-		return this.exceptionResult();
+	public MemberAuth selectByPhone(String phone) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult selectByEmail(String email) {
-		return this.exceptionResult();
-	}
-
-	private ApiResult exceptionResult() {
-		return ApiResult.fail(ResultStatus.REMOTE_SERVICE_EXCEPTION);
+	public MemberAuth selectByEmail(String email) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 }

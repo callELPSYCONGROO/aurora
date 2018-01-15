@@ -210,6 +210,7 @@ CREATE TABLE `t_php_project`(
 
 
 
+INSERT INTO `t_common_count` (`ccid`) VALUES (NULL);
 
 
 

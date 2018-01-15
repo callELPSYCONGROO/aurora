@@ -1,9 +1,9 @@
 package com.wuhenjian.aurora.authservice.controller;
 
 import com.wuhenjian.aurora.consumer.service.RedisService;
-import com.wuhenjian.aurora.utils.ApiResultUtil;
 import com.wuhenjian.aurora.utils.AuthUtil;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
+import com.wuhenjian.aurora.utils.entity.bo.MemberAcctInfo;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +36,7 @@ public class TokenAuthController {
 			return ApiResult.fail(ResultStatus.DECODE_TOKEN_EXCEPTION);
 		}
 		//判断token是否过期
-		ApiResult r1 = redisService.getToken(token);
-		Object mai = ApiResultUtil.getObject(r1);
+		MemberAcctInfo mai = redisService.getToken(token);
 		if (mai == null) {
 			return ApiResult.fail(ResultStatus.TOKEN_OVERDUE);
 		}

@@ -35,5 +35,5 @@ public interface MemberInfoMapper {
 
 	MemberAcctInfo selectByMaid(@Param("maId") Long maId);
 
-	void updateMemberInfoByMaId(MemberInfo record);
+	int updateMemberInfoByMaId(MemberInfo record);
 }

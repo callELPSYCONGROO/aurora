@@ -280,7 +280,7 @@
       lastLoginDevice = #{lastLoginDevice,jdbcType=INTEGER}
     where miId = #{miId,jdbcType=BIGINT}
   </update>
-  <update id="updateMemberInfoByMaId">
+  <update id="updateMemberInfoByMaId" parameterType="com.wuhenjian.aurora.utils.entity.dao.MemberInfo">
     update t_member_info
     <set >
       <if test="faceId != null" >

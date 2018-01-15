@@ -24,5 +24,5 @@ public interface CommonCountMapper {
 
     long getAccountCode();
 
-    void addAccountCode();
+    int addAccountCode();
 }

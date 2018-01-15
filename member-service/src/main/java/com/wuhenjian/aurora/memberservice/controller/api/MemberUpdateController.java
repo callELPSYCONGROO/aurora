@@ -1,9 +1,10 @@
 package com.wuhenjian.aurora.memberservice.controller.api;
 
+import com.wuhenjian.aurora.consumer.service.NotifyService;
 import com.wuhenjian.aurora.memberservice.service.MemberUpdateService;
-import com.wuhenjian.aurora.memberservice.service.NotifyService;
 import com.wuhenjian.aurora.utils.ApiResultUtil;
 import com.wuhenjian.aurora.utils.StringUtil;
+import com.wuhenjian.aurora.utils.constant.CaptchaType;
 import com.wuhenjian.aurora.utils.constant.CommonContant;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.bo.MemberAcctInfo;
@@ -52,6 +53,9 @@ public class MemberUpdateController {
 	public ApiResult sendCaptcha(String memberAccount, Integer captchaType) throws BusinessException {
 		if (StringUtil.hasBlank(new String[]{memberAccount, String.valueOf(captchaType)})) {
 			return ApiResult.fail(ResultStatus.PARAM_IS_EMPTY);
+		}
+		if (!CaptchaType.intCaptchaType(captchaType)) {
+			throw new BusinessException(ResultStatus.CAPTCHA_TYPE_INVALID);
 		}
 		ApiResult r1 = notifyService.sendCaptcha(memberAccount, captchaType);
 		String captchaKey = (String) ApiResultUtil.getObject(r1);

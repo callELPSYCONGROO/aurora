@@ -18,6 +18,6 @@ public class ControllerExceptionHandler {
 		if (e instanceof BusinessException) {
 			return ApiResult.fail((BusinessException) e);
 		}
-		return ApiResult.fail(ResultStatus.SYSTEM_EXCEPTION);
+		return ApiResult.fail(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 }

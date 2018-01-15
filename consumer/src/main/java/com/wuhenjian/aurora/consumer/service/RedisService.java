@@ -2,7 +2,7 @@ package com.wuhenjian.aurora.consumer.service;
 
 import com.wuhenjian.aurora.consumer.excphandler.RedisServiceExceptionHanlder;
 import com.wuhenjian.aurora.utils.entity.bo.MemberAcctInfo;
-import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,17 +19,17 @@ public interface RedisService {
     String BASE_PATH = "/nosql/redis";
 
     @RequestMapping(value = BASE_PATH + "/setToken", method = RequestMethod.POST)
-    ApiResult setToken(@RequestParam("token") String token, MemberAcctInfo memberAcctInfo);
+    void setToken(@RequestParam("token") String token, MemberAcctInfo memberAcctInfo) throws BusinessException;
 
     @RequestMapping(value = BASE_PATH + "/getToken", method = RequestMethod.GET)
-    ApiResult getToken(@RequestParam("token") String token);
+    MemberAcctInfo getToken(@RequestParam("token") String token) throws BusinessException;
 
     @RequestMapping(value = BASE_PATH + "/del", method = RequestMethod.POST)
-    ApiResult del(@RequestParam("key") String key);
+    void del(@RequestParam("key") String key) throws BusinessException;
 
     @RequestMapping(value = BASE_PATH + "set", method = RequestMethod.POST)
-    ApiResult set(@RequestParam("key") String key, @RequestParam("value") String value, @RequestParam("expire") Integer expire);
+    void set(@RequestParam("key") String key, @RequestParam("value") String value, @RequestParam("expire") Integer expire) throws BusinessException;
 
     @RequestMapping(value = BASE_PATH + "/get", method = RequestMethod.GET)
-    ApiResult get(@RequestParam("key") String key);
+    String get(@RequestParam("key") String key) throws BusinessException;
 }

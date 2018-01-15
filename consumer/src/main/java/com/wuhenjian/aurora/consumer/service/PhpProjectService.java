@@ -2,7 +2,7 @@ package com.wuhenjian.aurora.consumer.service;
 
 import com.wuhenjian.aurora.consumer.excphandler.PhpProjectServiceExceptionHandler;
 import com.wuhenjian.aurora.utils.entity.dao.PhpProject;
-import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,21 +21,21 @@ import java.util.List;
 public interface PhpProjectService {
 	String BASE_PATH = "/sql/phpProject";
 
+	@RequestMapping(value = BASE_PATH + "/delete", method = RequestMethod.POST)
+	int deleteByPrimaryKey(@RequestParam("id") Long id) throws BusinessException;
+
 	@RequestMapping(value = BASE_PATH + "/insert", method = RequestMethod.POST)
-	ApiResult insertSelective(@RequestBody PhpProject m);
+	int insertSelective(@RequestBody PhpProject m) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/update", method = RequestMethod.POST)
-	ApiResult updateByPrimaryKeySelective(@RequestBody PhpProject m);
+	int updateByPrimaryKeySelective(@RequestBody PhpProject m) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/selectByModel", method = RequestMethod.POST)
-	ApiResult selectByModel(@RequestBody PhpProject m);
+	List<PhpProject> selectByModel(@RequestBody(required = false) PhpProject m) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/selectById", method = RequestMethod.GET)
-	ApiResult selectByPrimaryKey(@RequestParam("id") Long id);
+	PhpProject selectByPrimaryKey(@RequestParam("id") Long id) throws BusinessException;
 
-	@RequestMapping(value = "/selectByAcctAndRepo", method = RequestMethod.GET)
-	ApiResult selectByAcctAndRepo(@RequestParam("acct") String acct, @RequestParam("repo") String repo);
-
-	@RequestMapping("/getList")
-	List<PhpProject> getList();
+	@RequestMapping(value = BASE_PATH + "/selectByAcctAndRepo", method = RequestMethod.GET)
+	PhpProject selectByAcctAndRepo(@RequestParam("acct") String acct, @RequestParam("repo") String repo) throws BusinessException;
 }

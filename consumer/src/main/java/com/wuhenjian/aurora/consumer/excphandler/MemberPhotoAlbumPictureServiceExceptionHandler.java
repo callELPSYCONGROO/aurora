@@ -3,8 +3,10 @@ package com.wuhenjian.aurora.consumer.excphandler;
 import com.wuhenjian.aurora.consumer.service.MemberPhotoAlbumPictureService;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbumPicture;
-import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author 無痕剑
@@ -13,31 +15,27 @@ import org.springframework.stereotype.Component;
 @Component("memberPhotoAlbumPictureServiceExceptionHandler")
 public class MemberPhotoAlbumPictureServiceExceptionHandler implements MemberPhotoAlbumPictureService {
 	@Override
-	public ApiResult deleteByPrimaryKey(Long id) {
-		return this.exceptionResult();
+	public int deleteByPrimaryKey(Long id) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult insertSelective(MemberPhotoAlbumPicture m) {
-		return this.exceptionResult();
+	public int insertSelective(MemberPhotoAlbumPicture m) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult selectByPrimaryKey(Long id) {
-		return null;
+	public MemberPhotoAlbumPicture selectByPrimaryKey(Long id) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult updateByPrimaryKeySelective(MemberPhotoAlbumPicture m) {
-		return null;
+	public int updateByPrimaryKeySelective(MemberPhotoAlbumPicture m) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult selectByModel(MemberPhotoAlbumPicture m) {
-		return null;
-	}
-
-	private ApiResult exceptionResult() {
-		return ApiResult.fail(ResultStatus.REMOTE_SERVICE_EXCEPTION);
+	public List<MemberPhotoAlbumPicture> selectByModel(MemberPhotoAlbumPicture m) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 }

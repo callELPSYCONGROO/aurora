@@ -2,8 +2,10 @@ package com.wuhenjian.aurora.consumer.excphandler;
 
 import com.wuhenjian.aurora.consumer.service.PhpProjectService;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
+import com.wuhenjian.aurora.utils.entity.dao.MemberAuth;
 import com.wuhenjian.aurora.utils.entity.dao.PhpProject;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,36 +18,32 @@ import java.util.List;
 public class PhpProjectServiceExceptionHandler implements PhpProjectService {
 
 	@Override
-	public ApiResult insertSelective(PhpProject m) {
-		return this.exceptionResult();
+	public int deleteByPrimaryKey(Long id) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult updateByPrimaryKeySelective(PhpProject m) {
-		return this.exceptionResult();
+	public int insertSelective(PhpProject m) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult selectByModel(PhpProject m) {
-		return this.exceptionResult();
+	public PhpProject selectByPrimaryKey(Long id) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult selectByPrimaryKey(Long id)  {
-		return this.exceptionResult();
+	public int updateByPrimaryKeySelective(PhpProject m) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult selectByAcctAndRepo(String acct, String repo) {
-		return this.exceptionResult();
+	public List<PhpProject> selectByModel(PhpProject m) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public List<PhpProject> getList() {
-		return null;
-	}
-
-	private ApiResult exceptionResult() {
-		return ApiResult.fail(ResultStatus.REMOTE_SERVICE_EXCEPTION);
+	public PhpProject selectByAcctAndRepo(String acct, String repo) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 }

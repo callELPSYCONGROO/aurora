@@ -1,4 +1,4 @@
-package com.wuhenjian.aurora.authservice;
+package com.wuhenjian.aurora;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,9 +8,9 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 @EnableEurekaClient
 @EnableFeignClients
 @SpringBootApplication
-public class AuthServiceApplication {
+public class AlbumServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AuthServiceApplication.class, args);
+		SpringApplication.run(AlbumServiceApplication.class, args);
 	}
 }

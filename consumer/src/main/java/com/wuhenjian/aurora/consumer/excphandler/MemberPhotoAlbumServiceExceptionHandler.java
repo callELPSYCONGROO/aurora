@@ -3,8 +3,10 @@ package com.wuhenjian.aurora.consumer.excphandler;
 import com.wuhenjian.aurora.consumer.service.MemberPhotoAlbumService;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbum;
-import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author 無痕剑
@@ -13,31 +15,27 @@ import org.springframework.stereotype.Component;
 @Component("memberPhotoAlbumServiceExceptionHandler")
 public class MemberPhotoAlbumServiceExceptionHandler implements MemberPhotoAlbumService {
 	@Override
-	public ApiResult deleteByPrimaryKey(Long id) {
-		return this.exceptionResult();
+	public int deleteByPrimaryKey(Long id) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult insertSelective(MemberPhotoAlbum m) {
-		return this.exceptionResult();
+	public int insertSelective(MemberPhotoAlbum m) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult selectByPrimaryKey(Long id) {
-		return this.exceptionResult();
+	public MemberPhotoAlbum selectByPrimaryKey(Long id) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult updateByPrimaryKeySelective(MemberPhotoAlbum m) {
-		return this.exceptionResult();
+	public int updateByPrimaryKeySelective(MemberPhotoAlbum m) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult selectByModel(MemberPhotoAlbum m) {
-		return this.exceptionResult();
-	}
-
-	private ApiResult exceptionResult() {
-		return ApiResult.fail(ResultStatus.REMOTE_SERVICE_EXCEPTION);
+	public List<MemberPhotoAlbum> selectByModel(MemberPhotoAlbum m) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 }

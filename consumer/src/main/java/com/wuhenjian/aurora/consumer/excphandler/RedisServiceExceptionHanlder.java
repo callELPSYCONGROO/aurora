@@ -4,6 +4,7 @@ import com.wuhenjian.aurora.consumer.service.RedisService;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.bo.MemberAcctInfo;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,31 +14,27 @@ import org.springframework.stereotype.Component;
 @Component("redisServiceExceptionHanlder")
 public class RedisServiceExceptionHanlder implements RedisService {
     @Override
-    public ApiResult setToken(String token, MemberAcctInfo memberAcctInfo) {
-        return this.exceptionResult();
+    public void setToken(String token, MemberAcctInfo memberAcctInfo) throws BusinessException {
+        throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
     }
 
     @Override
-    public ApiResult getToken(String token) {
-        return this.exceptionResult();
+    public MemberAcctInfo getToken(String token) throws BusinessException {
+        throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
     }
 
     @Override
-    public ApiResult del(String key) {
-        return this.exceptionResult();
+    public void del(String key) throws BusinessException {
+        throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
     }
 
     @Override
-    public ApiResult set(String key, String value, Integer expire) {
-        return this.exceptionResult();
+    public void set(String key, String value, Integer expire) throws BusinessException {
+        throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
     }
 
     @Override
-    public ApiResult get(String key) {
-        return this.exceptionResult();
-    }
-
-    private ApiResult exceptionResult() {
-        return ApiResult.fail(ResultStatus.REMOTE_SERVICE_EXCEPTION);
+    public String get(String key) throws BusinessException {
+        throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
     }
 }

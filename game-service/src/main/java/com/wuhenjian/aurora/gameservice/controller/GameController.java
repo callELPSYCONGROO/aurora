@@ -1,16 +1,15 @@
 package com.wuhenjian.aurora.gameservice.controller;
 
+import com.wuhenjian.aurora.consumer.service.CommonCountService;
 import com.wuhenjian.aurora.consumer.service.PhpProjectService;
-import com.wuhenjian.aurora.utils.ApiResultUtil;
 import com.wuhenjian.aurora.utils.entity.dao.PhpProject;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
-import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author SwordNoTrace
@@ -22,25 +21,29 @@ public class GameController {
 	@Autowired
 	private PhpProjectService phpProjectService;
 
+	@Autowired
+	private CommonCountService commonCountService;
+
 	@RequestMapping("/model")
-	public ApiResult selectByModel() throws BusinessException {
+	public ApiResult selectByModel() {
 		PhpProject p = new PhpProject();
-		p.setLang("Cpp");
-		p.setAcctountName("liwu");
-		p.setRepoName("opo");
-		p.setUpdateTime(new Date());
-		ApiResult r1 = phpProjectService.selectByModel(p);
-		Object object = ApiResultUtil.getObject(r1);
-		return ApiResult.success(object);
+//		p.setLang("Cpp");
+		p.setAcctountName("whj");
+//		p.setRepoName("opo");
+//		p.setUpdateTime(new Date());
+		p.setNum(1);
+		p.setSize(4);
+		List<PhpProject> list = phpProjectService.selectByModel(p);
+		return ApiResult.success(list);
 	}
 
-	@RequestMapping("/{id}")
-	public ApiResult selectByPrimaryKey(@PathVariable("id") Long id) {
-		return phpProjectService.selectByPrimaryKey(id);
+	@RequestMapping("/id")
+	public ApiResult selectByPrimaryKey(Long id) {
+		return ApiResult.success(phpProjectService.selectByPrimaryKey(id));
 	}
 
-	@RequestMapping("/list")
-	public ApiResult list() {
-		return ApiResult.success(phpProjectService.getList());
+	@RequestMapping("/getCount")
+	public ApiResult getCount() {
+		return ApiResult.success(commonCountService.getAccountCode());
 	}
 }

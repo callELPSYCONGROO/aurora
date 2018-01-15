@@ -27,6 +27,7 @@ public enum ResultStatus {
 	TIMESTAMP_OVERTIME(2012, "timestamp over time"),
 	DECODE_TOKEN_EXCEPTION(2013, "decode token exception"),
 	OBJECT_TRANSFORMATION_EXCEPTION(2014, "Object transformation exception"),
+	CAPTCHA_TYPE_INVALID(2015, "captcha type is invalid"),
 	//service
 	REMOTE_SERVICE_EXCEPTION(3001, "Remote call services are exceptions"),
 	ACCOUNT_FORMAT_ERROR(3002, "account format error"),

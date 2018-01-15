@@ -15,7 +15,10 @@ import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author 無痕剑
@@ -38,8 +41,7 @@ public class PhotoAlbumServiceImpl implements PhotoAlbumService {
 	 * @param mpa 相册
 	 */
 	public void createAlbum(MemberPhotoAlbum mpa) throws BusinessException {
-		ApiResult apiResult = memberPhotoAlbumService.insertSelective(mpa);
-		ApiResultUtil.isSuccess(apiResult);
+		memberPhotoAlbumService.insertSelective(mpa);
 	}
 
 	/**
@@ -50,8 +52,7 @@ public class PhotoAlbumServiceImpl implements PhotoAlbumService {
 	 */
 	@Override
 	public void uploadPicture(Long maId, Long mpaId, Map<String, Map<String, Object>> params) throws BusinessException {
-		ApiResult r1 = memberPhotoAlbumService.selectByPrimaryKey(mpaId);
-		MemberPhotoAlbum mpa = (MemberPhotoAlbum) ApiResultUtil.getObject(r1);
+		MemberPhotoAlbum mpa = memberPhotoAlbumService.selectByPrimaryKey(mpaId);
 		if (mpa == null) {
 			throw new BusinessException(ResultStatus.MEMBER_ALBUM_NON_EXISTENT);
 		}
@@ -73,13 +74,11 @@ public class PhotoAlbumServiceImpl implements PhotoAlbumService {
 		for (String md5 : list) {
 			mpap.setRelativePath("/" + md5);
 			mpap.setSort((Integer) params.get("file").get("fileSort"));
-			ApiResult r3 = memberPhotoAlbumPictureService.insertSelective(mpap);
-			ApiResultUtil.isSuccess(r3);
+			memberPhotoAlbumPictureService.insertSelective(mpap);
 		}
 		mpa.setNum(mpa.getNum() + list.size());
 		mpa.setUpdateTime(time);
-		ApiResult r4 = memberPhotoAlbumService.updateByPrimaryKeySelective(mpa);
-		ApiResultUtil.isSuccess(r4);
+		memberPhotoAlbumService.updateByPrimaryKeySelective(mpa);
 	}
 
 	/**
@@ -89,15 +88,13 @@ public class PhotoAlbumServiceImpl implements PhotoAlbumService {
 	 */
 	@Override
 	public MemberPhotoAlbumInfo viewAlbum(Long maId, Long mpaId) throws BusinessException {
-		ApiResult r1 = memberPhotoAlbumService.selectByPrimaryKey(mpaId);
-		MemberPhotoAlbum mpa = (MemberPhotoAlbum) ApiResultUtil.getObject(r1);
+		MemberPhotoAlbum mpa = memberPhotoAlbumService.selectByPrimaryKey(mpaId);
 		if (!mpa.getMaId().equals(maId)) {
 			throw new BusinessException(ResultStatus.MEMBER_ALBUM_NON_EXISTENT);
 		}
 		MemberPhotoAlbumPicture mpap = new MemberPhotoAlbumPicture();
 		mpap.setMpaId(mpaId);
-		ApiResult r2 = memberPhotoAlbumPictureService.selectByModel(mpap);
-		List<MemberPhotoAlbumPicture> pictureList = (List<MemberPhotoAlbumPicture>) ApiResultUtil.getObject(r2);
+		List<MemberPhotoAlbumPicture> pictureList = memberPhotoAlbumPictureService.selectByModel(mpap);
 		MemberPhotoAlbumInfo mpaInfo = new MemberPhotoAlbumInfo();
 		mpaInfo.setTitle(mpa.getTitle());
 		mpaInfo.setDes(mpa.getDes());

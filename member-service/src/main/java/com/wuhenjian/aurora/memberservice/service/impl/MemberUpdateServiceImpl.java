@@ -3,12 +3,14 @@ package com.wuhenjian.aurora.memberservice.service.impl;
 import com.wuhenjian.aurora.consumer.service.MemberAuthService;
 import com.wuhenjian.aurora.consumer.service.RedisService;
 import com.wuhenjian.aurora.memberservice.service.MemberUpdateService;
-import com.wuhenjian.aurora.utils.*;
+import com.wuhenjian.aurora.utils.AuthUtil;
+import com.wuhenjian.aurora.utils.DateUtil;
+import com.wuhenjian.aurora.utils.StringUtil;
+import com.wuhenjian.aurora.utils.UUIDUtil;
 import com.wuhenjian.aurora.utils.constant.CommonContant;
 import com.wuhenjian.aurora.utils.constant.MemberStatus;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.dao.MemberAuth;
-import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,8 +42,7 @@ public class MemberUpdateServiceImpl implements MemberUpdateService {
 			throw new BusinessException(ResultStatus.PASSWORD_REPASSWORD_DIFFERENT);
 		}
 		//验证验证码
-		ApiResult r1 = redisService.get(captchaKey);
-		String redisCaptcha = (String) ApiResultUtil.getObject(r1);
+		String redisCaptcha = redisService.get(captchaKey);
 		if (!captcha.equals(redisCaptcha)) {
 			throw new BusinessException(ResultStatus.CAPTCHA_ERROR);
 		}
@@ -55,8 +56,7 @@ public class MemberUpdateServiceImpl implements MemberUpdateService {
 		if (StringUtil.moreThanLength(password, 16) || StringUtil.lessThanLength(password, 8)) {
 			throw new BusinessException(ResultStatus.PASSWORD_LENGTH_INVALID);
 		}
-		ApiResult r2 = memberAuthService.selectByPrimaryKey(maId);
-		MemberAuth ma = (MemberAuth) ApiResultUtil.getObject(r2);
+		MemberAuth ma = memberAuthService.selectByPrimaryKey(maId);
 		if (ma == null) {
 			throw new BusinessException(ResultStatus.ACCOUNT_NOT_EXIST);
 		}
@@ -89,13 +89,12 @@ public class MemberUpdateServiceImpl implements MemberUpdateService {
 
 	@Override
 	public Integer modifyPasswordCount(Long maId) throws BusinessException {
-		ApiResult r1 = redisService.get(CommonContant.MEMBER_REDIS_PRE + CommonContant.SEPARATOR + maId);
-		String count = (String) ApiResultUtil.getObject(r1);
+		String count = redisService.get(CommonContant.MEMBER_REDIS_PRE + CommonContant.SEPARATOR + maId);
 		return Integer.valueOf(count);
 	}
 
 	@Override
-	public void addOneModifyPassword(Long maId, Integer lastCount) {
+	public void addOneModifyPassword(Long maId, Integer lastCount) throws BusinessException {
 		redisService.set(CommonContant.MEMBER_REDIS_PRE + CommonContant.SEPARATOR + maId, lastCount == null ? "1" : String.valueOf(lastCount + 1), DateUtil.ONE_DAY_S);
 	}
 }

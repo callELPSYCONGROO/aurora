@@ -2,7 +2,7 @@ package com.wuhenjian.aurora.consumer.excphandler;
 
 import com.wuhenjian.aurora.consumer.service.CommonCountService;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
-import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,16 +12,12 @@ import org.springframework.stereotype.Component;
 @Component("commonCountServiceExceptionHandler")
 public class CommonCountServiceExceptionHandler implements CommonCountService {
 	@Override
-	public ApiResult getAccountCode() {
-		return this.exceptionResult();
+	public long getAccountCode() throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public ApiResult addAccountCode() {
-		return this.exceptionResult();
-	}
-
-	private ApiResult exceptionResult() {
-		return ApiResult.fail(ResultStatus.REMOTE_SERVICE_EXCEPTION);
+	public int addAccountCode() throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 }

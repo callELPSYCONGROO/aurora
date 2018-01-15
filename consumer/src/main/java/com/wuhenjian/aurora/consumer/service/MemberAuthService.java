@@ -2,13 +2,15 @@ package com.wuhenjian.aurora.consumer.service;
 
 import com.wuhenjian.aurora.consumer.excphandler.MemberAuthServiceExceptionHandler;
 import com.wuhenjian.aurora.utils.entity.dao.MemberAuth;
-import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
+import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 /**
  * @author 無痕剑
@@ -21,23 +23,23 @@ public interface MemberAuthService {
 	String BASE_PATH = "/sql/memberAuth";
 
 	@RequestMapping(value = BASE_PATH + "/delete", method = RequestMethod.POST)
-	ApiResult deleteByPrimaryKey(@RequestParam("id") Long id);
+	int deleteByPrimaryKey(@RequestParam("id") Long id) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/insert", method = RequestMethod.POST)
-	ApiResult insertSelective(@RequestBody MemberAuth m);
+	int insertSelective(@RequestBody MemberAuth m) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/selectById", method = RequestMethod.GET)
-	ApiResult selectByPrimaryKey(@RequestParam("id") Long id);
+	MemberAuth selectByPrimaryKey(@RequestParam("id") Long id) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/update", method = RequestMethod.POST)
-	ApiResult updateByPrimaryKeySelective(@RequestBody MemberAuth m);
+	int updateByPrimaryKeySelective(@RequestBody MemberAuth m) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/selectByModel", method = RequestMethod.POST)
-	ApiResult selectByModel(@RequestParam MemberAuth m);
+	List<MemberAuth> selectByModel(@RequestParam MemberAuth m) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/selectByPhone", method = RequestMethod.GET)
-	ApiResult selectByPhone(@RequestParam("phone") String phone);
+	MemberAuth selectByPhone(@RequestParam("phone") String phone) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/selectByEmail", method = RequestMethod.GET)
-	ApiResult selectByEmail(@RequestParam("email") String email);
+	MemberAuth selectByEmail(@RequestParam("email") String email) throws BusinessException;
 }

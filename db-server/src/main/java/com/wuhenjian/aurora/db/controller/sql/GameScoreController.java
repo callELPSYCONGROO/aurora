@@ -1,68 +1,50 @@
 package com.wuhenjian.aurora.db.controller.sql;
 
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.wuhenjian.aurora.db.mapper.sql.GameScoreMapper;
-import com.wuhenjian.aurora.utils.BeanUtil;
-import com.wuhenjian.aurora.utils.constant.ResultStatus;
-import com.wuhenjian.aurora.utils.entity.bo.Page;
+import com.wuhenjian.aurora.utils.constant.CommonContant;
 import com.wuhenjian.aurora.utils.entity.dao.GameScore;
-import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author 無痕剑
  * @date 2017/12/19 15:30
  */
 @RestController
-@RequestMapping(AbstractSqlBaseController.BASE_PATH + "/gameScore")
-public class GameScoreController extends AbstractSqlBaseController<GameScore> {
+@RequestMapping(CommonContant.SQL + "/gameScore")
+public class GameScoreController {
 
 	@Resource(name = "gameScoreMapper")
 	private GameScoreMapper mapper;
-
-	@Override
-	public ApiResult deleteByPrimaryKey(Long id) {
-		mapper.deleteByPrimaryKey(id);
-		return ApiResult.success();
+	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
+	public GameScore selectByPrimaryKey(@RequestParam("id")Long id) {
+		return mapper.selectByPrimaryKey(id);
 	}
 
-	@Override
-	public ApiResult insertSelective(GameScore m) {
-		mapper.insertSelective(m);
-		return ApiResult.success(m);
-	}
-
-	@Override
-	public ApiResult selectByPrimaryKey(Long id) {
-		GameScore m = mapper.selectByPrimaryKey(id);
-		return ApiResult.success(m);
-	}
-
-	@Override
-	public ApiResult updateByPrimaryKeySelective(GameScore m) {
-		mapper.updateByPrimaryKeySelective(m);
-		return ApiResult.success(m);
-	}
-
-	@Override
-	public ApiResult selectByModel(GameScore m) throws BusinessException {
-		boolean pageFlag = !m.isNullPage();
-		if (pageFlag) {
+	@RequestMapping(value = "/selectByModel", method = RequestMethod.POST)
+	public List<GameScore> selectByModel(@RequestBody(required = false) GameScore m) throws BusinessException {
+		if (m != null && !m.isNullPage()) {
 			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
 		}
-		List<GameScore> list = mapper.selectByModel(m);
-		if (pageFlag) {
-			PageInfo<GameScore> pageInfo = new PageInfo<>(list);
-			return ApiResult.success(pageInfo);
-		} else {
-			return ApiResult.success(list);
-		}
+		return mapper.selectByModel(m);
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public int updateByPrimaryKeySelective(@RequestBody GameScore m) {
+		return mapper.updateByPrimaryKeySelective(m);
+	}
+
+	@RequestMapping(value = "/insert", method = RequestMethod.POST)
+	public int insertSelective(@RequestBody GameScore m) {
+		return mapper.insertSelective(m);
+	}
+
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public int deleteByPrimaryKey(@RequestParam("id") Long id) {
+		return mapper.deleteByPrimaryKey(id);
 	}
 }
