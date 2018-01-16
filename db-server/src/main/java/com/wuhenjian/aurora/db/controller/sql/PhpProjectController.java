@@ -54,8 +54,11 @@ public class PhpProjectController {
 		return mapper.selectByAcctAndRepo(acct, repo);
 	}
 
-	@RequestMapping(value = "/selectRepoByAcct", method = RequestMethod.GET)
-	public List<PhpProject> selectRepoByAcct(@RequestParam("accountName") String accountName) {
-		return mapper.selectRepoByAcct(accountName);
+	@RequestMapping(value = "/selectRepoByAcct", method = RequestMethod.POST)
+	public List<PhpProject> selectRepoByAcct(@RequestBody PhpProject m) throws BusinessException {
+		if (m != null && !m.isNullPage()) {
+			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
+		}
+		return mapper.selectRepoByAcct(m);
 	}
 }

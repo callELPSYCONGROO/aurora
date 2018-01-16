@@ -530,7 +530,7 @@
         AND
         repoName = #{repo}
     </select>
-    <select id="selectRepoByAcct" resultType="com.wuhenjian.aurora.utils.entity.dao.PhpProject">
+    <select id="selectRepoByAcct" resultType="com.wuhenjian.aurora.utils.entity.dao.PhpProject" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpProject">
       SELECT
       ppId, acctountName, repoName
       FROM t_php_project

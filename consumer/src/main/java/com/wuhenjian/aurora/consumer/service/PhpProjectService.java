@@ -39,6 +39,6 @@ public interface PhpProjectService {
 	@RequestMapping(value = BASE_PATH + "/selectByAcctAndRepo", method = RequestMethod.GET)
 	PhpProject selectByAcctAndRepo(@RequestParam("acct") String acct, @RequestParam("repo") String repo) throws BusinessException;
 
-	@RequestMapping(value = "/selectRepoByAcct", method = RequestMethod.GET)
-	List<PhpProject> selectRepoByAcct(@RequestParam("accountName") String accountName) throws BusinessException;
+	@RequestMapping(value = "/selectRepoByAcct", method = RequestMethod.POST)
+	List<PhpProject> selectRepoByAcct(@RequestBody PhpProject m) throws BusinessException;
 }

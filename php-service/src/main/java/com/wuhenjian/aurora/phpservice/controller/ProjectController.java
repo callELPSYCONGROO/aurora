@@ -25,11 +25,11 @@ public class ProjectController {
 	private PhpProjectService phpProjectService;
 
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
-	public ApiResult getAll(String accountName) throws BusinessException {
-		if (StringUtil.isBlank(accountName)) {
+	public ApiResult getAll(PhpProject phpProject) throws BusinessException {
+		if (StringUtil.isBlank(phpProject.getAcctountName())) {
 			throw new BusinessException(ResultStatus.PARAM_IS_EMPTY);
 		}
-		List<PhpProject> list = phpProjectService.selectRepoByAcct(accountName);
+		List<PhpProject> list = phpProjectService.selectRepoByAcct(phpProject);
 		return ApiResult.success(list);
 	}
 

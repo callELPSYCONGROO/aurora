@@ -36,5 +36,5 @@ public interface PhpProjectMapper {
 
 	PhpProject selectByAcctAndRepo(@Param("acct") String acct, @Param("repo") String repo);
 
-	List<PhpProject> selectRepoByAcct(@Param("accountName") String acountName);
+	List<PhpProject> selectRepoByAcct(PhpProject record);
 }

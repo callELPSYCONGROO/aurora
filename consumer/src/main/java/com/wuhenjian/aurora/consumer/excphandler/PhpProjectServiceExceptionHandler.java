@@ -45,7 +45,7 @@ public class PhpProjectServiceExceptionHandler implements PhpProjectService {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
-	public List<PhpProject> selectRepoByAcct(String accountName) throws BusinessException {
+	public List<PhpProject> selectRepoByAcct(PhpProject m) throws BusinessException {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 }
