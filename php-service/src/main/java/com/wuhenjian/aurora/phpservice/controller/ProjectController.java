@@ -26,7 +26,7 @@ public class ProjectController {
 
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public ApiResult getAll(PhpProject phpProject) throws BusinessException {
-		if (StringUtil.isBlank(phpProject.getAcctountName())) {
+		if (StringUtil.isBlank(phpProject.getAccountName())) {
 			throw new BusinessException(ResultStatus.PARAM_IS_EMPTY);
 		}
 		List<PhpProject> list = phpProjectService.selectRepoByAcct(phpProject);

@@ -185,73 +185,73 @@ public class PhpProjectCriteria {
             return (Criteria) this;
         }
 
-        public Criteria andAcctountNameIsNull() {
-            addCriterion("acctountName is null");
+        public Criteria andAccountNameIsNull() {
+            addCriterion("accountName is null");
             return (Criteria) this;
         }
 
-        public Criteria andAcctountNameIsNotNull() {
-            addCriterion("acctountName is not null");
+        public Criteria andAccountNameIsNotNull() {
+            addCriterion("accountName is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAcctountNameEqualTo(String value) {
-            addCriterion("acctountName =", value, "acctountName");
+        public Criteria andAccountNameEqualTo(String value) {
+            addCriterion("accountName =", value, "accountName");
             return (Criteria) this;
         }
 
-        public Criteria andAcctountNameNotEqualTo(String value) {
-            addCriterion("acctountName <>", value, "acctountName");
+        public Criteria andAccountNameNotEqualTo(String value) {
+            addCriterion("accountName <>", value, "accountName");
             return (Criteria) this;
         }
 
-        public Criteria andAcctountNameGreaterThan(String value) {
-            addCriterion("acctountName >", value, "acctountName");
+        public Criteria andAccountNameGreaterThan(String value) {
+            addCriterion("accountName >", value, "accountName");
             return (Criteria) this;
         }
 
-        public Criteria andAcctountNameGreaterThanOrEqualTo(String value) {
-            addCriterion("acctountName >=", value, "acctountName");
+        public Criteria andAccountNameGreaterThanOrEqualTo(String value) {
+            addCriterion("accountName >=", value, "accountName");
             return (Criteria) this;
         }
 
-        public Criteria andAcctountNameLessThan(String value) {
-            addCriterion("acctountName <", value, "acctountName");
+        public Criteria andAccountNameLessThan(String value) {
+            addCriterion("accountName <", value, "accountName");
             return (Criteria) this;
         }
 
-        public Criteria andAcctountNameLessThanOrEqualTo(String value) {
-            addCriterion("acctountName <=", value, "acctountName");
+        public Criteria andAccountNameLessThanOrEqualTo(String value) {
+            addCriterion("accountName <=", value, "accountName");
             return (Criteria) this;
         }
 
-        public Criteria andAcctountNameLike(String value) {
-            addCriterion("acctountName like", value, "acctountName");
+        public Criteria andAccountNameLike(String value) {
+            addCriterion("accountName like", value, "accountName");
             return (Criteria) this;
         }
 
-        public Criteria andAcctountNameNotLike(String value) {
-            addCriterion("acctountName not like", value, "acctountName");
+        public Criteria andAccountNameNotLike(String value) {
+            addCriterion("accountName not like", value, "accountName");
             return (Criteria) this;
         }
 
-        public Criteria andAcctountNameIn(List<String> values) {
-            addCriterion("acctountName in", values, "acctountName");
+        public Criteria andAccountNameIn(List<String> values) {
+            addCriterion("accountName in", values, "accountName");
             return (Criteria) this;
         }
 
-        public Criteria andAcctountNameNotIn(List<String> values) {
-            addCriterion("acctountName not in", values, "acctountName");
+        public Criteria andAccountNameNotIn(List<String> values) {
+            addCriterion("accountName not in", values, "accountName");
             return (Criteria) this;
         }
 
-        public Criteria andAcctountNameBetween(String value1, String value2) {
-            addCriterion("acctountName between", value1, value2, "acctountName");
+        public Criteria andAccountNameBetween(String value1, String value2) {
+            addCriterion("accountName between", value1, value2, "accountName");
             return (Criteria) this;
         }
 
-        public Criteria andAcctountNameNotBetween(String value1, String value2) {
-            addCriterion("acctountName not between", value1, value2, "acctountName");
+        public Criteria andAccountNameNotBetween(String value1, String value2) {
+            addCriterion("accountName not between", value1, value2, "accountName");
             return (Criteria) this;
         }
 
@@ -1425,8 +1425,8 @@ public class PhpProjectCriteria {
             return (Criteria) this;
         }
 
-        public Criteria andAcctountNameLikeInsensitive(String value) {
-            addCriterion("upper(acctountName) like", value.toUpperCase(), "acctountName");
+        public Criteria andAccountNameLikeInsensitive(String value) {
+            addCriterion("upper(accountName) like", value.toUpperCase(), "accountName");
             return (Criteria) this;
         }
 

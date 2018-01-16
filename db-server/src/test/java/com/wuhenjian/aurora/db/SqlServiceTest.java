@@ -25,7 +25,7 @@ public class SqlServiceTest {
 	@Test
 	public void phpProjectTest() {
 		PhpProject p = new PhpProject();
-		p.setAcctountName("asd");
+		p.setAccountName("asd");
 		p.setRepoName("rt");
 		p.setUpdateTime(new Date());
 		phpProjectMapper.insertSelective(p);
@@ -34,7 +34,7 @@ public class SqlServiceTest {
 	@Test
 	public void selectTest() {
 		PhpProject p = new PhpProject();
-		p.setAcctountName("asd");
+		p.setAccountName("asd");
 		p.setRepoName("rt");
 //		PhpProject phpProject = phpProjectMapper.selectByAcctAndRepo(p.getAcctountName(), p.getRepoName());
 		List<PhpProject> phpProject = phpProjectMapper.selectByModel(null);
