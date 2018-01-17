@@ -536,5 +536,6 @@
     FROM t_php_project
     WHERE
     accountName = #{accountName}
+    ORDER BY watchersCount, forksCount, repoName
   </select>
 </mapper>

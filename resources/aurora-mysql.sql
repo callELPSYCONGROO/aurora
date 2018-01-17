@@ -205,7 +205,7 @@ CREATE TABLE `t_php_project`(
     `updateTime` DATETIME NOT NULL COMMENT '更新时间',
     
     PRIMARY KEY (`ppId`),
-    UNIQUE KEY (`acctountName`,`repoName`)
+    UNIQUE KEY (`accountName`,`repoName`)
 )ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '工程项目表';
 
 

@@ -3,10 +3,12 @@ spring:
     name: gateway
 server:
   port: 9988
+
 eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:7901/eureka/
+
 zuul:
   ignored-services: configserver,monitor,ra,db         # 需要忽视的服务(配置后将不会被路由)
   # configserver-7701,monitor-7801,ra-7901
@@ -37,3 +39,7 @@ zuul:
     php:                      #9691
       path: /api/php/**
       serverId: php
+  host:
+    max-total-connections: 500
+    socket-timeout-millis: 30000
+    connect-timeout-millis: 10000
