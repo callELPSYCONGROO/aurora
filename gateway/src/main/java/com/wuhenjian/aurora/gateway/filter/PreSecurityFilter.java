@@ -2,14 +2,13 @@ package com.wuhenjian.aurora.gateway.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import com.wuhenjian.aurora.utils.*;
+import com.wuhenjian.aurora.gateway.util.CommonUtil;
+import com.wuhenjian.aurora.utils.StringUtil;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
-import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
+import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -18,7 +17,7 @@ import java.util.Map;
  * @date 2017/12/5 10:10
  */
 @Component
-public class SecurityFilter extends ZuulFilter {
+public class PreSecurityFilter extends ZuulFilter {
 
 	/**
 	 * 返回一个字符串代表过滤器的类型，在zuul中定义了四种不同生命周期的过滤器类型，具体如下：
@@ -30,7 +29,7 @@ public class SecurityFilter extends ZuulFilter {
 	 */
 	@Override
 	public String filterType() {
-		return "pre";
+		return FilterConstants.PRE_TYPE;
 	}
 
 	/**
@@ -38,7 +37,7 @@ public class SecurityFilter extends ZuulFilter {
 	 */
 	@Override
 	public int filterOrder() {
-		return 0;
+		return FilterConstants.DEBUG_FILTER_ORDER;
 	}
 
 	/**
@@ -65,7 +64,7 @@ public class SecurityFilter extends ZuulFilter {
 			for (String val : values) {
 				System.out.println("参数：" + key + " = " + val);
 				if (StringUtil.isBlank(val)) {
-					this.response(context, ResultStatus.KEY_PARAM_IS_EMPTY);
+					CommonUtil.response(context, ResultStatus.KEY_PARAM_IS_EMPTY);
 					return null;
 				}
 			}
@@ -73,23 +72,6 @@ public class SecurityFilter extends ZuulFilter {
 		System.out.println("*************************************************");
 		System.out.println("*************************************************");
 		return null;
-	}
-
-	/**
-	 * 设置拦截器响应
-	 * @param context 上下文
-	 * @param rs 响应值
-	 */
-	private void response(RequestContext context, ResultStatus rs) {
-		context.setSendZuulResponse(false);
-		context.setResponseStatusCode(HttpServletResponse.SC_OK);
-		ApiResult fail = ApiResult.fail(rs);
-		String json = JsonUtil.obj2Json(fail);
-		try {
-			context.getResponse().getWriter().write(json);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**

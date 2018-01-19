@@ -34,6 +34,15 @@ public class JsonUtil {
 		return JSON.parseObject(jsonString, cla);
 	}
 
+	/**
+	 * 将Json字符串转换成Object对象
+	 * @param jsonString json字符串
+	 * @return 对象
+	 */
+	public static Object json2Obj(String jsonString) {
+		return JSON.parseObject(jsonString);
+	}
+
 	public static PhpProject json2PhpProjectObj(String jsonString, PhpProject p) {
 		JSONObject jsonObject = JSON.parseObject(jsonString);
 		String repoName = jsonObject.getString("name");
