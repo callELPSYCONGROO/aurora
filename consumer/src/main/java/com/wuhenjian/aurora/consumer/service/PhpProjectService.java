@@ -2,6 +2,7 @@ package com.wuhenjian.aurora.consumer.service;
 
 import com.wuhenjian.aurora.consumer.excphandler.PhpProjectServiceExceptionHandler;
 import com.wuhenjian.aurora.utils.entity.dao.PhpProject;
+import com.wuhenjian.aurora.utils.entity.vo.GithubRepo;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Service;
@@ -40,5 +41,5 @@ public interface PhpProjectService {
 	PhpProject selectByAcctAndRepo(@RequestParam("acct") String acct, @RequestParam("repo") String repo) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/selectRepoByAcct", method = RequestMethod.POST)
-	List<PhpProject> selectRepoByAcct(@RequestBody PhpProject m) throws BusinessException;
+	List<GithubRepo> selectRepoByAcct(@RequestBody PhpProject m) throws BusinessException;
 }

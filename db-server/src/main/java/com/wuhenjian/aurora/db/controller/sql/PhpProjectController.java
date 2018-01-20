@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.wuhenjian.aurora.db.mapper.sql.PhpProjectMapper;
 import com.wuhenjian.aurora.utils.constant.CommonContant;
 import com.wuhenjian.aurora.utils.entity.dao.PhpProject;
+import com.wuhenjian.aurora.utils.entity.vo.GithubRepo;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,7 +56,7 @@ public class PhpProjectController {
 	}
 
 	@RequestMapping(value = "/selectRepoByAcct", method = RequestMethod.POST)
-	public List<PhpProject> selectRepoByAcct(@RequestBody PhpProject m) throws BusinessException {
+	public List<GithubRepo> selectRepoByAcct(@RequestBody PhpProject m) throws BusinessException {
 		if (m != null && !m.isNullPage()) {
 			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
 		}
