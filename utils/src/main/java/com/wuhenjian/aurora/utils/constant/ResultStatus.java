@@ -12,6 +12,8 @@ public enum ResultStatus {
 	SUCCESS(1000, "success"),
 	//filter
 	KEY_PARAM_IS_EMPTY(1001, "The key parameter of the request is empty"),
+	GATEWAY_SYSTEM_ERROR(1002, "system error"),
+	GATEWAY_SYSTEM_EXCEPTION(1003, "system exception"),
 	//controller
 	PARAM_IS_EMPTY(2001, "input param is empty"),
 	SYSTEM_EXCEPTION(2002, "system exception"),

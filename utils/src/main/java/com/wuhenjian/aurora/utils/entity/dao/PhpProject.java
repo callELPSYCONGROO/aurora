@@ -8,7 +8,7 @@ import java.util.Date;
 public class PhpProject extends Page implements Serializable {
 	private Long ppId;
 
-	private String acctountName;
+	private String accountName;
 
 	private String repoName;
 
@@ -56,12 +56,12 @@ public class PhpProject extends Page implements Serializable {
 		this.ppId = ppId;
 	}
 
-	public String getAcctountName() {
-		return acctountName;
+	public String getAccountName() {
+		return accountName;
 	}
 
-	public void setAcctountName(String acctountName) {
-		this.acctountName = acctountName == null ? null : acctountName.trim();
+	public void setAccountName(String accountName) {
+		this.accountName = accountName == null ? null : accountName.trim();
 	}
 
 	public String getRepoName() {
@@ -221,7 +221,7 @@ public class PhpProject extends Page implements Serializable {
 		}
 		PhpProject other = (PhpProject) that;
 		return (this.getPpId() == null ? other.getPpId() == null : this.getPpId().equals(other.getPpId()))
-				&& (this.getAcctountName() == null ? other.getAcctountName() == null : this.getAcctountName().equals(other.getAcctountName()))
+				&& (this.getAccountName() == null ? other.getAccountName() == null : this.getAccountName().equals(other.getAccountName()))
 				&& (this.getRepoName() == null ? other.getRepoName() == null : this.getRepoName().equals(other.getRepoName()))
 				&& (this.getLang() == null ? other.getLang() == null : this.getLang().equals(other.getLang()))
 				&& (this.getDefaultBranch() == null ? other.getDefaultBranch() == null : this.getDefaultBranch().equals(other.getDefaultBranch()))
@@ -247,7 +247,7 @@ public class PhpProject extends Page implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((getPpId() == null) ? 0 : getPpId().hashCode());
-		result = prime * result + ((getAcctountName() == null) ? 0 : getAcctountName().hashCode());
+		result = prime * result + ((getAccountName() == null) ? 0 : getAccountName().hashCode());
 		result = prime * result + ((getRepoName() == null) ? 0 : getRepoName().hashCode());
 		result = prime * result + ((getLang() == null) ? 0 : getLang().hashCode());
 		result = prime * result + ((getDefaultBranch() == null) ? 0 : getDefaultBranch().hashCode());
@@ -276,7 +276,7 @@ public class PhpProject extends Page implements Serializable {
 		sb.append(" [");
 		sb.append("Hash = ").append(hashCode());
 		sb.append(", ppId=").append(ppId);
-		sb.append(", acctountName=").append(acctountName);
+		sb.append(", accountName=").append(accountName);
 		sb.append(", repoName=").append(repoName);
 		sb.append(", lang=").append(lang);
 		sb.append(", defaultBranch=").append(defaultBranch);

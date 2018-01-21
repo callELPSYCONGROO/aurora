@@ -3,7 +3,7 @@
 <mapper namespace="com.wuhenjian.aurora.db.mapper.sql.PhpProjectMapper" >
   <resultMap id="BaseResultMap" type="com.wuhenjian.aurora.utils.entity.dao.PhpProject" >
     <id column="ppId" property="ppId" jdbcType="BIGINT" />
-    <result column="acctountName" property="acctountName" jdbcType="VARCHAR" />
+    <result column="accountName" property="accountName" jdbcType="VARCHAR" />
     <result column="repoName" property="repoName" jdbcType="VARCHAR" />
     <result column="lang" property="lang" jdbcType="VARCHAR" />
     <result column="defaultBranch" property="defaultBranch" jdbcType="VARCHAR" />
@@ -82,7 +82,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ppId, acctountName, repoName, lang, defaultBranch, homepage, description, fileSize, 
+    ppId, accountName, repoName, lang, defaultBranch, homepage, description, fileSize, 
     forksCount, stargazersCount, watchersCount, openIssuesCount, createdAt, updatedAt, 
     pushedAt, gitUrl, sshUrl, cloneUrl, svnUrl, updateTime
   </sql>
@@ -121,14 +121,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpProject" >
-    insert into t_php_project (ppId, acctountName, repoName, 
+    insert into t_php_project (ppId, accountName, repoName, 
       lang, defaultBranch, homepage, 
       description, fileSize, forksCount, 
       stargazersCount, watchersCount, openIssuesCount, 
       createdAt, updatedAt, pushedAt, 
       gitUrl, sshUrl, cloneUrl, 
       svnUrl, updateTime)
-    values (#{ppId,jdbcType=BIGINT}, #{acctountName,jdbcType=VARCHAR}, #{repoName,jdbcType=VARCHAR}, 
+    values (#{ppId,jdbcType=BIGINT}, #{accountName,jdbcType=VARCHAR}, #{repoName,jdbcType=VARCHAR}, 
       #{lang,jdbcType=VARCHAR}, #{defaultBranch,jdbcType=VARCHAR}, #{homepage,jdbcType=VARCHAR}, 
       #{description,jdbcType=VARCHAR}, #{fileSize,jdbcType=INTEGER}, #{forksCount,jdbcType=INTEGER}, 
       #{stargazersCount,jdbcType=INTEGER}, #{watchersCount,jdbcType=INTEGER}, #{openIssuesCount,jdbcType=INTEGER}, 
@@ -142,8 +142,8 @@
       <if test="ppId != null" >
         ppId,
       </if>
-      <if test="acctountName != null" >
-        acctountName,
+      <if test="accountName != null" >
+        accountName,
       </if>
       <if test="repoName != null" >
         repoName,
@@ -204,8 +204,8 @@
       <if test="ppId != null" >
         #{ppId,jdbcType=BIGINT},
       </if>
-      <if test="acctountName != null" >
-        #{acctountName,jdbcType=VARCHAR},
+      <if test="accountName != null" >
+        #{accountName,jdbcType=VARCHAR},
       </if>
       <if test="repoName != null" >
         #{repoName,jdbcType=VARCHAR},
@@ -269,8 +269,8 @@
       <if test="record.ppId != null" >
         ppId = #{record.ppId,jdbcType=BIGINT},
       </if>
-      <if test="record.acctountName != null" >
-        acctountName = #{record.acctountName,jdbcType=VARCHAR},
+      <if test="record.accountName != null" >
+        accountName = #{record.accountName,jdbcType=VARCHAR},
       </if>
       <if test="record.repoName != null" >
         repoName = #{record.repoName,jdbcType=VARCHAR},
@@ -334,7 +334,7 @@
   <update id="updateByCriteria" parameterType="map" >
     update t_php_project
     set ppId = #{record.ppId,jdbcType=BIGINT},
-      acctountName = #{record.acctountName,jdbcType=VARCHAR},
+      accountName = #{record.accountName,jdbcType=VARCHAR},
       repoName = #{record.repoName,jdbcType=VARCHAR},
       lang = #{record.lang,jdbcType=VARCHAR},
       defaultBranch = #{record.defaultBranch,jdbcType=VARCHAR},
@@ -360,8 +360,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpProject" >
     update t_php_project
     <set >
-      <if test="acctountName != null" >
-        acctountName = #{acctountName,jdbcType=VARCHAR},
+      <if test="accountName != null" >
+        accountName = #{accountName,jdbcType=VARCHAR},
       </if>
       <if test="repoName != null" >
         repoName = #{repoName,jdbcType=VARCHAR},
@@ -422,7 +422,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpProject" >
     update t_php_project
-    set acctountName = #{acctountName,jdbcType=VARCHAR},
+    set accountName = #{accountName,jdbcType=VARCHAR},
       repoName = #{repoName,jdbcType=VARCHAR},
       lang = #{lang,jdbcType=VARCHAR},
       defaultBranch = #{defaultBranch,jdbcType=VARCHAR},
@@ -448,8 +448,8 @@
       <if test="ppId != null" >
          and ppId=#{ppId}
       </if>
-      <if test="acctountName != null" >
-         and acctountName=#{acctountName}
+      <if test="accountName != null" >
+         and accountName=#{accountName}
       </if>
       <if test="repoName != null" >
          and repoName=#{repoName}
@@ -521,20 +521,21 @@
       <include refid="Model_Where_Clause" />
     </if>
   </select>
-    <select id="selectByAcctAndRepo" resultType="com.wuhenjian.aurora.utils.entity.dao.PhpProject">
-      SELECT
-      <include refid="Base_Column_List"/>
-      FROM t_php_project
-      WHERE
-        acctountName = #{acct}
-        AND
-        repoName = #{repo}
-    </select>
-    <select id="selectRepoByAcct" resultType="com.wuhenjian.aurora.utils.entity.dao.PhpProject">
-      SELECT
-      ppId, acctountName, repoName
-      FROM t_php_project
-      WHERE
-        acctountName = #{accountName}
-    </select>
+  <select id="selectByAcctAndRepo" resultType="com.wuhenjian.aurora.utils.entity.dao.PhpProject">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM t_php_project
+    WHERE
+    accountName = #{acct}
+    AND
+    repoName = #{repo}
+  </select>
+  <select id="selectRepoByAcct" resultType="com.wuhenjian.aurora.utils.entity.vo.GithubRepo" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpProject">
+    SELECT
+    accountName, repoName
+    FROM t_php_project
+    WHERE
+    accountName = #{accountName}
+    ORDER BY watchersCount, forksCount, repoName
+  </select>
 </mapper>

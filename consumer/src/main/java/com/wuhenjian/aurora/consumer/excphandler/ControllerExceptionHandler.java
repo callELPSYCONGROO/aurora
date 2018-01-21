@@ -15,6 +15,7 @@ public class ControllerExceptionHandler {
 
 	@ExceptionHandler(Exception.class)
 	public ApiResult handler(Exception e) {
+		e.printStackTrace();
 		if (e instanceof BusinessException) {
 			return ApiResult.fail((BusinessException) e);
 		}

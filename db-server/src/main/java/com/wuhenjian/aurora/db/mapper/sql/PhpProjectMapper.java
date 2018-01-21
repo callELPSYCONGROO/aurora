@@ -5,6 +5,7 @@ import com.wuhenjian.aurora.utils.entity.dao.PhpProjectCriteria;
 
 import java.util.List;
 
+import com.wuhenjian.aurora.utils.entity.vo.GithubRepo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -36,5 +37,5 @@ public interface PhpProjectMapper {
 
 	PhpProject selectByAcctAndRepo(@Param("acct") String acct, @Param("repo") String repo);
 
-	List<PhpProject> selectRepoByAcct(@Param("accountName") String acountName);
+	List<GithubRepo> selectRepoByAcct(PhpProject record);
 }

@@ -5,6 +5,7 @@ import com.wuhenjian.aurora.utils.StringUtil;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.dao.PhpProject;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
+import com.wuhenjian.aurora.utils.entity.vo.GithubRepo;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,11 +26,11 @@ public class ProjectController {
 	private PhpProjectService phpProjectService;
 
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
-	public ApiResult getAll(String accountName) throws BusinessException {
-		if (StringUtil.isBlank(accountName)) {
+	public ApiResult getAll(PhpProject phpProject) throws BusinessException {
+		if (StringUtil.isBlank(phpProject.getAccountName())) {
 			throw new BusinessException(ResultStatus.PARAM_IS_EMPTY);
 		}
-		List<PhpProject> list = phpProjectService.selectRepoByAcct(accountName);
+		List<GithubRepo> list = phpProjectService.selectRepoByAcct(phpProject);
 		return ApiResult.success(list);
 	}
 

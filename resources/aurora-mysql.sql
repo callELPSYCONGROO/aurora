@@ -183,7 +183,7 @@ CREATE TABLE `t_common_count`(
 
 CREATE TABLE `t_php_project`(
     `ppId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `acctountName` VARCHAR(25) CHARACTER SET utf8mb4 NOT NULL COMMENT '账户名称',
+    `accountName` VARCHAR(25) CHARACTER SET utf8mb4 NOT NULL COMMENT '账户名称',
     `repoName` VARCHAR(50) CHARACTER SET utf8mb4 NOT NULL COMMENT '源名称',
     `lang` VARCHAR(10) CHARACTER SET utf8mb4 COMMENT '语言',
     `defaultBranch` VARCHAR(20) CHARACTER SET utf8mb4 DEFAULT 'master' COMMENT '默认分支',
@@ -205,7 +205,7 @@ CREATE TABLE `t_php_project`(
     `updateTime` DATETIME NOT NULL COMMENT '更新时间',
     
     PRIMARY KEY (`ppId`),
-    UNIQUE KEY (`acctountName`,`repoName`)
+    UNIQUE KEY (`accountName`,`repoName`)
 )ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '工程项目表';
 
 
