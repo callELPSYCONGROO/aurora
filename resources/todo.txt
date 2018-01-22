@@ -1,1 +1,0 @@
-2.MemberLoginController 里面的接口，sign验证
