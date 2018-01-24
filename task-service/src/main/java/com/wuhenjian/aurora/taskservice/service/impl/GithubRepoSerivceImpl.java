@@ -53,7 +53,7 @@ public class GithubRepoSerivceImpl implements GithubRepoService {
 					continue;
 				}
 				PhpProject p = new PhpProject();
-				p.setAcctountName(accountName);
+				p.setAccountName(accountName);
 				p.setRepoName(repoName);
 				p.setUpdateTime(new Date());
 				phpProjectService.insertSelective(p);
@@ -69,7 +69,7 @@ public class GithubRepoSerivceImpl implements GithubRepoService {
 	@Override
 	public void updateRepositoriesInfo(String accountName) throws BusinessException, IOException {
 		PhpProject phpProject = new PhpProject();
-		phpProject.setAcctountName(accountName);
+		phpProject.setAccountName(accountName);
 		//查询该帐号下所有源
 		List<PhpProject> list = phpProjectService.selectByModel(phpProject);
 		for (PhpProject p : list) {
