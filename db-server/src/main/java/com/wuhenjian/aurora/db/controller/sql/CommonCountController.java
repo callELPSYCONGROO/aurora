@@ -20,12 +20,12 @@ public class CommonCountController {
 	private CommonCountMapper commonCountMapper;
 
 	@RequestMapping(value = "/getAccountCode", method = RequestMethod.GET)
-	public long getAccountCode() {
+	public Long getAccountCode() {
 		return commonCountMapper.getAccountCode();
 	}
 
 	@RequestMapping(value = "/addAccountCode", method = RequestMethod.POST)
-	public int addAccountCode() {
-		return commonCountMapper.addAccountCode();
+	public void addAccountCode() {
+		commonCountMapper.addAccountCode();
 	}
 }

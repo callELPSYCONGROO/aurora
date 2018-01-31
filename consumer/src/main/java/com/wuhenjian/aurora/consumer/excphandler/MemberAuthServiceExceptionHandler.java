@@ -16,12 +16,12 @@ import java.util.List;
 @Component("memberAuthServiceExceptionHandler")
 public class MemberAuthServiceExceptionHandler implements MemberAuthService {
 	@Override
-	public int deleteByPrimaryKey(Long id) throws BusinessException {
+	public void deleteByPrimaryKey(Long id) throws BusinessException {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public int insertSelective(MemberAuth m) throws BusinessException {
+	public void insertSelective(MemberAuth m) throws BusinessException {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
@@ -31,7 +31,7 @@ public class MemberAuthServiceExceptionHandler implements MemberAuthService {
 	}
 
 	@Override
-	public int updateByPrimaryKeySelective(MemberAuth m) throws BusinessException {
+	public void updateByPrimaryKeySelective(MemberAuth m) throws BusinessException {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 

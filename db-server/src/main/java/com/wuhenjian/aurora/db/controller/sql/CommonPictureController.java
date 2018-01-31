@@ -35,17 +35,17 @@ public class CommonPictureController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public int updateByPrimaryKeySelective(@RequestBody CommonPicture m) {
-		return mapper.updateByPrimaryKeySelective(m);
+	public void updateByPrimaryKeySelective(@RequestBody CommonPicture m) {
+		mapper.updateByPrimaryKeySelective(m);
 	}
 
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public int insertSelective(@RequestBody CommonPicture m) {
-		return mapper.insertSelective(m);
+	public void insertSelective(@RequestBody CommonPicture m) {
+		mapper.insertSelective(m);
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public int deleteByPrimaryKey(@RequestParam("id") Long id) {
-		return mapper.deleteByPrimaryKey(id);
+	public void deleteByPrimaryKey(@RequestParam("id") Long id) {
+		mapper.deleteByPrimaryKey(id);
 	}
 }

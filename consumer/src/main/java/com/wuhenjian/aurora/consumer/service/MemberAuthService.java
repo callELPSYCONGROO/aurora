@@ -23,16 +23,16 @@ public interface MemberAuthService {
 	String BASE_PATH = "/sql/memberAuth";
 
 	@RequestMapping(value = BASE_PATH + "/delete", method = RequestMethod.POST)
-	int deleteByPrimaryKey(@RequestParam("id") Long id) throws BusinessException;
+	void deleteByPrimaryKey(@RequestParam("id") Long id) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/insert", method = RequestMethod.POST)
-	int insertSelective(@RequestBody MemberAuth m) throws BusinessException;
+	void insertSelective(@RequestBody MemberAuth m) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/selectById", method = RequestMethod.GET)
 	MemberAuth selectByPrimaryKey(@RequestParam("id") Long id) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/update", method = RequestMethod.POST)
-	int updateByPrimaryKeySelective(@RequestBody MemberAuth m) throws BusinessException;
+	void updateByPrimaryKeySelective(@RequestBody MemberAuth m) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/selectByModel", method = RequestMethod.POST)
 	List<MemberAuth> selectByModel(@RequestParam MemberAuth m) throws BusinessException;

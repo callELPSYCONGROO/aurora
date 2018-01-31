@@ -12,12 +12,12 @@ import org.springframework.stereotype.Component;
 @Component("commonCountServiceExceptionHandler")
 public class CommonCountServiceExceptionHandler implements CommonCountService {
 	@Override
-	public long getAccountCode() throws BusinessException {
+	public Long getAccountCode() throws BusinessException {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public int addAccountCode() throws BusinessException {
+	public void addAccountCode() throws BusinessException {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 }

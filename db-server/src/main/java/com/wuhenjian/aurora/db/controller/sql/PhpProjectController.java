@@ -36,18 +36,18 @@ public class PhpProjectController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public int updateByPrimaryKeySelective(@RequestBody PhpProject m) {
-		return mapper.updateByPrimaryKeySelective(m);
+	public void updateByPrimaryKeySelective(@RequestBody(required = false) PhpProject m) {
+		mapper.updateByPrimaryKeySelective(m);
 	}
 
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public int insertSelective(@RequestBody PhpProject m) {
-		return mapper.insertSelective(m);
+	public void insertSelective(@RequestBody(required = false) PhpProject m) {
+		mapper.insertSelective(m);
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public int deleteByPrimaryKey(@RequestParam("id") Long id) {
-		return mapper.deleteByPrimaryKey(id);
+	public void deleteByPrimaryKey(@RequestParam("id") Long id) {
+		mapper.deleteByPrimaryKey(id);
 	}
 
 	@RequestMapping(value = "/selectByAcctAndRepo", method = RequestMethod.GET)
@@ -56,7 +56,7 @@ public class PhpProjectController {
 	}
 
 	@RequestMapping(value = "/selectRepoByAcct", method = RequestMethod.POST)
-	public List<GithubRepo> selectRepoByAcct(@RequestBody PhpProject m) throws BusinessException {
+	public List<GithubRepo> selectRepoByAcct(@RequestBody(required = false) PhpProject m) throws BusinessException {
 		if (m != null && !m.isNullPage()) {
 			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
 		}

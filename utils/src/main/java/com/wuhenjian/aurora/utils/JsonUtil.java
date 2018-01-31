@@ -57,7 +57,7 @@ public class JsonUtil {
 		Integer openIssuesCount = jsonObject.getInteger("open_issues_count");
 		Date createdAt = jsonObject.getDate("created_at");
 		Date updatedAt = jsonObject.getDate("updated_at");
-		Date pushAt = jsonObject.getDate("push_at");
+		Date pushedAt = jsonObject.getDate("pushed_at");
 		String svnUrl = jsonObject.getString("svn_url");
 		String sshUrl = jsonObject.getString("ssh_url");
 		String cloneUrl = jsonObject.getString("clone_url");
@@ -73,7 +73,7 @@ public class JsonUtil {
 		p.setForksCount(forksCount);
 		p.setFileSize(fileSize);
 		p.setCreatedAt(createdAt);
-		p.setPushedAt(pushAt);
+		p.setPushedAt(pushedAt);
 		p.setUpdatedAt(updatedAt);
 		p.setHomepage(homepage);
 		p.setLang(lang);

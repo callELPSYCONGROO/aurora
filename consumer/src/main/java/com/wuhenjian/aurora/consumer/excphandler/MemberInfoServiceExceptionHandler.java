@@ -16,12 +16,12 @@ import java.util.List;
 @Component("memberInfoServiceExceptionHandler")
 public class MemberInfoServiceExceptionHandler implements MemberInfoService {
 	@Override
-	public int deleteByPrimaryKey(Long id) throws BusinessException {
+	public void deleteByPrimaryKey(Long id) throws BusinessException {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public int insertSelective(MemberInfo m) throws BusinessException {
+	public void insertSelective(MemberInfo m) throws BusinessException {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
@@ -31,7 +31,7 @@ public class MemberInfoServiceExceptionHandler implements MemberInfoService {
 	}
 
 	@Override
-	public int updateByPrimaryKeySelective(MemberInfo m) throws BusinessException {
+	public void updateByPrimaryKeySelective(MemberInfo m) throws BusinessException {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
@@ -46,7 +46,7 @@ public class MemberInfoServiceExceptionHandler implements MemberInfoService {
 	}
 
 	@Override
-	public int updateMemberInfoByMaId(MemberInfo m) throws BusinessException {
+	public void updateMemberInfoByMaId(MemberInfo m) throws BusinessException {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 }

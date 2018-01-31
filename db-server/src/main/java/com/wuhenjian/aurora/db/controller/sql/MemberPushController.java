@@ -35,17 +35,17 @@ public class MemberPushController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public int updateByPrimaryKeySelective(@RequestBody MemberPush m) {
-		return mapper.updateByPrimaryKeySelective(m);
+	public void updateByPrimaryKeySelective(@RequestBody MemberPush m) {
+		mapper.updateByPrimaryKeySelective(m);
 	}
 
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public int insertSelective(@RequestBody MemberPush m) {
-		return mapper.insertSelective(m);
+	public void insertSelective(@RequestBody MemberPush m) {
+		mapper.insertSelective(m);
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public int deleteByPrimaryKey(@RequestParam("id") Long id) {
-		return mapper.deleteByPrimaryKey(id);
+	public void deleteByPrimaryKey(@RequestParam("id") Long id) {
+		mapper.deleteByPrimaryKey(id);
 	}
 }
