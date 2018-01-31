@@ -92,7 +92,7 @@ public class ZimgServiceImpl implements ZimgService {
 		try {
 			String url = basePath + ZIMG_INFO;
 			Map<String, String> params = zimgParam.convert2Map();
-			content = HttpClientUtil.getMethod(url, params);
+			content = HttpClientUtil.requestGet(url, params);
 		} catch (Exception e) {
 			throw new BusinessException(ResultStatus.HTTPCLIENT_EXCP);
 		}
@@ -112,7 +112,7 @@ public class ZimgServiceImpl implements ZimgService {
 		zimgParam.setT("1");
 		String content;
 		try {
-			content = HttpClientUtil.getMethod(basePath + ZIMG_ADMIN, zimgParam.convert2Map());
+			content = HttpClientUtil.requestGet(basePath + ZIMG_ADMIN, zimgParam.convert2Map());
 		} catch (Exception e) {
 			throw new BusinessException(ResultStatus.HTTPCLIENT_EXCP);
 		}

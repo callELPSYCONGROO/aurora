@@ -42,7 +42,7 @@ public class HttpClientUtil {
 	 * @return 响应字符串
 	 * @throws IOException 发生异常
 	 */
-	public static String getMethod(String url, Map<String, String> params) throws IOException {
+	public static String requestGet(String url, Map<String, String> params) throws IOException {
 		HttpGet get = null;
 		String content;
 		try {
@@ -68,7 +68,7 @@ public class HttpClientUtil {
 	 * @return 响应字符串
 	 * @throws IOException 发生异常
 	 */
-	public static String postMethod(String url, Map<String, String> params) throws IOException {
+	public static String requestPost(String url, Map<String, String> params) throws IOException {
 		HttpPost post = null;
 		String content;
 		try {
@@ -115,6 +115,29 @@ public class HttpClientUtil {
 			}
 		}
 		return getStringContent(response);
+	}
+
+	/**
+	 * get请求，响应内容使用entity获取
+	 * @param url URL连接
+	 * @param params 请求参数
+	 * @return 响应内容
+	 * @throws IOException 发生异常
+	 */
+	public static String requestGetReturnEntity(String url, Map<String, String> params) throws IOException {
+		RequestConfig config = RequestConfig.custom().setConnectTimeout(CONNECT_TIMEOUT).setSocketTimeout(SOCKET_TIMEOUT).build();
+		HttpGet get = new HttpGet(url);
+		get.setConfig(config);
+		HttpClient client = HttpClients.createDefault();
+		String content;
+		try {
+			HttpResponse response = client.execute(get);
+			HttpEntity entity = response.getEntity();
+			content = EntityUtils.toString(entity, Charsets.UTF_8);
+		} finally {
+			get.abort();
+		}
+		return content;
 	}
 
 	/**
