@@ -23,13 +23,13 @@ public interface PhpProjectService {
 	String BASE_PATH = "/sql/phpProject";
 
 	@RequestMapping(value = BASE_PATH + "/delete", method = RequestMethod.POST)
-	int deleteByPrimaryKey(@RequestParam("id") Long id) throws BusinessException;
+	void deleteByPrimaryKey(@RequestParam("id") Long id) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/insert", method = RequestMethod.POST)
-	int insertSelective(@RequestBody PhpProject m) throws BusinessException;
+	void insertSelective(@RequestBody PhpProject m) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/update", method = RequestMethod.POST)
-	int updateByPrimaryKeySelective(@RequestBody PhpProject m) throws BusinessException;
+	void updateByPrimaryKeySelective(@RequestBody PhpProject m) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/selectByModel", method = RequestMethod.POST)
 	List<PhpProject> selectByModel(@RequestBody(required = false) PhpProject m) throws BusinessException;

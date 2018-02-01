@@ -17,8 +17,8 @@ public interface CommonCountService {
 	String BASE_PATH = "/sql/commonCount";
 
 	@RequestMapping(value = BASE_PATH + "/getAccountCode", method = RequestMethod.GET)
-	long getAccountCode() throws BusinessException;
+	Long getAccountCode() throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/addAccountCode", method = RequestMethod.POST)
-	int addAccountCode() throws BusinessException;
+	void addAccountCode() throws BusinessException;
 }

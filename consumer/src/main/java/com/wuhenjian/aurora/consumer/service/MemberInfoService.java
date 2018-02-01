@@ -23,16 +23,16 @@ public interface MemberInfoService {
 	String BASE_PATH = "/sql/memberInfo";
 
 	@RequestMapping(value = BASE_PATH + "/delete", method = RequestMethod.POST)
-	int deleteByPrimaryKey(@RequestParam("id") Long id) throws BusinessException;
+	void deleteByPrimaryKey(@RequestParam("id") Long id) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/insert", method = RequestMethod.POST)
-	int insertSelective(@RequestBody MemberInfo m) throws BusinessException;
+	void insertSelective(@RequestBody MemberInfo m) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/selectById", method = RequestMethod.GET)
 	MemberInfo selectByPrimaryKey(@RequestParam("id") Long id) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/update", method = RequestMethod.POST)
-	int updateByPrimaryKeySelective(@RequestBody MemberInfo m) throws BusinessException;
+	void updateByPrimaryKeySelective(@RequestBody MemberInfo m) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/selectByModel", method = RequestMethod.POST)
 	List<MemberInfo> selectByModel(@RequestParam MemberInfo m) throws BusinessException;
@@ -41,5 +41,5 @@ public interface MemberInfoService {
 	MemberAcctInfo selectByMaid(@RequestParam("maId") Long maId) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/updateMemberInfoByMaId", method = RequestMethod.POST)
-	int updateMemberInfoByMaId(@RequestBody MemberInfo m) throws BusinessException;
+	void updateMemberInfoByMaId(@RequestBody MemberInfo m) throws BusinessException;
 }

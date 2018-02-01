@@ -39,7 +39,7 @@ public class GithubRepoSerivceImpl implements GithubRepoService {
 		do {
 			params.put(PAGE, String.valueOf(currentPage));
 			String url = BASE_PATH + accountName;
-			String html = HttpClientUtil.getMethod(url, params);
+			String html = HttpClientUtil.requestGetReturnEntity(url, params);
 			if (currentPage == 1) {
 				max = HtmlParserUtil.getGithubRepoMaxPage(html);
 			}
@@ -74,7 +74,7 @@ public class GithubRepoSerivceImpl implements GithubRepoService {
 		List<PhpProject> list = phpProjectService.selectByModel(phpProject);
 		for (PhpProject p : list) {
 			String api = API_PATH + accountName + "/" + p.getRepoName();
-			String method = HttpClientUtil.getMethod(api, null);
+			String method = HttpClientUtil.requestGetReturnEntity(api, null);
 			p = JsonUtil.json2PhpProjectObj(method, p);
 			p.setUpdateTime(new Date());
 			phpProjectService.updateByPrimaryKeySelective(p);

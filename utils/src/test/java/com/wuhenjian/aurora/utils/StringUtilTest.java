@@ -63,4 +63,14 @@ public class StringUtilTest {
 		String s = "asd1";
 		System.out.println(s.substring(s.length() - 1));
 	}
+
+	@Test
+	public void lastIndexOfTest() {
+		String value = " application/json; charset=utf-8";
+		String charset = null;
+		if (StringUtil.isNotBlank(value) && value.contains("charset=")) {
+			charset = value.substring(value.lastIndexOf("charset=") + 8);
+		}
+		System.out.println(charset);
+	}
 }

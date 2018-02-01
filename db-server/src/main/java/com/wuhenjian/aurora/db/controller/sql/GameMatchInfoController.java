@@ -35,17 +35,17 @@ public class GameMatchInfoController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public int updateByPrimaryKeySelective(@RequestBody GameMatchInfo m) {
-		return mapper.updateByPrimaryKeySelective(m);
+	public void updateByPrimaryKeySelective(@RequestBody GameMatchInfo m) {
+		mapper.updateByPrimaryKeySelective(m);
 	}
 
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public int insertSelective(@RequestBody GameMatchInfo m) {
-		return mapper.insertSelective(m);
+	public void insertSelective(@RequestBody GameMatchInfo m) {
+		mapper.insertSelective(m);
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public int deleteByPrimaryKey(@RequestParam("id") Long id) {
-		return mapper.deleteByPrimaryKey(id);
+	public void deleteByPrimaryKey(@RequestParam("id") Long id) {
+		mapper.deleteByPrimaryKey(id);
 	}
 }

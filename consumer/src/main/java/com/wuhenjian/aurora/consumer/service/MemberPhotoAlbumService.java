@@ -23,16 +23,16 @@ public interface MemberPhotoAlbumService {
 	String BASE_PATH = "/sql/memberPhotoAlbum";
 
 	@RequestMapping(value = BASE_PATH + "/delete", method = RequestMethod.POST)
-	int deleteByPrimaryKey(@RequestParam("id") Long id) throws BusinessException;
+	void deleteByPrimaryKey(@RequestParam("id") Long id) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/insert", method = RequestMethod.POST)
-	int insertSelective(@RequestBody MemberPhotoAlbum m) throws BusinessException;
+	void insertSelective(@RequestBody MemberPhotoAlbum m) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/selectById", method = RequestMethod.GET)
 	MemberPhotoAlbum selectByPrimaryKey(@RequestParam("id") Long id) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/update", method = RequestMethod.POST)
-	int updateByPrimaryKeySelective(@RequestBody MemberPhotoAlbum m) throws BusinessException;
+	void updateByPrimaryKeySelective(@RequestBody MemberPhotoAlbum m) throws BusinessException;
 
 	@RequestMapping(value = BASE_PATH + "/selectByModel", method = RequestMethod.GET)
 	List<MemberPhotoAlbum> selectByModel(@RequestParam MemberPhotoAlbum m) throws BusinessException;

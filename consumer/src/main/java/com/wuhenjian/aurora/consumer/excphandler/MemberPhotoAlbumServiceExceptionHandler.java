@@ -15,12 +15,12 @@ import java.util.List;
 @Component("memberPhotoAlbumServiceExceptionHandler")
 public class MemberPhotoAlbumServiceExceptionHandler implements MemberPhotoAlbumService {
 	@Override
-	public int deleteByPrimaryKey(Long id) throws BusinessException {
+	public void deleteByPrimaryKey(Long id) throws BusinessException {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public int insertSelective(MemberPhotoAlbum m) throws BusinessException {
+	public void insertSelective(MemberPhotoAlbum m) throws BusinessException {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
@@ -30,7 +30,7 @@ public class MemberPhotoAlbumServiceExceptionHandler implements MemberPhotoAlbum
 	}
 
 	@Override
-	public int updateByPrimaryKeySelective(MemberPhotoAlbum m) throws BusinessException {
+	public void updateByPrimaryKeySelective(MemberPhotoAlbum m) throws BusinessException {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 

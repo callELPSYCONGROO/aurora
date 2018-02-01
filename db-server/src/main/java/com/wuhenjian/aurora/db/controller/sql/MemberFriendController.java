@@ -34,17 +34,17 @@ public class MemberFriendController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public int updateByPrimaryKeySelective(@RequestBody MemberFriend m) {
-		return mapper.updateByPrimaryKeySelective(m);
+	public void updateByPrimaryKeySelective(@RequestBody MemberFriend m) {
+		mapper.updateByPrimaryKeySelective(m);
 	}
 
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public int insertSelective(@RequestBody MemberFriend m) {
-		return mapper.insertSelective(m);
+	public void insertSelective(@RequestBody MemberFriend m) {
+		mapper.insertSelective(m);
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public int deleteByPrimaryKey(@RequestParam("id") Long id) {
-		return mapper.deleteByPrimaryKey(id);
+	public void deleteByPrimaryKey(@RequestParam("id") Long id) {
+		mapper.deleteByPrimaryKey(id);
 	}
 }

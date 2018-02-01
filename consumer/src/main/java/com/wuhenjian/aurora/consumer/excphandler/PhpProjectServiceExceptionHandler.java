@@ -17,12 +17,12 @@ import java.util.List;
 public class PhpProjectServiceExceptionHandler implements PhpProjectService {
 
 	@Override
-	public int deleteByPrimaryKey(Long id) throws BusinessException {
+	public void deleteByPrimaryKey(Long id) throws BusinessException {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
 	@Override
-	public int insertSelective(PhpProject m) throws BusinessException {
+	public void insertSelective(PhpProject m) throws BusinessException {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
@@ -32,7 +32,7 @@ public class PhpProjectServiceExceptionHandler implements PhpProjectService {
 	}
 
 	@Override
-	public int updateByPrimaryKeySelective(PhpProject m) throws BusinessException {
+	public void updateByPrimaryKeySelective(PhpProject m) throws BusinessException {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 
