@@ -20,8 +20,9 @@ public class GameScoreController {
 
 	@Resource(name = "gameScoreMapper")
 	private GameScoreMapper mapper;
+
 	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
-	public GameScore selectByPrimaryKey(@RequestParam("id")Long id) {
+	public GameScore selectByPrimaryKey(@RequestParam("id") Long id) {
 		return mapper.selectByPrimaryKey(id);
 	}
 

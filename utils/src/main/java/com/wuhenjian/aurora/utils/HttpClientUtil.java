@@ -126,6 +126,7 @@ public class HttpClientUtil {
 	 */
 	public static String requestGetReturnEntity(String url, Map<String, String> params) throws IOException {
 		RequestConfig config = RequestConfig.custom().setConnectTimeout(CONNECT_TIMEOUT).setSocketTimeout(SOCKET_TIMEOUT).build();
+		url = splicingUrlParams(url, params);
 		HttpGet get = new HttpGet(url);
 		get.setConfig(config);
 		HttpClient client = HttpClients.createDefault();

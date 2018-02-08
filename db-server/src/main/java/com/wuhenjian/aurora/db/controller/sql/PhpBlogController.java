@@ -1,9 +1,9 @@
 package com.wuhenjian.aurora.db.controller.sql;
 
 import com.github.pagehelper.PageHelper;
-import com.wuhenjian.aurora.db.mapper.sql.MemberPhotoAlbumMapper;
+import com.wuhenjian.aurora.db.mapper.sql.PhpBlogMapper;
 import com.wuhenjian.aurora.utils.constant.CommonContant;
-import com.wuhenjian.aurora.utils.entity.dao.MemberPhotoAlbum;
+import com.wuhenjian.aurora.utils.entity.dao.PhpBlog;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,22 +12,22 @@ import java.util.List;
 
 /**
  * @author 無痕剑
- * @date 2018/1/5 10:28
+ * @date 2018/2/7 22:23
  */
 @RestController
-@RequestMapping(CommonContant.SQL + "/memberPhotoAlbum")
-public class MemberPhotoAlbumController {
+@RequestMapping(CommonContant.SQL + "/phpBlog")
+public class PhpBlogController {
 
-	@Resource(name = "memberPhotoAlbumMapper")
-	private MemberPhotoAlbumMapper mapper;
+	@Resource(name = "phpBlogMapper")
+	private PhpBlogMapper mapper;
 
 	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
-	public MemberPhotoAlbum selectByPrimaryKey(@RequestParam("id") Long id) {
+	public PhpBlog selectByPrimaryKey(@RequestParam("id") Long id) {
 		return mapper.selectByPrimaryKey(id);
 	}
 
 	@RequestMapping(value = "/selectByModel", method = RequestMethod.POST)
-	public List<MemberPhotoAlbum> selectByModel(@RequestBody(required = false) MemberPhotoAlbum m) throws BusinessException {
+	public List<PhpBlog> selectByModel(@RequestBody(required = false) PhpBlog m) throws BusinessException {
 		if (m != null && !m.isNullPage()) {
 			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
 		}
@@ -35,17 +35,22 @@ public class MemberPhotoAlbumController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public void updateByPrimaryKeySelective(@RequestBody MemberPhotoAlbum m) {
+	public void updateByPrimaryKeySelective(@RequestBody PhpBlog m) {
 		mapper.updateByPrimaryKeySelective(m);
 	}
 
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public void insertSelective(@RequestBody MemberPhotoAlbum m) {
+	public void insertSelective(@RequestBody PhpBlog m) {
 		mapper.insertSelective(m);
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public void deleteByPrimaryKey(@RequestParam("id") Long id) {
 		mapper.deleteByPrimaryKey(id);
+	}
+
+	@RequestMapping(value = "/selectByTitle", method = RequestMethod.GET)
+	public PhpBlog selectByTitle(@RequestParam("title") String title) {
+		return mapper.selectByTitle(title);
 	}
 }

@@ -18,12 +18,12 @@ import java.util.List;
 @RestController
 @RequestMapping(CommonContant.SQL + "/phpProject")
 public class PhpProjectController {
-	
+
 	@Resource(name = "phpProjectMapper")
 	private PhpProjectMapper mapper;
 
 	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
-	public PhpProject selectByPrimaryKey(@RequestParam("id")Long id) {
+	public PhpProject selectByPrimaryKey(@RequestParam("id") Long id) {
 		return mapper.selectByPrimaryKey(id);
 	}
 

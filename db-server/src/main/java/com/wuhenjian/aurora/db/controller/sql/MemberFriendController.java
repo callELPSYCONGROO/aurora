@@ -20,8 +20,9 @@ public class MemberFriendController {
 
 	@Resource(name = "memberFriendMapper")
 	private MemberFriendMapper mapper;
+
 	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
-	public MemberFriend selectByPrimaryKey(@RequestParam("id")Long id) {
+	public MemberFriend selectByPrimaryKey(@RequestParam("id") Long id) {
 		return mapper.selectByPrimaryKey(id);
 	}
 

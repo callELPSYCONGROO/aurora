@@ -22,7 +22,7 @@ public class GameMatchInfoController {
 	private GameMatchInfoMapper mapper;
 
 	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
-	public GameMatchInfo selectByPrimaryKey(@RequestParam("id")Long id) {
+	public GameMatchInfo selectByPrimaryKey(@RequestParam("id") Long id) {
 		return mapper.selectByPrimaryKey(id);
 	}
 

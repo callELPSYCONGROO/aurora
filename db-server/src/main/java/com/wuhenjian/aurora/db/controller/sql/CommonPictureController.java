@@ -22,7 +22,7 @@ public class CommonPictureController {
 	private CommonPictureMapper mapper;
 
 	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
-	public CommonPicture selectByPrimaryKey(@RequestParam("id")Long id) {
+	public CommonPicture selectByPrimaryKey(@RequestParam("id") Long id) {
 		return mapper.selectByPrimaryKey(id);
 	}
 

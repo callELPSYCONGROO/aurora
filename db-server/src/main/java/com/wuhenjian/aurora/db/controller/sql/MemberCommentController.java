@@ -22,7 +22,7 @@ public class MemberCommentController {
 	private MemberCommentMapper mapper;
 
 	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
-	public MemberComment selectByPrimaryKey(@RequestParam("id")Long id) {
+	public MemberComment selectByPrimaryKey(@RequestParam("id") Long id) {
 		return mapper.selectByPrimaryKey(id);
 	}
 

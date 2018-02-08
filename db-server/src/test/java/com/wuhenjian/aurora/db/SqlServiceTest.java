@@ -1,6 +1,8 @@
 package com.wuhenjian.aurora.db;
 
+import com.wuhenjian.aurora.db.mapper.sql.PhpBlogMapper;
 import com.wuhenjian.aurora.db.mapper.sql.PhpProjectMapper;
+import com.wuhenjian.aurora.utils.entity.dao.PhpBlog;
 import com.wuhenjian.aurora.utils.entity.dao.PhpProject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +24,9 @@ public class SqlServiceTest {
 	@Autowired
 	private PhpProjectMapper phpProjectMapper;
 
+	@Autowired
+	private PhpBlogMapper phpBlogMapper;
+
 	@Test
 	public void phpProjectTest() {
 		PhpProject p = new PhpProject();
@@ -42,6 +47,17 @@ public class SqlServiceTest {
 		System.out.println("*************************************");
 		System.out.println(phpProject.size());
 		System.out.println(phpProject);
+		System.out.println("*************************************");
+		System.out.println("*************************************");
+	}
+
+	@Test
+	public void selectTest1() {
+		PhpBlog p = new PhpBlog();
+		List<PhpBlog> phpBlogs = phpBlogMapper.selectByModel(p);
+		System.out.println("*************************************");
+		System.out.println("*************************************");
+		System.out.println(phpBlogs);
 		System.out.println("*************************************");
 		System.out.println("*************************************");
 	}

@@ -20,8 +20,9 @@ public class MemberAuthController {
 
 	@Resource(name = "memberAuthMapper")
 	private MemberAuthMapper mapper;
+
 	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
-	public MemberAuth selectByPrimaryKey(@RequestParam("id")Long id) {
+	public MemberAuth selectByPrimaryKey(@RequestParam("id") Long id) {
 		return mapper.selectByPrimaryKey(id);
 	}
 

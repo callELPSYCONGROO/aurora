@@ -22,7 +22,7 @@ public class CommonAdController {
 	private CommonAdMapper mapper;
 
 	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
-	public CommonAd selectByPrimaryKey(@RequestParam("id")Long id) {
+	public CommonAd selectByPrimaryKey(@RequestParam("id") Long id) {
 		return mapper.selectByPrimaryKey(id);
 	}
 

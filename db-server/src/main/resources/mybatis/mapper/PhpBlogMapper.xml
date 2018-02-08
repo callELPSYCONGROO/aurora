@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wuhenjian.aurora.db.mapper.sql.PhpBlogMapper" >
+  <resultMap id="BaseResultMap" type="com.wuhenjian.aurora.utils.entity.dao.PhpBlog" >
+    <id column="pbId" property="pbId" jdbcType="BIGINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="csdnId" property="csdnId" jdbcType="BIGINT" />
+    <result column="originalUrl" property="originalUrl" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="bury" property="bury" jdbcType="INTEGER" />
+    <result column="digg" property="digg" jdbcType="INTEGER" />
+    <result column="channel" property="channel" jdbcType="INTEGER" />
+    <result column="commentAllowed" property="commentAllowed" jdbcType="INTEGER" />
+    <result column="commentCount" property="commentCount" jdbcType="INTEGER" />
+    <result column="viewCount" property="viewCount" jdbcType="INTEGER" />
+    <result column="createdAt" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Criteria_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Criteria_Where_Clause" >
+    <where >
+      <foreach collection="criteria.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    pbId, title, type, csdnId, originalUrl, description, bury, digg, channel, commentAllowed, 
+    commentCount, viewCount, createdAt, updateTime
+  </sql>
+  <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpBlogCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_php_blog
+    <if test="_parameter != null" >
+      <include refid="Criteria_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_php_blog
+    where pbId = #{pbId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_php_blog
+    where pbId = #{pbId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByCriteria" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpBlogCriteria" >
+    delete from t_php_blog
+    <if test="_parameter != null" >
+      <include refid="Criteria_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpBlog" >
+    <selectKey resultType="java.lang.Long" keyProperty="pbId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_php_blog (title, type, csdnId, 
+      originalUrl, description, bury, 
+      digg, channel, commentAllowed, 
+      commentCount, viewCount, createdAt, 
+      updateTime)
+    values (#{title,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{csdnId,jdbcType=BIGINT}, 
+      #{originalUrl,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{bury,jdbcType=INTEGER}, 
+      #{digg,jdbcType=INTEGER}, #{channel,jdbcType=INTEGER}, #{commentAllowed,jdbcType=INTEGER}, 
+      #{commentCount,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpBlog" >
+    <selectKey resultType="java.lang.Long" keyProperty="pbId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_php_blog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="csdnId != null" >
+        csdnId,
+      </if>
+      <if test="originalUrl != null" >
+        originalUrl,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="bury != null" >
+        bury,
+      </if>
+      <if test="digg != null" >
+        digg,
+      </if>
+      <if test="channel != null" >
+        channel,
+      </if>
+      <if test="commentAllowed != null" >
+        commentAllowed,
+      </if>
+      <if test="commentCount != null" >
+        commentCount,
+      </if>
+      <if test="viewCount != null" >
+        viewCount,
+      </if>
+      <if test="createdAt != null" >
+        createdAt,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="csdnId != null" >
+        #{csdnId,jdbcType=BIGINT},
+      </if>
+      <if test="originalUrl != null" >
+        #{originalUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="bury != null" >
+        #{bury,jdbcType=INTEGER},
+      </if>
+      <if test="digg != null" >
+        #{digg,jdbcType=INTEGER},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=INTEGER},
+      </if>
+      <if test="commentAllowed != null" >
+        #{commentAllowed,jdbcType=INTEGER},
+      </if>
+      <if test="commentCount != null" >
+        #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="viewCount != null" >
+        #{viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByCriteriaSelective" parameterType="map" >
+    update t_php_blog
+    <set >
+      <if test="record.pbId != null" >
+        pbId = #{record.pbId,jdbcType=BIGINT},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.csdnId != null" >
+        csdnId = #{record.csdnId,jdbcType=BIGINT},
+      </if>
+      <if test="record.originalUrl != null" >
+        originalUrl = #{record.originalUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bury != null" >
+        bury = #{record.bury,jdbcType=INTEGER},
+      </if>
+      <if test="record.digg != null" >
+        digg = #{record.digg,jdbcType=INTEGER},
+      </if>
+      <if test="record.channel != null" >
+        channel = #{record.channel,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentAllowed != null" >
+        commentAllowed = #{record.commentAllowed,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentCount != null" >
+        commentCount = #{record.commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.viewCount != null" >
+        viewCount = #{record.viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdAt != null" >
+        createdAt = #{record.createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByCriteria" parameterType="map" >
+    update t_php_blog
+    set pbId = #{record.pbId,jdbcType=BIGINT},
+      title = #{record.title,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      csdnId = #{record.csdnId,jdbcType=BIGINT},
+      originalUrl = #{record.originalUrl,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      bury = #{record.bury,jdbcType=INTEGER},
+      digg = #{record.digg,jdbcType=INTEGER},
+      channel = #{record.channel,jdbcType=INTEGER},
+      commentAllowed = #{record.commentAllowed,jdbcType=INTEGER},
+      commentCount = #{record.commentCount,jdbcType=INTEGER},
+      viewCount = #{record.viewCount,jdbcType=INTEGER},
+      createdAt = #{record.createdAt,jdbcType=TIMESTAMP},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpBlog" >
+    update t_php_blog
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="csdnId != null" >
+        csdnId = #{csdnId,jdbcType=BIGINT},
+      </if>
+      <if test="originalUrl != null" >
+        originalUrl = #{originalUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="bury != null" >
+        bury = #{bury,jdbcType=INTEGER},
+      </if>
+      <if test="digg != null" >
+        digg = #{digg,jdbcType=INTEGER},
+      </if>
+      <if test="channel != null" >
+        channel = #{channel,jdbcType=INTEGER},
+      </if>
+      <if test="commentAllowed != null" >
+        commentAllowed = #{commentAllowed,jdbcType=INTEGER},
+      </if>
+      <if test="commentCount != null" >
+        commentCount = #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="viewCount != null" >
+        viewCount = #{viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null" >
+        createdAt = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where pbId = #{pbId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpBlog" >
+    update t_php_blog
+    set title = #{title,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      csdnId = #{csdnId,jdbcType=BIGINT},
+      originalUrl = #{originalUrl,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      bury = #{bury,jdbcType=INTEGER},
+      digg = #{digg,jdbcType=INTEGER},
+      channel = #{channel,jdbcType=INTEGER},
+      commentAllowed = #{commentAllowed,jdbcType=INTEGER},
+      commentCount = #{commentCount,jdbcType=INTEGER},
+      viewCount = #{viewCount,jdbcType=INTEGER},
+      createdAt = #{createdAt,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where pbId = #{pbId,jdbcType=BIGINT}
+  </update>
+  <sql id="Model_Where_Clause" >
+    <where >
+      <if test="pbId != null" >
+         and pbId=#{pbId}
+      </if>
+      <if test="title != null" >
+         and title=#{title}
+      </if>
+      <if test="type != null" >
+         and type=#{type}
+      </if>
+      <if test="csdnId != null" >
+         and csdnId=#{csdnId}
+      </if>
+      <if test="originalUrl != null" >
+         and originalUrl=#{originalUrl}
+      </if>
+      <if test="description != null" >
+         and description=#{description}
+      </if>
+      <if test="bury != null" >
+         and bury=#{bury}
+      </if>
+      <if test="digg != null" >
+         and digg=#{digg}
+      </if>
+      <if test="channel != null" >
+         and channel=#{channel}
+      </if>
+      <if test="commentAllowed != null" >
+         and commentAllowed=#{commentAllowed}
+      </if>
+      <if test="commentCount != null" >
+         and commentCount=#{commentCount}
+      </if>
+      <if test="viewCount != null" >
+         and viewCount=#{viewCount}
+      </if>
+      <if test="createdAt != null" >
+         and createdAt=#{createdAt}
+      </if>
+      <if test="updateTime != null" >
+         and updateTime=#{updateTime}
+      </if>
+    </where>
+  </sql>
+  <select id="countByModel" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpBlog" resultType="java.lang.Integer" >
+    select count(*) from t_php_blog
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByModel" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.PhpBlog" >
+    select
+    <include refid="Base_Column_List" />
+    from t_php_blog
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByTitle" resultType="com.wuhenjian.aurora.utils.entity.dao.PhpBlog">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM t_php_blog
+    WHERE `title` = #{title}
+  </select>
+</mapper>

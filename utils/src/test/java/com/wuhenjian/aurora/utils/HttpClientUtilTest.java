@@ -70,4 +70,24 @@ public class HttpClientUtilTest {
 		String content = HttpClientUtil.requestGetReturnEntity("https://api.github.com/repos/callELPSYCONGROO/aurora", null);
 		System.out.println(content);
 	}
+
+	@Test
+	public void csdnTest() throws IOException {
+//		String url = "http://api.csdn.net/oauth2/access_token";
+//		Map<String, String> params = new HashMap<>();
+//		params.put("client_id", "123");
+//		params.put("client_secret", "123");
+//		params.put("grant_type", "password");
+//		params.put("username", "123");
+//		params.put("password", "123");
+//		String entity = HttpClientUtil.requestGetReturnEntity(url, params);
+//		System.out.println(entity);//{"access_token":"77685341d6eb4621b8fd2ac432aba7a5","expires_in":86400,"username":"qq_20112609"}
+
+		String url = "http://api.csdn.net/blog/getarticlelist";
+		Map<String, String> params = new HashMap<>();
+		params.put("access_token", "77685341d6eb4621b8fd2ac432aba7a5");
+		params.put("page", "4");
+		String entity = HttpClientUtil.requestGetReturnEntity(url, params);
+		System.out.println(entity);
+	}
 }
