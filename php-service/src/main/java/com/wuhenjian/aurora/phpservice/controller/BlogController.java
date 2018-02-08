@@ -23,7 +23,7 @@ public class BlogController {
 	@Autowired
 	private PhpBlogService phpBlogService;
 
-	@RequestMapping(value = "getBlogList", method = RequestMethod.GET)
+	@RequestMapping(value = "/getBlogList", method = RequestMethod.GET)
 	public ApiResult getBlogList(Integer num, Integer size) throws BusinessException {
 		int pageNum = num == null || num <= 0 ? 1 : num;
 		int pageSize = size == null || size <= 0 ? 15 : size;
