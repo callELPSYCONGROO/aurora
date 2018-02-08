@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.wuhenjian.aurora.db.mapper.sql.PhpBlogMapper;
 import com.wuhenjian.aurora.utils.constant.CommonContant;
 import com.wuhenjian.aurora.utils.entity.dao.PhpBlog;
+import com.wuhenjian.aurora.utils.entity.vo.PhpBlogVo;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,5 +53,13 @@ public class PhpBlogController {
 	@RequestMapping(value = "/selectByTitle", method = RequestMethod.GET)
 	public PhpBlog selectByTitle(@RequestParam("title") String title) {
 		return mapper.selectByTitle(title);
+	}
+
+	@RequestMapping(value = "/selectForVo", method = RequestMethod.POST)
+	public List<PhpBlogVo> selectForVo(@RequestBody(required = false) PhpBlog m) throws BusinessException {
+		if (m != null && !m.isNullPage()) {
+			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
+		}
+		return mapper.selectForVo(m);
 	}
 }

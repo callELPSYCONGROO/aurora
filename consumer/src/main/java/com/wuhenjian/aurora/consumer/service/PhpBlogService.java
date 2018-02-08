@@ -2,6 +2,7 @@ package com.wuhenjian.aurora.consumer.service;
 
 import com.wuhenjian.aurora.consumer.excphandler.PhpBlogServiceExceptionHandler;
 import com.wuhenjian.aurora.utils.entity.dao.PhpBlog;
+import com.wuhenjian.aurora.utils.entity.vo.PhpBlogVo;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Service;
@@ -38,4 +39,7 @@ public interface PhpBlogService {
 
 	@RequestMapping(value = BASE_PATH + "/selectByTitle", method = RequestMethod.GET)
 	PhpBlog selectByTitle(@RequestParam("title") String title) throws BusinessException;
+
+	@RequestMapping(value = BASE_PATH + "/selectForVo", method = RequestMethod.POST)
+	List<PhpBlogVo> selectForVo(@RequestBody(required = false) PhpBlog m) throws BusinessException;
 }

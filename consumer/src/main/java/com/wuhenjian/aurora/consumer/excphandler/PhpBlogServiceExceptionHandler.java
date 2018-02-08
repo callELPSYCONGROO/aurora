@@ -3,6 +3,7 @@ package com.wuhenjian.aurora.consumer.excphandler;
 import com.wuhenjian.aurora.consumer.service.PhpBlogService;
 import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.dao.PhpBlog;
+import com.wuhenjian.aurora.utils.entity.vo.PhpBlogVo;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.stereotype.Component;
 
@@ -41,6 +42,11 @@ public class PhpBlogServiceExceptionHandler implements PhpBlogService {
 
 	@Override
 	public PhpBlog selectByTitle(String title) throws BusinessException {
+		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
+	}
+
+	@Override
+	public List<PhpBlogVo> selectForVo(PhpBlog m) throws BusinessException {
 		throw new BusinessException(ResultStatus.REMOTE_SERVICE_EXCEPTION);
 	}
 }

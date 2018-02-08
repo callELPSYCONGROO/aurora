@@ -414,4 +414,9 @@
     FROM t_php_blog
     WHERE `title` = #{title}
   </select>
+  <select id="selectForVo" resultType="com.wuhenjian.aurora.utils.entity.vo.PhpBlogVo">
+    SELECT
+    pbId, title, type, originalUrl, description, viewCount, createdAt
+    FROM t_php_blog
+  </select>
 </mapper>

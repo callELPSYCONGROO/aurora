@@ -3,6 +3,8 @@ package com.wuhenjian.aurora.db.mapper.sql;
 import com.wuhenjian.aurora.utils.entity.dao.PhpBlog;
 import com.wuhenjian.aurora.utils.entity.dao.PhpBlogCriteria;
 import java.util.List;
+
+import com.wuhenjian.aurora.utils.entity.vo.PhpBlogVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -33,4 +35,6 @@ public interface PhpBlogMapper {
     List<PhpBlog> selectByModel(PhpBlog model);
 
     PhpBlog selectByTitle(@Param("title") String title);
+
+    List<PhpBlogVo> selectForVo(PhpBlog model);
 }
