@@ -221,7 +221,6 @@ CREATE TABLE `t_php_blog`(
     `bury` INT NOT NULL DEFAULT 0 COMMENT '埋葬',
     `digg` INT NOT NULL DEFAULT 0 COMMENT '掘客',
     `channel` INT NOT NULL DEFAULT 0 COMMENT '频道',
-    `commentAllowed` INT(2) NOT NULL DEFAULT 1 COMMENT '允许评论，1-允许，2-不允许',
     `commentCount` INT NOT NULL DEFAULT 0 COMMENT '评论次数',
     `viewCount` INT NOT NULL DEFAULT 0 COMMENT '浏览次数',
     `phpViewCount` INT NOT NULL DEFAULT '0' COMMENT '个人主页浏览次数',
