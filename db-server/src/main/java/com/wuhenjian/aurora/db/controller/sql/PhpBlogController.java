@@ -1,10 +1,10 @@
 package com.wuhenjian.aurora.db.controller.sql;
 
 import com.github.pagehelper.PageHelper;
-import com.wuhenjian.aurora.db.mapper.sql.PhpProjectMapper;
+import com.wuhenjian.aurora.db.mapper.sql.PhpBlogMapper;
 import com.wuhenjian.aurora.utils.constant.CommonContant;
-import com.wuhenjian.aurora.utils.entity.dao.PhpProject;
-import com.wuhenjian.aurora.utils.entity.vo.GithubRepo;
+import com.wuhenjian.aurora.utils.entity.dao.PhpBlog;
+import com.wuhenjian.aurora.utils.entity.vo.PhpBlogVo;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,22 +13,22 @@ import java.util.List;
 
 /**
  * @author 無痕剑
- * @date 2018/1/11 16:29
+ * @date 2018/2/7 22:23
  */
 @RestController
-@RequestMapping(CommonContant.SQL + "/phpProject")
-public class PhpProjectController {
+@RequestMapping(CommonContant.SQL + "/phpBlog")
+public class PhpBlogController {
 
-	@Resource(name = "phpProjectMapper")
-	private PhpProjectMapper mapper;
+	@Resource(name = "phpBlogMapper")
+	private PhpBlogMapper mapper;
 
 	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
-	public PhpProject selectByPrimaryKey(@RequestParam("id") Long id) {
+	public PhpBlog selectByPrimaryKey(@RequestParam("id") Long id) {
 		return mapper.selectByPrimaryKey(id);
 	}
 
 	@RequestMapping(value = "/selectByModel", method = RequestMethod.POST)
-	public List<PhpProject> selectByModel(@RequestBody(required = false) PhpProject m) throws BusinessException {
+	public List<PhpBlog> selectByModel(@RequestBody(required = false) PhpBlog m) throws BusinessException {
 		if (m != null && !m.isNullPage()) {
 			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
 		}
@@ -36,12 +36,12 @@ public class PhpProjectController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public void updateByPrimaryKeySelective(@RequestBody(required = false) PhpProject m) {
+	public void updateByPrimaryKeySelective(@RequestBody PhpBlog m) {
 		mapper.updateByPrimaryKeySelective(m);
 	}
 
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public void insertSelective(@RequestBody(required = false) PhpProject m) {
+	public void insertSelective(@RequestBody PhpBlog m) {
 		mapper.insertSelective(m);
 	}
 
@@ -50,16 +50,16 @@ public class PhpProjectController {
 		mapper.deleteByPrimaryKey(id);
 	}
 
-	@RequestMapping(value = "/selectByAcctAndRepo", method = RequestMethod.GET)
-	public PhpProject selectByAcctAndRepo(@RequestParam("acct") String acct, @RequestParam("repo") String repo) {
-		return mapper.selectByAcctAndRepo(acct, repo);
+	@RequestMapping(value = "/selectByTitle", method = RequestMethod.GET)
+	public PhpBlog selectByTitle(@RequestParam("title") String title) {
+		return mapper.selectByTitle(title);
 	}
 
-	@RequestMapping(value = "/selectRepoByAcct", method = RequestMethod.POST)
-	public List<GithubRepo> selectRepoByAcct(@RequestBody(required = false) PhpProject m) throws BusinessException {
+	@RequestMapping(value = "/selectForVo", method = RequestMethod.POST)
+	public List<PhpBlogVo> selectForVo(@RequestBody(required = false) PhpBlog m) throws BusinessException {
 		if (m != null && !m.isNullPage()) {
 			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
 		}
-		return mapper.selectRepoByAcct(m);
+		return mapper.selectForVo(m);
 	}
 }

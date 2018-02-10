@@ -23,7 +23,7 @@ public class MemberInfoController {
 	private MemberInfoMapper mapper;
 
 	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
-	public MemberInfo selectByPrimaryKey(@RequestParam("id")Long id) {
+	public MemberInfo selectByPrimaryKey(@RequestParam("id") Long id) {
 		return mapper.selectByPrimaryKey(id);
 	}
 

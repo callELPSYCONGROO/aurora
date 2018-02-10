@@ -208,6 +208,30 @@ CREATE TABLE `t_php_project`(
     UNIQUE KEY (`accountName`,`repoName`)
 )ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '工程项目表';
 
+CREATE TABLE `t_php_blog`(
+    `pbId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `title` VARCHAR(100) CHARACTER SET utf8mb4 NOT NULL COMMENT '文章标题',
+    `type` VARCHAR(20) CHARACTER SET utf8mb4 NOT NULL COMMENT '文章类型',
+    `csdnId` BIGINT NOT NULL COMMENT 'CSDN的文章ID',
+    `categories` varchar(20) DEFAULT NULL COMMENT '类别',
+    `tags` varchar(50) DEFAULT NULL COMMENT '标签',
+    `originalUrl` VARCHAR(256) CHARACTER SET utf8mb4 COMMENT '原文地址',
+    `description` VARCHAR(256) CHARACTER SET utf8mb4 COMMENT '描述',
+    `content` text COMMENT '内容',
+    `bury` INT NOT NULL DEFAULT 0 COMMENT '埋葬',
+    `digg` INT NOT NULL DEFAULT 0 COMMENT '掘客',
+    `channel` INT NOT NULL DEFAULT 0 COMMENT '频道',
+    `commentCount` INT NOT NULL DEFAULT 0 COMMENT '评论次数',
+    `viewCount` INT NOT NULL DEFAULT 0 COMMENT '浏览次数',
+    `phpViewCount` INT NOT NULL DEFAULT '0' COMMENT '个人主页浏览次数',
+    `createdAt` DATETIME COMMENT '创建时间',
+
+    `updateTime` DATETIME NOT NULL COMMENT '更新时间',
+
+    PRIMARY KEY (`pbId`),
+    UNIQUE KEY (`title`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '个人博客';
+
 
 
 INSERT INTO `t_common_count` (`ccid`) VALUES (NULL);

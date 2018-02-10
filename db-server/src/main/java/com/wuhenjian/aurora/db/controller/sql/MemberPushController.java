@@ -22,7 +22,7 @@ public class MemberPushController {
 	private MemberPushMapper mapper;
 
 	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
-	public MemberPush selectByPrimaryKey(@RequestParam("id")Long id) {
+	public MemberPush selectByPrimaryKey(@RequestParam("id") Long id) {
 		return mapper.selectByPrimaryKey(id);
 	}
 

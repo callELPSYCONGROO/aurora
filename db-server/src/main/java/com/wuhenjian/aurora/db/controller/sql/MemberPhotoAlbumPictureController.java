@@ -22,7 +22,7 @@ public class MemberPhotoAlbumPictureController {
 	private MemberPhotoAlbumPictureMapper mapper;
 
 	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
-	public MemberPhotoAlbumPicture selectByPrimaryKey(@RequestParam("id")Long id) {
+	public MemberPhotoAlbumPicture selectByPrimaryKey(@RequestParam("id") Long id) {
 		return mapper.selectByPrimaryKey(id);
 	}
 

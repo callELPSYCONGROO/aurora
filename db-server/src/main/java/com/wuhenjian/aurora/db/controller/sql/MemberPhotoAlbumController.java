@@ -22,12 +22,12 @@ public class MemberPhotoAlbumController {
 	private MemberPhotoAlbumMapper mapper;
 
 	@RequestMapping(value = "/selectById", method = RequestMethod.GET)
-	public  MemberPhotoAlbum selectByPrimaryKey(@RequestParam("id")Long id) {
+	public MemberPhotoAlbum selectByPrimaryKey(@RequestParam("id") Long id) {
 		return mapper.selectByPrimaryKey(id);
 	}
 
 	@RequestMapping(value = "/selectByModel", method = RequestMethod.POST)
-	public List< MemberPhotoAlbum> selectByModel(@RequestBody(required = false)  MemberPhotoAlbum m) throws BusinessException {
+	public List<MemberPhotoAlbum> selectByModel(@RequestBody(required = false) MemberPhotoAlbum m) throws BusinessException {
 		if (m != null && !m.isNullPage()) {
 			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
 		}
