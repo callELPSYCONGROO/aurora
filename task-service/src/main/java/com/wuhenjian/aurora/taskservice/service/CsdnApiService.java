@@ -32,4 +32,11 @@ public interface CsdnApiService {
 	 * @param accessToken access_token
 	 */
 	void saveAllBlog(String path, String accessToken) throws IOException, BusinessException;
+
+	/**
+	 * 更新博客内容详情
+	 * @param path 请求路径
+	 * @param accessToken access_token
+	 */
+	void updateAllBlogDetail(String path, String accessToken) throws IOException, BusinessException;
 }

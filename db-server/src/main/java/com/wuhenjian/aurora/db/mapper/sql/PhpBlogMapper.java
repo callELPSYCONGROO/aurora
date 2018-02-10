@@ -18,19 +18,27 @@ public interface PhpBlogMapper {
 
     int insertSelective(PhpBlog record);
 
+    List<PhpBlog> selectByCriteriaWithBLOBs(PhpBlogCriteria criteria);
+
     List<PhpBlog> selectByCriteria(PhpBlogCriteria criteria);
 
     PhpBlog selectByPrimaryKey(Long pbId);
 
     int updateByCriteriaSelective(@Param("record") PhpBlog record, @Param("criteria") PhpBlogCriteria criteria);
 
+    int updateByCriteriaWithBLOBs(@Param("record") PhpBlog record, @Param("criteria") PhpBlogCriteria criteria);
+
     int updateByCriteria(@Param("record") PhpBlog record, @Param("criteria") PhpBlogCriteria criteria);
 
     int updateByPrimaryKeySelective(PhpBlog record);
 
+    int updateByPrimaryKeyWithBLOBs(PhpBlog record);
+
     int updateByPrimaryKey(PhpBlog record);
 
     int countByModel(PhpBlog model);
+
+    List<PhpBlog> selectByModelWithBLOBs(PhpBlog model);
 
     List<PhpBlog> selectByModel(PhpBlog model);
 

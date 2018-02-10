@@ -39,24 +39,48 @@ public class CsdnBlogJob {
 	@Value("${task.csdn.getarticlelist-path}")
 	private String getArticleListPath;
 
+	@Value("${task.csdn.getarticle-path}")
+	private String getArticlePath;
+
 	@Resource(name = "csdnApiService")
 	private CsdnApiService csdnApiService;
 
 	@Scheduled(cron = "0 0 3 * * ?")
 	public void getAllBlog() {
-		Map<String, String> params = new HashMap<>();
-		params.put("grant_type", "password");
 		try {
-			params.put("client_id", RSAUtil.decrypt(clientId));
-			params.put("client_secret", RSAUtil.decrypt(clientSecret));
-			params.put("username", RSAUtil.decrypt(username));
-			params.put("password", RSAUtil.decrypt(password));
-			String accessToken = csdnApiService.oauth2Authorize(this.oauthPath, params);
+			String accessToken = getAccessToken();
 			csdnApiService.saveAllBlog(this.getArticleListPath, accessToken);
 		} catch (BusinessException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Scheduled(cron = "0 0 5 * * ?")
+	public void getArticleDetail() {
+		try {
+			String accessToken = getAccessToken();
+			csdnApiService.updateAllBlogDetail(this.getArticlePath, accessToken);
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 获取token
+	 * @return access_token
+	 * @throws Exception 发生异常
+	 */
+	private String getAccessToken() throws Exception {
+		Map<String, String> params = new HashMap<>();
+		params.put("grant_type", "password");
+		params.put("client_id", RSAUtil.decrypt(clientId));
+		params.put("client_secret", RSAUtil.decrypt(clientSecret));
+		params.put("username", RSAUtil.decrypt(username));
+		params.put("password", RSAUtil.decrypt(password));
+		return csdnApiService.oauth2Authorize(this.oauthPath, params);
 	}
 }

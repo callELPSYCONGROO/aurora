@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wuhenjian.aurora.consumer.service.PhpBlogService;
 import com.wuhenjian.aurora.taskservice.service.CsdnApiService;
 import com.wuhenjian.aurora.utils.HttpClientUtil;
+import com.wuhenjian.aurora.utils.JsonUtil;
 import com.wuhenjian.aurora.utils.StringUtil;
 import com.wuhenjian.aurora.utils.entity.dao.PhpBlog;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
@@ -34,7 +35,8 @@ public class CsdnApiServiceImpl implements CsdnApiService {
 
 	@Override
 	public String oauth2Authorize(String path, Map<String, String> params) throws IOException, BusinessException {
-		String content = HttpClientUtil.requestGetReturnEntity(this.apiPath + path, params);
+		String url = this.apiPath + path;
+		String content = HttpClientUtil.requestGetReturnEntity(url, params);
 		JSONObject jsonObject = JSON.parseObject(content);
 		String accessToken = jsonObject.getString("access_token");
 		if (StringUtil.isBlank(accessToken)) {
@@ -94,5 +96,39 @@ public class CsdnApiServiceImpl implements CsdnApiService {
 		}
 		JSONArray jsonArray = jsonObject.getJSONArray("list");
 		return jsonArray.toJavaList(PhpBlog.class);
+	}
+
+	/**
+	 * 更新博客内容详情
+	 * @param path 请求路径
+	 * @param accessToken access_token
+	 */
+	@Override
+	public void updateAllBlogDetail(String path, String accessToken) throws IOException, BusinessException {
+		// 获取所有博客
+		List<PhpBlog> list = phpBlogService.selectByModel(new PhpBlog());
+		String url = this.apiPath + path;
+		Map<String, String> params = new HashMap<>();
+		params.put("access_token", accessToken);
+		for (PhpBlog p : list) {
+			params.put("id", String.valueOf(p.getCsdnId()));
+			String entity = HttpClientUtil.requestGetReturnEntity(url, params);
+			JSONObject jsonObject = JSON.parseObject(entity);
+			Integer errorCode = jsonObject.getInteger("error_code");
+			if (errorCode != null) {
+				String errorMsg = jsonObject.getString("error");
+				throw new BusinessException(errorCode, errorMsg);
+			}
+			Long id = jsonObject.getLong("id");
+			if (id == null) {
+				continue;
+			}
+			PhpBlog phpBlog = JsonUtil.json2Obj(entity, PhpBlog.class);
+			p.setCategories(phpBlog.getCategories());
+			p.setTags(phpBlog.getTags());
+			p.setContent(phpBlog.getContent());
+			p.setUpdateTime(new Date());
+			phpBlogService.updateByPrimaryKeySelective(p);
+		}
 	}
 }

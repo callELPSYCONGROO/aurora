@@ -1,6 +1,7 @@
 package com.wuhenjian.aurora.phpservice.controller;
 
 import com.wuhenjian.aurora.consumer.service.PhpBlogService;
+import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.dao.PhpBlog;
 import com.wuhenjian.aurora.utils.entity.dto.ApiResult;
 import com.wuhenjian.aurora.utils.entity.vo.PhpBlogVo;
@@ -33,5 +34,14 @@ public class BlogController {
 		phpBlog.setOrderBy("viewCount DESC");
 		List<PhpBlogVo> list = phpBlogService.selectForVo(phpBlog);
 		return ApiResult.success(list);
+	}
+
+	@RequestMapping(value = "/getBlogDetail", method = RequestMethod.GET)
+	public ApiResult getBlogDetail(Long pbId) throws BusinessException {
+		if (pbId == null) {
+			throw new BusinessException(ResultStatus.PARAM_IS_EMPTY);
+		}
+		PhpBlog phpBlog = phpBlogService.selectByPrimaryKey(pbId);
+		return ApiResult.success(phpBlog);
 	}
 }

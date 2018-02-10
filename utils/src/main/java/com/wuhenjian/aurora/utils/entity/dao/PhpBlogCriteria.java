@@ -385,6 +385,146 @@ public class PhpBlogCriteria {
             return (Criteria) this;
         }
 
+        public Criteria andCategoriesIsNull() {
+            addCriterion("categories is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoriesIsNotNull() {
+            addCriterion("categories is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoriesEqualTo(String value) {
+            addCriterion("categories =", value, "categories");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoriesNotEqualTo(String value) {
+            addCriterion("categories <>", value, "categories");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoriesGreaterThan(String value) {
+            addCriterion("categories >", value, "categories");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoriesGreaterThanOrEqualTo(String value) {
+            addCriterion("categories >=", value, "categories");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoriesLessThan(String value) {
+            addCriterion("categories <", value, "categories");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoriesLessThanOrEqualTo(String value) {
+            addCriterion("categories <=", value, "categories");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoriesLike(String value) {
+            addCriterion("categories like", value, "categories");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoriesNotLike(String value) {
+            addCriterion("categories not like", value, "categories");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoriesIn(List<String> values) {
+            addCriterion("categories in", values, "categories");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoriesNotIn(List<String> values) {
+            addCriterion("categories not in", values, "categories");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoriesBetween(String value1, String value2) {
+            addCriterion("categories between", value1, value2, "categories");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoriesNotBetween(String value1, String value2) {
+            addCriterion("categories not between", value1, value2, "categories");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagsIsNull() {
+            addCriterion("tags is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagsIsNotNull() {
+            addCriterion("tags is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagsEqualTo(String value) {
+            addCriterion("tags =", value, "tags");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagsNotEqualTo(String value) {
+            addCriterion("tags <>", value, "tags");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagsGreaterThan(String value) {
+            addCriterion("tags >", value, "tags");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagsGreaterThanOrEqualTo(String value) {
+            addCriterion("tags >=", value, "tags");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagsLessThan(String value) {
+            addCriterion("tags <", value, "tags");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagsLessThanOrEqualTo(String value) {
+            addCriterion("tags <=", value, "tags");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagsLike(String value) {
+            addCriterion("tags like", value, "tags");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagsNotLike(String value) {
+            addCriterion("tags not like", value, "tags");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagsIn(List<String> values) {
+            addCriterion("tags in", values, "tags");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagsNotIn(List<String> values) {
+            addCriterion("tags not in", values, "tags");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagsBetween(String value1, String value2) {
+            addCriterion("tags between", value1, value2, "tags");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagsNotBetween(String value1, String value2) {
+            addCriterion("tags not between", value1, value2, "tags");
+            return (Criteria) this;
+        }
+
         public Criteria andOriginalUrlIsNull() {
             addCriterion("originalUrl is null");
             return (Criteria) this;
@@ -705,66 +845,6 @@ public class PhpBlogCriteria {
             return (Criteria) this;
         }
 
-        public Criteria andCommentAllowedIsNull() {
-            addCriterion("commentAllowed is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentAllowedIsNotNull() {
-            addCriterion("commentAllowed is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentAllowedEqualTo(Integer value) {
-            addCriterion("commentAllowed =", value, "commentAllowed");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentAllowedNotEqualTo(Integer value) {
-            addCriterion("commentAllowed <>", value, "commentAllowed");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentAllowedGreaterThan(Integer value) {
-            addCriterion("commentAllowed >", value, "commentAllowed");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentAllowedGreaterThanOrEqualTo(Integer value) {
-            addCriterion("commentAllowed >=", value, "commentAllowed");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentAllowedLessThan(Integer value) {
-            addCriterion("commentAllowed <", value, "commentAllowed");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentAllowedLessThanOrEqualTo(Integer value) {
-            addCriterion("commentAllowed <=", value, "commentAllowed");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentAllowedIn(List<Integer> values) {
-            addCriterion("commentAllowed in", values, "commentAllowed");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentAllowedNotIn(List<Integer> values) {
-            addCriterion("commentAllowed not in", values, "commentAllowed");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentAllowedBetween(Integer value1, Integer value2) {
-            addCriterion("commentAllowed between", value1, value2, "commentAllowed");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentAllowedNotBetween(Integer value1, Integer value2) {
-            addCriterion("commentAllowed not between", value1, value2, "commentAllowed");
-            return (Criteria) this;
-        }
-
         public Criteria andCommentCountIsNull() {
             addCriterion("commentCount is null");
             return (Criteria) this;
@@ -882,6 +962,66 @@ public class PhpBlogCriteria {
 
         public Criteria andViewCountNotBetween(Integer value1, Integer value2) {
             addCriterion("viewCount not between", value1, value2, "viewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhpViewCountIsNull() {
+            addCriterion("phpViewCount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhpViewCountIsNotNull() {
+            addCriterion("phpViewCount is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhpViewCountEqualTo(Integer value) {
+            addCriterion("phpViewCount =", value, "phpViewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhpViewCountNotEqualTo(Integer value) {
+            addCriterion("phpViewCount <>", value, "phpViewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhpViewCountGreaterThan(Integer value) {
+            addCriterion("phpViewCount >", value, "phpViewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhpViewCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("phpViewCount >=", value, "phpViewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhpViewCountLessThan(Integer value) {
+            addCriterion("phpViewCount <", value, "phpViewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhpViewCountLessThanOrEqualTo(Integer value) {
+            addCriterion("phpViewCount <=", value, "phpViewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhpViewCountIn(List<Integer> values) {
+            addCriterion("phpViewCount in", values, "phpViewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhpViewCountNotIn(List<Integer> values) {
+            addCriterion("phpViewCount not in", values, "phpViewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhpViewCountBetween(Integer value1, Integer value2) {
+            addCriterion("phpViewCount between", value1, value2, "phpViewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhpViewCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("phpViewCount not between", value1, value2, "phpViewCount");
             return (Criteria) this;
         }
 
@@ -1012,6 +1152,16 @@ public class PhpBlogCriteria {
 
         public Criteria andTypeLikeInsensitive(String value) {
             addCriterion("upper(type) like", value.toUpperCase(), "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoriesLikeInsensitive(String value) {
+            addCriterion("upper(categories) like", value.toUpperCase(), "categories");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagsLikeInsensitive(String value) {
+            addCriterion("upper(tags) like", value.toUpperCase(), "tags");
             return (Criteria) this;
         }
 

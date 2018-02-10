@@ -24,7 +24,6 @@ public class JsonUtilTest {
 		p.setPbId(12324L);
 		p.setUpdateTime(new Date());
 		p.setCreatedAt(new Date());
-		p.setCommentAllowed(1);
 		String json = JsonUtil.obj2Json(p);
 		System.out.println(json);
 		PhpBlog blog = JsonUtil.json2Obj(json, PhpBlog.class);

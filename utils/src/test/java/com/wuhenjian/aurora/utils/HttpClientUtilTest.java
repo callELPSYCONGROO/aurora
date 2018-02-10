@@ -81,7 +81,7 @@ public class HttpClientUtilTest {
 //		params.put("username", "123");
 //		params.put("password", "123");
 //		String entity = HttpClientUtil.requestGetReturnEntity(url, params);
-//		System.out.println(entity);//{"access_token":"77685341d6eb4621b8fd2ac432aba7a5","expires_in":86400,"username":"qq_20112609"}
+//		System.out.println(entity);//
 
 		String url = "http://api.csdn.net/blog/getarticlelist";
 		Map<String, String> params = new HashMap<>();
