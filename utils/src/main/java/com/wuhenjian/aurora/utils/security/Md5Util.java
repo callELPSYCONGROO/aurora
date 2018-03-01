@@ -2,7 +2,6 @@ package com.wuhenjian.aurora.utils.security;
 
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.codec.digest.Md5Crypt;
 
 import java.security.MessageDigest;
 
