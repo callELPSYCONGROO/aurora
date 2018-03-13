@@ -239,6 +239,31 @@ INSERT INTO `t_common_count` (`ccid`) VALUES (NULL);
 
 
 
+CREATE TABLE `t_sys_user` (
+    `suId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `uacctount` VARCHAR(16) NOT NULL COMMENT '用户账号',
+    `upassword` VARCHAR(64) NOT NULL COMMENT '用户密码',
+    `uemail` VARCHAR(100) DEFAULT NULL COMMENT '用户邮箱',
+    `uphone` VARCHAR(20) DEFAULT NULL COMMENT '用户手机',
+    `uname` VARCHAR(20) DEFAULT NULL COMMENT '用户名',
+    `salt` CHAR(16) COMMENT '用户盐值',
+    `ustatus` INT(2) DEFAULT 1 COMMENT '用户状态：1-正常，2-密码错误次数过多被锁定，3-管理员锁定，4-注销',
+    `createTime` DATETIME COMMENT '创建时间',
+    `updateTime` DATETIME COMMENT '修改时间',
+
+    PRIMARY KEY (`suId`),
+    UNIQUE KEY (`uacctount`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '后台管理系统用户';
+
+CREATE TABLE `t_sys_group` (
+    `sgId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `gname` VARCHAR(10) NOT NULL COMMENT '组名',
+    `gstatus` INT(2) DEFAULT 1 COMMENT '组状态，1-正常，2-禁用',
+
+    PRIMARY KEY (`sgId`),
+    UNIQUE KEY (`gname`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '后台系统用户组';
+
 
 
 
