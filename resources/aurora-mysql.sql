@@ -253,16 +253,17 @@ CREATE TABLE `t_sys_user` (
 
     PRIMARY KEY (`suId`),
     UNIQUE KEY (`uacctount`)
-)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '后台管理系统用户';
+)ENGINE=INNODB AUTO_INCREMENT=10000001 DEFAULT CHARSET=utf8mb4 COMMENT '后台用户';
 
 CREATE TABLE `t_sys_group` (
     `sgId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
     `gname` VARCHAR(10) NOT NULL COMMENT '组名',
+    `glevel` INT(2) NOT NULL COMMENT '用户组等级，从大到小：1、2、3...，1为超级管理员，2为普通管理员',
     `gstatus` INT(2) DEFAULT 1 COMMENT '组状态，1-正常，2-禁用',
 
     PRIMARY KEY (`sgId`),
     UNIQUE KEY (`gname`)
-)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '后台系统管理组';
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '群组';
 
 CREATE TABLE `t_sys_user_group` (
     `sugId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
@@ -270,8 +271,31 @@ CREATE TABLE `t_sys_user_group` (
     `suId` BIGINT NOT NULL COMMENT '组id',
 
     PRIMARY KEY (`sugId`)
-)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '后台管理系统用户组';
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '用户组';
 
+CREATE TABLE `t_sys_menu` (
+    `smId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `menuname` VARCHAR(20) NOT NULL COMMENT '菜单名称',
+    `permission` VARCHAR(50) NOT NULL COMMENT '权限名称',
+    `url` VARCHAR(50) DEFAULT NULL COMMENT 'URL地址',
+    `menuLevel` INT(2) NOT NULL COMMENT '菜单层级，0-父级菜单，由大到小：1、2、3...',
+    `sort` INT(2) COMMENT '排序',
+    `icon` VARCHAR(20) COMMENT '标签class属性',
+    `actived` INT(2) DEFAULT 1 COMMENT '是否激活，0-未激活，1-激活',
+    `createTime` DATETIME COMMENT '创建时间',
+    `updateTime` DATETIME COMMENT '修改时间',
 
+    PRIMARY KEY (`smId`),
+    UNIQUE KEY (`permission`),
+    UNIQUE KEY (`url`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '权限菜单';
 
+CREATE TABLE `t_sys_role_permission` (
+    `srpId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `roleType` INT NOT NULL COMMENT '角色类型：1-群组，2-用户',
+    `roleId` BIGINT NOT NULL COMMENT '角色id',
+    `smId` BIGINT NOT NULL COMMENT '菜单id',
 
+    PRIMARY KEY (`srpId`),
+    UNIQUE KEY (`roleType`,`roleId`,`smId`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '用户权限';

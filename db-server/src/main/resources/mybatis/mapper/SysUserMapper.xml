@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wuhenjian.aurora.db.mapper.sql.SysUserMapper" >
+  <resultMap id="BaseResultMap" type="com.wuhenjian.aurora.utils.entity.dao.SysUser" >
+    <id column="suId" property="suId" jdbcType="BIGINT" />
+    <result column="uacctount" property="uacctount" jdbcType="VARCHAR" />
+    <result column="upassword" property="upassword" jdbcType="VARCHAR" />
+    <result column="uemail" property="uemail" jdbcType="VARCHAR" />
+    <result column="uphone" property="uphone" jdbcType="VARCHAR" />
+    <result column="uname" property="uname" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="CHAR" />
+    <result column="ustatus" property="ustatus" jdbcType="INTEGER" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Criteria_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Criteria_Where_Clause" >
+    <where >
+      <foreach collection="criteria.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    suId, uacctount, upassword, uemail, uphone, uname, salt, ustatus, createTime, updateTime
+  </sql>
+  <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysUserCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_sys_user
+    <if test="_parameter != null" >
+      <include refid="Criteria_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_user
+    where suId = #{suId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_sys_user
+    where suId = #{suId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByCriteria" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysUserCriteria" >
+    delete from t_sys_user
+    <if test="_parameter != null" >
+      <include refid="Criteria_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysUser" >
+    <selectKey resultType="java.lang.Long" keyProperty="suId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_sys_user (uacctount, upassword, uemail, 
+      uphone, uname, salt, ustatus, 
+      createTime, updateTime)
+    values (#{uacctount,jdbcType=VARCHAR}, #{upassword,jdbcType=VARCHAR}, #{uemail,jdbcType=VARCHAR}, 
+      #{uphone,jdbcType=VARCHAR}, #{uname,jdbcType=VARCHAR}, #{salt,jdbcType=CHAR}, #{ustatus,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysUser" >
+    <selectKey resultType="java.lang.Long" keyProperty="suId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_sys_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uacctount != null" >
+        uacctount,
+      </if>
+      <if test="upassword != null" >
+        upassword,
+      </if>
+      <if test="uemail != null" >
+        uemail,
+      </if>
+      <if test="uphone != null" >
+        uphone,
+      </if>
+      <if test="uname != null" >
+        uname,
+      </if>
+      <if test="salt != null" >
+        salt,
+      </if>
+      <if test="ustatus != null" >
+        ustatus,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uacctount != null" >
+        #{uacctount,jdbcType=VARCHAR},
+      </if>
+      <if test="upassword != null" >
+        #{upassword,jdbcType=VARCHAR},
+      </if>
+      <if test="uemail != null" >
+        #{uemail,jdbcType=VARCHAR},
+      </if>
+      <if test="uphone != null" >
+        #{uphone,jdbcType=VARCHAR},
+      </if>
+      <if test="uname != null" >
+        #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=CHAR},
+      </if>
+      <if test="ustatus != null" >
+        #{ustatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByCriteriaSelective" parameterType="map" >
+    update t_sys_user
+    <set >
+      <if test="record.suId != null" >
+        suId = #{record.suId,jdbcType=BIGINT},
+      </if>
+      <if test="record.uacctount != null" >
+        uacctount = #{record.uacctount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.upassword != null" >
+        upassword = #{record.upassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uemail != null" >
+        uemail = #{record.uemail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uphone != null" >
+        uphone = #{record.uphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uname != null" >
+        uname = #{record.uname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salt != null" >
+        salt = #{record.salt,jdbcType=CHAR},
+      </if>
+      <if test="record.ustatus != null" >
+        ustatus = #{record.ustatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByCriteria" parameterType="map" >
+    update t_sys_user
+    set suId = #{record.suId,jdbcType=BIGINT},
+      uacctount = #{record.uacctount,jdbcType=VARCHAR},
+      upassword = #{record.upassword,jdbcType=VARCHAR},
+      uemail = #{record.uemail,jdbcType=VARCHAR},
+      uphone = #{record.uphone,jdbcType=VARCHAR},
+      uname = #{record.uname,jdbcType=VARCHAR},
+      salt = #{record.salt,jdbcType=CHAR},
+      ustatus = #{record.ustatus,jdbcType=INTEGER},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysUser" >
+    update t_sys_user
+    <set >
+      <if test="uacctount != null" >
+        uacctount = #{uacctount,jdbcType=VARCHAR},
+      </if>
+      <if test="upassword != null" >
+        upassword = #{upassword,jdbcType=VARCHAR},
+      </if>
+      <if test="uemail != null" >
+        uemail = #{uemail,jdbcType=VARCHAR},
+      </if>
+      <if test="uphone != null" >
+        uphone = #{uphone,jdbcType=VARCHAR},
+      </if>
+      <if test="uname != null" >
+        uname = #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        salt = #{salt,jdbcType=CHAR},
+      </if>
+      <if test="ustatus != null" >
+        ustatus = #{ustatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where suId = #{suId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysUser" >
+    update t_sys_user
+    set uacctount = #{uacctount,jdbcType=VARCHAR},
+      upassword = #{upassword,jdbcType=VARCHAR},
+      uemail = #{uemail,jdbcType=VARCHAR},
+      uphone = #{uphone,jdbcType=VARCHAR},
+      uname = #{uname,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=CHAR},
+      ustatus = #{ustatus,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where suId = #{suId,jdbcType=BIGINT}
+  </update>
+  <sql id="Model_Where_Clause" >
+    <where >
+      <if test="suId != null" >
+         and suId=#{suId}
+      </if>
+      <if test="uacctount != null" >
+         and uacctount=#{uacctount}
+      </if>
+      <if test="upassword != null" >
+         and upassword=#{upassword}
+      </if>
+      <if test="uemail != null" >
+         and uemail=#{uemail}
+      </if>
+      <if test="uphone != null" >
+         and uphone=#{uphone}
+      </if>
+      <if test="uname != null" >
+         and uname=#{uname}
+      </if>
+      <if test="salt != null" >
+         and salt=#{salt}
+      </if>
+      <if test="ustatus != null" >
+         and ustatus=#{ustatus}
+      </if>
+      <if test="createTime != null" >
+         and createTime=#{createTime}
+      </if>
+      <if test="updateTime != null" >
+         and updateTime=#{updateTime}
+      </if>
+    </where>
+  </sql>
+  <select id="countByModel" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysUser" resultType="java.lang.Integer" >
+    select count(*) from t_sys_user
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByModel" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysUser" >
+    select
+    <include refid="Base_Column_List" />
+    from t_sys_user
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+</mapper>

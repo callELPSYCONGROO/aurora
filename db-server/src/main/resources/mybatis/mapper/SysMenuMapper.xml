@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wuhenjian.aurora.db.mapper.sql.SysMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.wuhenjian.aurora.utils.entity.dao.SysMenu" >
+    <id column="smId" property="smId" jdbcType="BIGINT" />
+    <result column="menuname" property="menuname" jdbcType="VARCHAR" />
+    <result column="permission" property="permission" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="menuLevel" property="menuLevel" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="actived" property="actived" jdbcType="INTEGER" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Criteria_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Criteria_Where_Clause" >
+    <where >
+      <foreach collection="criteria.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    smId, menuname, permission, url, menuLevel, sort, icon, actived, createTime, updateTime
+  </sql>
+  <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysMenuCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_sys_menu
+    <if test="_parameter != null" >
+      <include refid="Criteria_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_menu
+    where smId = #{smId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_sys_menu
+    where smId = #{smId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByCriteria" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysMenuCriteria" >
+    delete from t_sys_menu
+    <if test="_parameter != null" >
+      <include refid="Criteria_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysMenu" >
+    <selectKey resultType="java.lang.Long" keyProperty="smId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_sys_menu (menuname, permission, url, 
+      menuLevel, sort, icon, 
+      actived, createTime, updateTime
+      )
+    values (#{menuname,jdbcType=VARCHAR}, #{permission,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{menuLevel,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, 
+      #{actived,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysMenu" >
+    <selectKey resultType="java.lang.Long" keyProperty="smId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_sys_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuname != null" >
+        menuname,
+      </if>
+      <if test="permission != null" >
+        permission,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="menuLevel != null" >
+        menuLevel,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="actived != null" >
+        actived,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuname != null" >
+        #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="permission != null" >
+        #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="menuLevel != null" >
+        #{menuLevel,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="actived != null" >
+        #{actived,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByCriteriaSelective" parameterType="map" >
+    update t_sys_menu
+    <set >
+      <if test="record.smId != null" >
+        smId = #{record.smId,jdbcType=BIGINT},
+      </if>
+      <if test="record.menuname != null" >
+        menuname = #{record.menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.permission != null" >
+        permission = #{record.permission,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null" >
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menuLevel != null" >
+        menuLevel = #{record.menuLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.sort != null" >
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.icon != null" >
+        icon = #{record.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actived != null" >
+        actived = #{record.actived,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByCriteria" parameterType="map" >
+    update t_sys_menu
+    set smId = #{record.smId,jdbcType=BIGINT},
+      menuname = #{record.menuname,jdbcType=VARCHAR},
+      permission = #{record.permission,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      menuLevel = #{record.menuLevel,jdbcType=INTEGER},
+      sort = #{record.sort,jdbcType=INTEGER},
+      icon = #{record.icon,jdbcType=VARCHAR},
+      actived = #{record.actived,jdbcType=INTEGER},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysMenu" >
+    update t_sys_menu
+    <set >
+      <if test="menuname != null" >
+        menuname = #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="permission != null" >
+        permission = #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="menuLevel != null" >
+        menuLevel = #{menuLevel,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="actived != null" >
+        actived = #{actived,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where smId = #{smId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysMenu" >
+    update t_sys_menu
+    set menuname = #{menuname,jdbcType=VARCHAR},
+      permission = #{permission,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      menuLevel = #{menuLevel,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      icon = #{icon,jdbcType=VARCHAR},
+      actived = #{actived,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where smId = #{smId,jdbcType=BIGINT}
+  </update>
+  <sql id="Model_Where_Clause" >
+    <where >
+      <if test="smId != null" >
+         and smId=#{smId}
+      </if>
+      <if test="menuname != null" >
+         and menuname=#{menuname}
+      </if>
+      <if test="permission != null" >
+         and permission=#{permission}
+      </if>
+      <if test="url != null" >
+         and url=#{url}
+      </if>
+      <if test="menuLevel != null" >
+         and menuLevel=#{menuLevel}
+      </if>
+      <if test="sort != null" >
+         and sort=#{sort}
+      </if>
+      <if test="icon != null" >
+         and icon=#{icon}
+      </if>
+      <if test="actived != null" >
+         and actived=#{actived}
+      </if>
+      <if test="createTime != null" >
+         and createTime=#{createTime}
+      </if>
+      <if test="updateTime != null" >
+         and updateTime=#{updateTime}
+      </if>
+    </where>
+  </sql>
+  <select id="countByModel" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysMenu" resultType="java.lang.Integer" >
+    select count(*) from t_sys_menu
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByModel" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysMenu" >
+    select
+    <include refid="Base_Column_List" />
+    from t_sys_menu
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+</mapper>
