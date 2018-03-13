@@ -262,9 +262,15 @@ CREATE TABLE `t_sys_group` (
 
     PRIMARY KEY (`sgId`),
     UNIQUE KEY (`gname`)
-)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '后台系统用户组';
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '后台系统管理组';
 
+CREATE TABLE `t_sys_user_group` (
+    `sugId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `sgId` BIGINT NOT NULL COMMENT '用户id',
+    `suId` BIGINT NOT NULL COMMENT '组id',
 
+    PRIMARY KEY (`sugId`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '后台管理系统用户组';
 
 
 
