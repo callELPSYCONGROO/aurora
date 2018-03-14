@@ -1,5 +1,6 @@
 package com.wuhenjian.aurora.utils;
 
+import com.wuhenjian.aurora.utils.constant.ResultStatus;
 import com.wuhenjian.aurora.utils.entity.bo.Page;
 import com.wuhenjian.aurora.utils.exception.BusinessException;
 import org.junit.Test;
@@ -17,5 +18,10 @@ public class ObjectTest {
 		page.setSize(2);
 		page.setOrderBy(null);
 		System.out.println(page.isNullPage());
+	}
+
+	@Test
+	public void enumToString() {
+		System.out.println(ResultStatus.SERVICE_CALL_FUSE.toJson());
 	}
 }

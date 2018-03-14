@@ -1,5 +1,10 @@
 package com.wuhenjian.aurora.utils.constant;
 
+import com.wuhenjian.aurora.utils.JsonUtil;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 错误码和错误信息
  * @author 無痕剑
@@ -56,12 +61,13 @@ public enum ResultStatus {
 	UPLOAD_IMG_FAIL(3023, "picture uploaded fail"),
 	DECRYPTION_EXCEPTION(3024, "Decryption exception"),
 	ENCODING_EXCEPTION(3024, "Decryption exception"),
-		//other
+	//other
 	ACCOUNTCODE_LENGTH(4001, "account length is invalid"),
 	UUID_LENGTH(4002, "uuid length is invalid"),
 	REPO_NAME_EMPTY(4003, "repo name is empty"),
 	PAGE_PARAM_INVALID(4004, "param of PageObj is invalid"),
 
+	SERVICE_CALL_FUSE(5000, "Service call fuse"),
 	END_EXCEPTION(9999, "");
 
 	private Integer code;
@@ -87,5 +93,12 @@ public enum ResultStatus {
 
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+
+	public String toJson() {
+		Map<String, Object> map = new HashMap<>();
+		map.put("msg", this.msg);
+		map.put("code", this.code);
+		return JsonUtil.obj2Json(map);
 	}
 }

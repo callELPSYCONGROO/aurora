@@ -37,7 +37,7 @@ public class PreSecurityFilter extends ZuulFilter {
 	 */
 	@Override
 	public int filterOrder() {
-		return FilterConstants.DEBUG_FILTER_ORDER;
+		return FilterConstants.PRE_DECORATION_FILTER_ORDER;
 	}
 
 	/**
