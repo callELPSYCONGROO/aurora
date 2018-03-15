@@ -2,9 +2,10 @@ package com.wuhenjian.aurora.db.mapper.sql;
 
 import com.wuhenjian.aurora.utils.entity.dao.SysGroup;
 import com.wuhenjian.aurora.utils.entity.dao.SysGroupCriteria;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface SysGroupMapper {
@@ -31,4 +32,6 @@ public interface SysGroupMapper {
     int countByModel(SysGroup model);
 
     List<SysGroup> selectByModel(SysGroup model);
+
+    SysGroup selectBySuId(@Param("suId") Long suId);
 }

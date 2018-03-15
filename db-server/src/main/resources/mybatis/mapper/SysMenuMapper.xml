@@ -333,4 +333,14 @@
       <include refid="Model_Where_Clause" />
     </if>
   </select>
+  <select id="selectBySuId" resultType="com.wuhenjian.aurora.utils.entity.dao.SysMenu">
+    SELECT
+      <include refid="Base_Column_List"/>
+    FROM t_sys_user su
+    LEFT JOIN t_sys_role_permission srp ON su.suId = srp.roleId
+    LEFT JOIN t_sys_menu sm ON srp.smId ON sm.smId
+    WHERE
+      su.suId = #{suId}
+      AND srp.roleType = 1
+  </select>
 </mapper>

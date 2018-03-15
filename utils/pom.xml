@@ -6,7 +6,7 @@
 
     <groupId>com.wuhenjian.aurora</groupId>
     <artifactId>utils</artifactId>
-    <version>1.0.0-RELEASE</version>
+    <version>1.0.1-RELEASE</version>
 
     <properties>
         <encoding>UTF-8</encoding>

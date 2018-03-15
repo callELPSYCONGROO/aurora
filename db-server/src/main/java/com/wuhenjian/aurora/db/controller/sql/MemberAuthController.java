@@ -28,8 +28,13 @@ public class MemberAuthController {
 
 	@RequestMapping(value = "/selectByModel", method = RequestMethod.POST)
 	public List<MemberAuth> selectByModel(@RequestBody(required = false) MemberAuth m) throws BusinessException {
-		if (m != null && !m.isNullPage()) {
-			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
+		if (m != null) {
+			if (!m.isNullPage()) {
+				PageHelper.startPage(m.getNum(), m.getSize());
+			}
+			if (m.hasOrderBy()) {
+				PageHelper.orderBy(m.getOrderBy());
+			}
 		}
 		return mapper.selectByModel(m);
 	}

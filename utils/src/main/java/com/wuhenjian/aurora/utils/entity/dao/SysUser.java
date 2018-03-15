@@ -26,6 +26,10 @@ public class SysUser extends Page implements Serializable {
 
     private Date updateTime;
 
+    private String lastLoginIP;
+
+    private Date lastLoginTime;
+
     private static final long serialVersionUID = 1L;
 
     public Long getSuId() {
@@ -108,6 +112,22 @@ public class SysUser extends Page implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public String getLastLoginIP() {
+        return lastLoginIP;
+    }
+
+    public void setLastLoginIP(String lastLoginIP) {
+        this.lastLoginIP = lastLoginIP == null ? null : lastLoginIP.trim();
+    }
+
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -129,7 +149,9 @@ public class SysUser extends Page implements Serializable {
             && (this.getSalt() == null ? other.getSalt() == null : this.getSalt().equals(other.getSalt()))
             && (this.getUstatus() == null ? other.getUstatus() == null : this.getUstatus().equals(other.getUstatus()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getLastLoginIP() == null ? other.getLastLoginIP() == null : this.getLastLoginIP().equals(other.getLastLoginIP()))
+            && (this.getLastLoginTime() == null ? other.getLastLoginTime() == null : this.getLastLoginTime().equals(other.getLastLoginTime()));
     }
 
     @Override
@@ -146,6 +168,8 @@ public class SysUser extends Page implements Serializable {
         result = prime * result + ((getUstatus() == null) ? 0 : getUstatus().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getLastLoginIP() == null) ? 0 : getLastLoginIP().hashCode());
+        result = prime * result + ((getLastLoginTime() == null) ? 0 : getLastLoginTime().hashCode());
         return result;
     }
 
@@ -165,6 +189,8 @@ public class SysUser extends Page implements Serializable {
         sb.append(", ustatus=").append(ustatus);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
+        sb.append(", lastLoginIP=").append(lastLoginIP);
+        sb.append(", lastLoginTime=").append(lastLoginTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

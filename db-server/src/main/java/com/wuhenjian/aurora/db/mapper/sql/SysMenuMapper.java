@@ -2,9 +2,10 @@ package com.wuhenjian.aurora.db.mapper.sql;
 
 import com.wuhenjian.aurora.utils.entity.dao.SysMenu;
 import com.wuhenjian.aurora.utils.entity.dao.SysMenuCriteria;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface SysMenuMapper {
@@ -31,4 +32,6 @@ public interface SysMenuMapper {
     int countByModel(SysMenu model);
 
     List<SysMenu> selectByModel(SysMenu model);
+
+    List<SysMenu> selectBySuId(@Param("suId") Long suId);
 }

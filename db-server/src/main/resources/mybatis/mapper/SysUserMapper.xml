@@ -12,6 +12,8 @@
     <result column="ustatus" property="ustatus" jdbcType="INTEGER" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
     <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="lastLoginIP" property="lastLoginIP" jdbcType="VARCHAR" />
+    <result column="lastLoginTime" property="lastLoginTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Criteria_Where_Clause" >
     <where >
@@ -72,7 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    suId, uacctount, upassword, uemail, uphone, uname, salt, ustatus, createTime, updateTime
+    suId, uacctount, upassword, uemail, uphone, uname, salt, ustatus, createTime, updateTime, 
+    lastLoginIP, lastLoginTime
   </sql>
   <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysUserCriteria" >
     select
@@ -114,10 +117,12 @@
     </selectKey>
     insert into t_sys_user (uacctount, upassword, uemail, 
       uphone, uname, salt, ustatus, 
-      createTime, updateTime)
+      createTime, updateTime, lastLoginIP, 
+      lastLoginTime)
     values (#{uacctount,jdbcType=VARCHAR}, #{upassword,jdbcType=VARCHAR}, #{uemail,jdbcType=VARCHAR}, 
       #{uphone,jdbcType=VARCHAR}, #{uname,jdbcType=VARCHAR}, #{salt,jdbcType=CHAR}, #{ustatus,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{lastLoginIP,jdbcType=VARCHAR}, 
+      #{lastLoginTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysUser" >
     <selectKey resultType="java.lang.Long" keyProperty="suId" order="AFTER" >
@@ -152,6 +157,12 @@
       <if test="updateTime != null" >
         updateTime,
       </if>
+      <if test="lastLoginIP != null" >
+        lastLoginIP,
+      </if>
+      <if test="lastLoginTime != null" >
+        lastLoginTime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="uacctount != null" >
@@ -180,6 +191,12 @@
       </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginIP != null" >
+        #{lastLoginIP,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -216,6 +233,12 @@
       <if test="record.updateTime != null" >
         updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.lastLoginIP != null" >
+        lastLoginIP = #{record.lastLoginIP,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastLoginTime != null" >
+        lastLoginTime = #{record.lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Criteria_Where_Clause" />
@@ -232,7 +255,9 @@
       salt = #{record.salt,jdbcType=CHAR},
       ustatus = #{record.ustatus,jdbcType=INTEGER},
       createTime = #{record.createTime,jdbcType=TIMESTAMP},
-      updateTime = #{record.updateTime,jdbcType=TIMESTAMP}
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      lastLoginIP = #{record.lastLoginIP,jdbcType=VARCHAR},
+      lastLoginTime = #{record.lastLoginTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Criteria_Where_Clause" />
     </if>
@@ -267,6 +292,12 @@
       <if test="updateTime != null" >
         updateTime = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="lastLoginIP != null" >
+        lastLoginIP = #{lastLoginIP,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        lastLoginTime = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where suId = #{suId,jdbcType=BIGINT}
   </update>
@@ -280,7 +311,9 @@
       salt = #{salt,jdbcType=CHAR},
       ustatus = #{ustatus,jdbcType=INTEGER},
       createTime = #{createTime,jdbcType=TIMESTAMP},
-      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      lastLoginIP = #{lastLoginIP,jdbcType=VARCHAR},
+      lastLoginTime = #{lastLoginTime,jdbcType=TIMESTAMP}
     where suId = #{suId,jdbcType=BIGINT}
   </update>
   <sql id="Model_Where_Clause" >
@@ -315,6 +348,12 @@
       <if test="updateTime != null" >
          and updateTime=#{updateTime}
       </if>
+      <if test="lastLoginIP != null" >
+         and lastLoginIP=#{lastLoginIP}
+      </if>
+      <if test="lastLoginTime != null" >
+         and lastLoginTime=#{lastLoginTime}
+      </if>
     </where>
   </sql>
   <select id="countByModel" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysUser" resultType="java.lang.Integer" >
@@ -330,5 +369,12 @@
     <if test="_parameter != null" >
       <include refid="Model_Where_Clause" />
     </if>
+  </select>
+  <select id="selectByUname" resultType="com.wuhenjian.aurora.utils.entity.dao.SysUser">
+    SELECT
+      <include refid="Base_Column_List"/>
+    FROM t_sys_user
+    WHERE
+      `uname` = #{uname}
   </select>
 </mapper>

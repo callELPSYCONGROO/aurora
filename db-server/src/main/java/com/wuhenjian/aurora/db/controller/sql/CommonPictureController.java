@@ -28,8 +28,13 @@ public class CommonPictureController {
 
 	@RequestMapping(value = "/selectByModel", method = RequestMethod.POST)
 	public List<CommonPicture> selectByModel(@RequestBody(required = false) CommonPicture m) throws BusinessException {
-		if (m != null && !m.isNullPage()) {
-			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
+		if (m != null) {
+			if (!m.isNullPage()) {
+				PageHelper.startPage(m.getNum(), m.getSize());
+			}
+			if (m.hasOrderBy()) {
+				PageHelper.orderBy(m.getOrderBy());
+			}
 		}
 		return mapper.selectByModel(m);
 	}

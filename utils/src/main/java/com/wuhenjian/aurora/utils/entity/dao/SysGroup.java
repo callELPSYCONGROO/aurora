@@ -9,6 +9,8 @@ public class SysGroup extends Page implements Serializable {
 
     private String gname;
 
+    private String gtype;
+
     private Integer glevel;
 
     private Integer gstatus;
@@ -29,6 +31,14 @@ public class SysGroup extends Page implements Serializable {
 
     public void setGname(String gname) {
         this.gname = gname == null ? null : gname.trim();
+    }
+
+    public String getGtype() {
+        return gtype;
+    }
+
+    public void setGtype(String gtype) {
+        this.gtype = gtype == null ? null : gtype.trim();
     }
 
     public Integer getGlevel() {
@@ -61,6 +71,7 @@ public class SysGroup extends Page implements Serializable {
         SysGroup other = (SysGroup) that;
         return (this.getSgId() == null ? other.getSgId() == null : this.getSgId().equals(other.getSgId()))
             && (this.getGname() == null ? other.getGname() == null : this.getGname().equals(other.getGname()))
+            && (this.getGtype() == null ? other.getGtype() == null : this.getGtype().equals(other.getGtype()))
             && (this.getGlevel() == null ? other.getGlevel() == null : this.getGlevel().equals(other.getGlevel()))
             && (this.getGstatus() == null ? other.getGstatus() == null : this.getGstatus().equals(other.getGstatus()));
     }
@@ -71,6 +82,7 @@ public class SysGroup extends Page implements Serializable {
         int result = 1;
         result = prime * result + ((getSgId() == null) ? 0 : getSgId().hashCode());
         result = prime * result + ((getGname() == null) ? 0 : getGname().hashCode());
+        result = prime * result + ((getGtype() == null) ? 0 : getGtype().hashCode());
         result = prime * result + ((getGlevel() == null) ? 0 : getGlevel().hashCode());
         result = prime * result + ((getGstatus() == null) ? 0 : getGstatus().hashCode());
         return result;
@@ -84,6 +96,7 @@ public class SysGroup extends Page implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", sgId=").append(sgId);
         sb.append(", gname=").append(gname);
+        sb.append(", gtype=").append(gtype);
         sb.append(", glevel=").append(glevel);
         sb.append(", gstatus=").append(gstatus);
         sb.append(", serialVersionUID=").append(serialVersionUID);

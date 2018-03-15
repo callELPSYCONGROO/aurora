@@ -101,4 +101,13 @@ public enum ResultStatus {
 		map.put("code", this.code);
 		return JsonUtil.obj2Json(map);
 	}
+
+	public static String getMsg(Integer code) {
+		for (ResultStatus rs : ResultStatus.values()) {
+			if (rs.code.equals(code)) {
+				return rs.msg;
+			}
+		}
+		return null;
+	}
 }

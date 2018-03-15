@@ -28,17 +28,17 @@ public class PhpFallback implements FallbackProvider {
 	public ClientHttpResponse fallbackResponse() {
 		return new ClientHttpResponse() {
 			@Override
-			public HttpStatus getStatusCode() throws IOException {
+			public HttpStatus getStatusCode() {
 				return HttpStatus.OK;
 			}
 
 			@Override
-			public int getRawStatusCode() throws IOException {
+			public int getRawStatusCode() {
 				return HttpStatus.OK.value();
 			}
 
 			@Override
-			public String getStatusText() throws IOException {
+			public String getStatusText() {
 				return HttpStatus.OK.getReasonPhrase();
 			}
 
@@ -47,7 +47,7 @@ public class PhpFallback implements FallbackProvider {
 			}
 
 			@Override
-			public InputStream getBody() throws IOException {
+			public InputStream getBody() {
 				return new ByteArrayInputStream(ResultStatus.SERVICE_CALL_FUSE.toJson().getBytes());
 			}
 

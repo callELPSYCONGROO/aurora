@@ -55,6 +55,10 @@ public class Page {
 		if (this.num != null && this.size == null) {
 			throw new BusinessException(ResultStatus.PAGE_PARAM_INVALID);
 		}
-		return this.num == null && this.size == null && this.orderBy == null;
+		return this.num == null && this.size == null;
+	}
+
+	public boolean hasOrderBy() {
+		return this.orderBy != null;
 	}
 }

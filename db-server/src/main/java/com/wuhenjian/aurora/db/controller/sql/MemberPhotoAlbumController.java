@@ -28,8 +28,13 @@ public class MemberPhotoAlbumController {
 
 	@RequestMapping(value = "/selectByModel", method = RequestMethod.POST)
 	public List<MemberPhotoAlbum> selectByModel(@RequestBody(required = false) MemberPhotoAlbum m) throws BusinessException {
-		if (m != null && !m.isNullPage()) {
-			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
+		if (m != null) {
+			if (!m.isNullPage()) {
+				PageHelper.startPage(m.getNum(), m.getSize());
+			}
+			if (m.hasOrderBy()) {
+				PageHelper.orderBy(m.getOrderBy());
+			}
 		}
 		return mapper.selectByModel(m);
 	}

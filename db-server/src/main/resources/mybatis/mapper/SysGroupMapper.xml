@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.wuhenjian.aurora.utils.entity.dao.SysGroup" >
     <id column="sgId" property="sgId" jdbcType="BIGINT" />
     <result column="gname" property="gname" jdbcType="VARCHAR" />
+    <result column="gtype" property="gtype" jdbcType="VARCHAR" />
     <result column="glevel" property="glevel" jdbcType="INTEGER" />
     <result column="gstatus" property="gstatus" jdbcType="INTEGER" />
   </resultMap>
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    sgId, gname, glevel, gstatus
+    sgId, gname, gtype, glevel, gstatus
   </sql>
   <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysGroupCriteria" >
     select
@@ -106,10 +107,10 @@
     <selectKey resultType="java.lang.Long" keyProperty="sgId" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_sys_group (gname, glevel, gstatus
-      )
-    values (#{gname,jdbcType=VARCHAR}, #{glevel,jdbcType=INTEGER}, #{gstatus,jdbcType=INTEGER}
-      )
+    insert into t_sys_group (gname, gtype, glevel, 
+      gstatus)
+    values (#{gname,jdbcType=VARCHAR}, #{gtype,jdbcType=VARCHAR}, #{glevel,jdbcType=INTEGER}, 
+      #{gstatus,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysGroup" >
     <selectKey resultType="java.lang.Long" keyProperty="sgId" order="AFTER" >
@@ -119,6 +120,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="gname != null" >
         gname,
+      </if>
+      <if test="gtype != null" >
+        gtype,
       </if>
       <if test="glevel != null" >
         glevel,
@@ -130,6 +134,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="gname != null" >
         #{gname,jdbcType=VARCHAR},
+      </if>
+      <if test="gtype != null" >
+        #{gtype,jdbcType=VARCHAR},
       </if>
       <if test="glevel != null" >
         #{glevel,jdbcType=INTEGER},
@@ -148,6 +155,9 @@
       <if test="record.gname != null" >
         gname = #{record.gname,jdbcType=VARCHAR},
       </if>
+      <if test="record.gtype != null" >
+        gtype = #{record.gtype,jdbcType=VARCHAR},
+      </if>
       <if test="record.glevel != null" >
         glevel = #{record.glevel,jdbcType=INTEGER},
       </if>
@@ -163,6 +173,7 @@
     update t_sys_group
     set sgId = #{record.sgId,jdbcType=BIGINT},
       gname = #{record.gname,jdbcType=VARCHAR},
+      gtype = #{record.gtype,jdbcType=VARCHAR},
       glevel = #{record.glevel,jdbcType=INTEGER},
       gstatus = #{record.gstatus,jdbcType=INTEGER}
     <if test="_parameter != null" >
@@ -174,6 +185,9 @@
     <set >
       <if test="gname != null" >
         gname = #{gname,jdbcType=VARCHAR},
+      </if>
+      <if test="gtype != null" >
+        gtype = #{gtype,jdbcType=VARCHAR},
       </if>
       <if test="glevel != null" >
         glevel = #{glevel,jdbcType=INTEGER},
@@ -187,6 +201,7 @@
   <update id="updateByPrimaryKey" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysGroup" >
     update t_sys_group
     set gname = #{gname,jdbcType=VARCHAR},
+      gtype = #{gtype,jdbcType=VARCHAR},
       glevel = #{glevel,jdbcType=INTEGER},
       gstatus = #{gstatus,jdbcType=INTEGER}
     where sgId = #{sgId,jdbcType=BIGINT}
@@ -198,6 +213,9 @@
       </if>
       <if test="gname != null" >
          and gname=#{gname}
+      </if>
+      <if test="gtype != null" >
+         and gtype=#{gtype}
       </if>
       <if test="glevel != null" >
          and glevel=#{glevel}
@@ -220,5 +238,15 @@
     <if test="_parameter != null" >
       <include refid="Model_Where_Clause" />
     </if>
+  </select>
+  <select id="selectBySuId" resultType="com.wuhenjian.aurora.utils.entity.dao.SysGroup">
+    SELECT
+      sg.sgId, sg.gname, sg.glevel, sg.gstatus, sg.gtype
+    FROM `t_sys_user` su
+    LEFT JOIN `t_sys_user_group` sug ON su.`suId` = sug.`suId`
+    LEFT JOIN `t_sys_group` sg ON sg.`sgId` = sug.`sgId`
+    WHERE
+      su.`suId` = #{suId}
+      AND sg.`gstatus` = 1
   </select>
 </mapper>

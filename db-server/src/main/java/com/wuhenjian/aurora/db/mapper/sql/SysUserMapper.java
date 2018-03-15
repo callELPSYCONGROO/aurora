@@ -2,9 +2,10 @@ package com.wuhenjian.aurora.db.mapper.sql;
 
 import com.wuhenjian.aurora.utils.entity.dao.SysUser;
 import com.wuhenjian.aurora.utils.entity.dao.SysUserCriteria;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface SysUserMapper {
@@ -31,4 +32,6 @@ public interface SysUserMapper {
     int countByModel(SysUser model);
 
     List<SysUser> selectByModel(SysUser model);
+
+    SysUser selectByUname(@Param("uname") String uname);
 }

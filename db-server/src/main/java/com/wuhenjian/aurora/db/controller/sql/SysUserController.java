@@ -28,8 +28,13 @@ public class SysUserController {
 
 	@RequestMapping(value = "/selectByModel", method = RequestMethod.POST)
 	public List<SysUser> selectByModel(@RequestBody(required = false) SysUser m) throws BusinessException {
-		if (m != null && !m.isNullPage()) {
-			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
+		if (m != null) {
+			if (!m.isNullPage()) {
+				PageHelper.startPage(m.getNum(), m.getSize());
+			}
+			if (m.hasOrderBy()) {
+				PageHelper.orderBy(m.getOrderBy());
+			}
 		}
 		return mapper.selectByModel(m);
 	}
@@ -49,4 +54,8 @@ public class SysUserController {
 		mapper.deleteByPrimaryKey(id);
 	}
 
+	@RequestMapping(value = "/selectByUname", method = RequestMethod.GET)
+	public SysUser selectByUname(@RequestParam("uname") String uname) {
+		return mapper.selectByUname(uname);
+	}
 }

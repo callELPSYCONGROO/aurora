@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wuhenjian.aurora.db.mapper.sql.SysFilterChainMapper" >
+  <resultMap id="BaseResultMap" type="com.wuhenjian.aurora.utils.entity.dao.SysFilterChain" >
+    <id column="sfcId" property="sfcId" jdbcType="BIGINT" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="filterRole" property="filterRole" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Criteria_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Criteria_Where_Clause" >
+    <where >
+      <foreach collection="criteria.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    sfcId, url, filterRole, sort
+  </sql>
+  <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysFilterChainCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_sys_filter_chain
+    <if test="_parameter != null" >
+      <include refid="Criteria_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_filter_chain
+    where sfcId = #{sfcId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_sys_filter_chain
+    where sfcId = #{sfcId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByCriteria" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysFilterChainCriteria" >
+    delete from t_sys_filter_chain
+    <if test="_parameter != null" >
+      <include refid="Criteria_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysFilterChain" >
+    <selectKey resultType="java.lang.Long" keyProperty="sfcId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_sys_filter_chain (url, filterRole, sort
+      )
+    values (#{url,jdbcType=VARCHAR}, #{filterRole,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysFilterChain" >
+    <selectKey resultType="java.lang.Long" keyProperty="sfcId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_sys_filter_chain
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="filterRole != null" >
+        filterRole,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="filterRole != null" >
+        #{filterRole,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByCriteriaSelective" parameterType="map" >
+    update t_sys_filter_chain
+    <set >
+      <if test="record.sfcId != null" >
+        sfcId = #{record.sfcId,jdbcType=BIGINT},
+      </if>
+      <if test="record.url != null" >
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filterRole != null" >
+        filterRole = #{record.filterRole,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sort != null" >
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByCriteria" parameterType="map" >
+    update t_sys_filter_chain
+    set sfcId = #{record.sfcId,jdbcType=BIGINT},
+      url = #{record.url,jdbcType=VARCHAR},
+      filterRole = #{record.filterRole,jdbcType=VARCHAR},
+      sort = #{record.sort,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Criteria_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysFilterChain" >
+    update t_sys_filter_chain
+    <set >
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="filterRole != null" >
+        filterRole = #{filterRole,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+    </set>
+    where sfcId = #{sfcId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysFilterChain" >
+    update t_sys_filter_chain
+    set url = #{url,jdbcType=VARCHAR},
+      filterRole = #{filterRole,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER}
+    where sfcId = #{sfcId,jdbcType=BIGINT}
+  </update>
+  <sql id="Model_Where_Clause" >
+    <where >
+      <if test="sfcId != null" >
+         and sfcId=#{sfcId}
+      </if>
+      <if test="url != null" >
+         and url=#{url}
+      </if>
+      <if test="filterRole != null" >
+         and filterRole=#{filterRole}
+      </if>
+      <if test="sort != null" >
+         and sort=#{sort}
+      </if>
+    </where>
+  </sql>
+  <select id="countByModel" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysFilterChain" resultType="java.lang.Integer" >
+    select count(*) from t_sys_filter_chain
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByModel" resultMap="BaseResultMap" parameterType="com.wuhenjian.aurora.utils.entity.dao.SysFilterChain" >
+    select
+    <include refid="Base_Column_List" />
+    from t_sys_filter_chain
+    <if test="_parameter != null" >
+      <include refid="Model_Where_Clause" />
+    </if>
+  </select>
+</mapper>

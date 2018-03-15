@@ -254,6 +254,76 @@ public class SysGroupCriteria {
             return (Criteria) this;
         }
 
+        public Criteria andGtypeIsNull() {
+            addCriterion("gtype is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtypeIsNotNull() {
+            addCriterion("gtype is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtypeEqualTo(String value) {
+            addCriterion("gtype =", value, "gtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtypeNotEqualTo(String value) {
+            addCriterion("gtype <>", value, "gtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtypeGreaterThan(String value) {
+            addCriterion("gtype >", value, "gtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtypeGreaterThanOrEqualTo(String value) {
+            addCriterion("gtype >=", value, "gtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtypeLessThan(String value) {
+            addCriterion("gtype <", value, "gtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtypeLessThanOrEqualTo(String value) {
+            addCriterion("gtype <=", value, "gtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtypeLike(String value) {
+            addCriterion("gtype like", value, "gtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtypeNotLike(String value) {
+            addCriterion("gtype not like", value, "gtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtypeIn(List<String> values) {
+            addCriterion("gtype in", values, "gtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtypeNotIn(List<String> values) {
+            addCriterion("gtype not in", values, "gtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtypeBetween(String value1, String value2) {
+            addCriterion("gtype between", value1, value2, "gtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtypeNotBetween(String value1, String value2) {
+            addCriterion("gtype not between", value1, value2, "gtype");
+            return (Criteria) this;
+        }
+
         public Criteria andGlevelIsNull() {
             addCriterion("glevel is null");
             return (Criteria) this;
@@ -376,6 +446,11 @@ public class SysGroupCriteria {
 
         public Criteria andGnameLikeInsensitive(String value) {
             addCriterion("upper(gname) like", value.toUpperCase(), "gname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtypeLikeInsensitive(String value) {
+            addCriterion("upper(gtype) like", value.toUpperCase(), "gtype");
             return (Criteria) this;
         }
     }

@@ -28,8 +28,13 @@ public class SysGroupController {
 
 	@RequestMapping(value = "/selectByModel", method = RequestMethod.POST)
 	public List<SysGroup> selectByModel(@RequestBody(required = false) SysGroup m) throws BusinessException {
-		if (m != null && !m.isNullPage()) {
-			PageHelper.startPage(m.getNum(), m.getSize(), m.getOrderBy());
+		if (m != null) {
+			if (!m.isNullPage()) {
+				PageHelper.startPage(m.getNum(), m.getSize());
+			}
+			if (m.hasOrderBy()) {
+				PageHelper.orderBy(m.getOrderBy());
+			}
 		}
 		return mapper.selectByModel(m);
 	}
@@ -49,4 +54,8 @@ public class SysGroupController {
 		mapper.deleteByPrimaryKey(id);
 	}
 
+	@RequestMapping(value = "/selectBySuId", method = RequestMethod.GET)
+	public SysGroup selectBySuId(@RequestParam("suId") Long suId) {
+		return mapper.selectBySuId(suId);
+	}
 }

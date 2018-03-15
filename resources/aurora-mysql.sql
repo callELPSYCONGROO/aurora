@@ -250,6 +250,8 @@ CREATE TABLE `t_sys_user` (
     `ustatus` INT(2) DEFAULT 1 COMMENT '用户状态：1-正常，2-密码错误次数过多被锁定，3-管理员锁定，4-注销',
     `createTime` DATETIME COMMENT '创建时间',
     `updateTime` DATETIME COMMENT '修改时间',
+    `lastLoginIP` VARCHAR(20) COMMENT '上次登录IP',
+    `lastLoginTime` DATETIME COMMENT '上次登录时间',
 
     PRIMARY KEY (`suId`),
     UNIQUE KEY (`uacctount`)
@@ -257,7 +259,8 @@ CREATE TABLE `t_sys_user` (
 
 CREATE TABLE `t_sys_group` (
     `sgId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `gname` VARCHAR(10) NOT NULL COMMENT '组名',
+    `gname` VARCHAR(10) NOT NULL COMMENT '组名，中文',
+    `gtype` VARCHAR(10) NOT NULL COMMENT '组类型，英文',
     `glevel` INT(2) NOT NULL COMMENT '用户组等级，从大到小：1、2、3...，1为超级管理员，2为普通管理员',
     `gstatus` INT(2) DEFAULT 1 COMMENT '组状态，1-正常，2-禁用',
 
@@ -267,10 +270,11 @@ CREATE TABLE `t_sys_group` (
 
 CREATE TABLE `t_sys_user_group` (
     `sugId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `sgId` BIGINT NOT NULL COMMENT '用户id',
-    `suId` BIGINT NOT NULL COMMENT '组id',
+    `sgId` BIGINT NOT NULL COMMENT '组id',
+    `suId` BIGINT NOT NULL COMMENT '用户id',
 
-    PRIMARY KEY (`sugId`)
+    PRIMARY KEY (`sugId`),
+    UNIQUE KEY (`suId`)
 )ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '用户组';
 
 CREATE TABLE `t_sys_menu` (
@@ -299,3 +303,15 @@ CREATE TABLE `t_sys_role_permission` (
     PRIMARY KEY (`srpId`),
     UNIQUE KEY (`roleType`,`roleId`,`smId`)
 )ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT '用户权限';
+
+CREATE TABLE `t_sys_filter_chain` (
+    `sfcId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `url` VARCHAR(50) NOT NULL COMMENT '请求URL',
+    `filterRole` VARCHAR(10) NOT NULL COMMENT '过滤规则',
+    `sort` INT(2) NOT NULL COMMENT '排序',
+
+    PRIMARY KEY (`sfcId`),
+    UNIQUE KEY (`url`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT 'URL请求过滤表';
+
+
