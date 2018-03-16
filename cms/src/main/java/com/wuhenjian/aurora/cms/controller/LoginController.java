@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @date 2018/3/14 15:10
  */
 @Controller
-
 public class LoginController {
 	@RequestMapping("/login")
 	public String login() {

@@ -13,10 +13,12 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
+import org.springframework.web.filter.DelegatingFilterProxy;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,10 +29,8 @@ import java.util.Map;
  * @date 2018/3/14 11:52
  */
 @Configuration
+@Order
 public class ShiroConfig {
-
-	@Autowired
-	private SysFilterChainService sysFilterChainService;
 
 	@Bean(name = "userCredentialsMatcher")
 	public UserCredentialsMatcher userCredentialsMatcher() {
@@ -47,10 +47,11 @@ public class ShiroConfig {
 
 	@Bean(name = "userShiroRealm")
 	@DependsOn("lifecycleBeanPostProcessor")
-	public UserShiroRealm userShiroRealm() {
+	public UserShiroRealm userShiroRealm(UserCredentialsMatcher userCredentialsMatcher,
+                                         EhCacheManager ehCacheManager) {
 		UserShiroRealm userShiroRealm = new UserShiroRealm();
-		userShiroRealm.setCacheManager(this.ehCacheManager());
-		userShiroRealm.setCredentialsMatcher(this.userCredentialsMatcher());
+		userShiroRealm.setCacheManager(ehCacheManager);
+		userShiroRealm.setCredentialsMatcher(userCredentialsMatcher);
 		return userShiroRealm;
 	}
 
@@ -58,43 +59,44 @@ public class ShiroConfig {
 	 * Shiro安全管理器
 	 */
 	@Bean(name = "securityManager")
-	public SecurityManager securityManager() {
+	public SecurityManager securityManager(UserShiroRealm userShiroRealm,
+                                           EhCacheManager ehCacheManager) {
 		DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
-		manager.setRealm(this.userShiroRealm());
-		manager.setCacheManager(this.ehCacheManager());
+		manager.setRealm(userShiroRealm);
+		manager.setCacheManager(ehCacheManager);
 		return manager;
 	}
 
 	/**
 	 * Shiro的web过滤器工厂
-	 * @param securityManager 安全管理器
 	 */
-	@Bean(name = "shiroFilterFactoryBean")
-	public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) throws BusinessException {
+	@Bean
+	public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager,
+                                                         SysFilterChainService sysFilterChainService)
+            throws BusinessException {
 		ShiroFilterFactoryBean factory = new ShiroFilterFactoryBean();
 		factory.setSecurityManager(securityManager);
 		factory.setLoginUrl("/login");// 登录URL
-		factory.setSuccessUrl("/manage/index");// 登录成功跳转页面
+		factory.setSuccessUrl("/index");// 登录成功跳转页面
 		factory.setUnauthorizedUrl("/error/unauthorized");// 访问未授权资源时跳转页面
-		/*
-		 * key-url链接地址，value-过滤规则
-		 * 有序链表结构hashmap，作为shiro过滤链。
-		 * 添加顺序即为过滤器执行顺序。
-		 */
-		Map<String, String> map = new LinkedHashMap<>();
-//		map.put("/static/**", "anon");
-//		map.put("/login", "anon");
-//		map.put("/**", "authc");
-		// 使用动态URL权限拦截管理
-		SysFilterChain model = new SysFilterChain();
-		model.setOrderBy("sort");
-		List<SysFilterChain> sysFilterChains = sysFilterChainService.selectByModel(model);// 查询所有权限
-		for (SysFilterChain sfc : sysFilterChains) {
-			map.put(sfc.getUrl(), sfc.getFilterRole());
-		}
+        SysFilterChain model = new SysFilterChain();
+        model.setOrderBy("sort");
+        List<SysFilterChain> sysFilterChains = sysFilterChainService.selectByModel(model);// 查询数据库获取权限
+        Map<String, String> map = new LinkedHashMap<>();
+        for (SysFilterChain sfc : sysFilterChains) {// 添加动态URL权限拦截
+            map.put(sfc.getUrl(), sfc.getFilterRole());
+        }
 		factory.setFilterChainDefinitionMap(map);
 		return factory;
 	}
+
+	@Bean(name = "filterRegistrationBean")
+	public FilterRegistrationBean filterRegistrationBean() {
+        DelegatingFilterProxy delegatingFilterProxy = new DelegatingFilterProxy("shiroFilterFactoryBean");
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        filterRegistrationBean.setFilter(delegatingFilterProxy);
+        return filterRegistrationBean;
+    }
 
 	/**
 	 * Shiro生命周期交给Spring管理
@@ -118,9 +120,9 @@ public class ShiroConfig {
 	}
 
 	@Bean(name = "authorizationAttributeSourceAdvisor")
-	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor() {
+	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
 		AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();
-		advisor.setSecurityManager(this.securityManager());
+		advisor.setSecurityManager(securityManager);
 		return advisor;
 	}
 

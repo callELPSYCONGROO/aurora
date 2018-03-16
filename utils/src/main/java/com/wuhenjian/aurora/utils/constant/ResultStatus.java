@@ -61,6 +61,7 @@ public enum ResultStatus {
 	UPLOAD_IMG_FAIL(3023, "picture uploaded fail"),
 	DECRYPTION_EXCEPTION(3024, "Decryption exception"),
 	ENCODING_EXCEPTION(3024, "Decryption exception"),
+	UPDATE_FILTER_CHAIN_DEFINITION_FAIL(3025,"updating Filter Chain Definition fail"),
 	//other
 	ACCOUNTCODE_LENGTH(4001, "account length is invalid"),
 	UUID_LENGTH(4002, "uuid length is invalid"),
