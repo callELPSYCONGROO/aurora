@@ -1,86 +1,103 @@
 <!DOCTYPE html>
-<html lang="zh"> 
-<head>
-    <title>「AURORA」后台管理系统</title>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Fonts -->
-    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
-    <!-- CSS Libs -->
-    <link rel="stylesheet" type="text/css" href="../static/lib/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../static/lib/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="../static/lib/css/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="../static/lib/css/bootstrap-switch.min.css">
-    <link rel="stylesheet" type="text/css" href="../static/lib/css/checkbox3.min.css">
-    <link rel="stylesheet" type="text/css" href="../static/lib/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="../static/lib/css/dataTables.bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="../static/lib/css/select2.min.css">
-    <!-- CSS App -->
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
-    <link rel="stylesheet" type="text/css" href="../static/css/themes/flat-blue.css">
-</head>
 
-<body class="flat-blue login-page">
-    <div class="container">
-        <div class="login-box">
-            <div>
-                <div class="login-form row">
-                    <div class="col-sm-12 text-center login-header">
-                        <i class="login-logo fa fa-connectdevelop fa-5x"></i>
-                        <h4 class="login-title">Flat Admin V2</h4>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="login-body">
-                            <div class="progress hidden" id="login-progress">
-                                <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                                    Log In...
-                                </div>
-                            </div>
-                            <form>
-                                <div class="control">
-                                    <input type="text" class="form-control" placeholder="请输入账号" />
-                                </div>
-                                <div class="control">
-                                    <input type="password" class="form-control" placeholder="请输入密码" />
-                                </div>
-                                <div class="login-button text-center">
-                                    <input type="submit" class="btn btn-primary" value="登录" />
-                                </div>
-                            </form>
-                        </div>
-                        <div class="login-footer">
-                            <span class="text-right"><a href="javascript:void(0);" class="color-white">忘记密码？</a></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <title>Gentelella Alela! | </title>
+
+    <!-- Bootstrap -->
+    <link href="../static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="../static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="../static/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="../static/vendors/animate.css/animate.min.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="../static/css/custom.min.css" rel="stylesheet">
+  </head>
+
+  <body class="login">
     <div>
-        <div>
-            <div class="alert fresh-color alert-warning alert-dismissible col-xs-6 col-md-3" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <strong>「警告」</strong> 忘记密码，请联系高级管理员。
-            </div>
-        </div>
-    </div>
-    <!-- Javascript Libs -->
-    <script type="text/javascript" src="../static/lib/js/jquery.min.js"></script>
-    <script type="text/javascript" src="../static/lib/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../static/lib/js/Chart.min.js"></script>
-    <script type="text/javascript" src="../static/lib/js/bootstrap-switch.min.js"></script>
-    
-    <script type="text/javascript" src="../static/lib/js/jquery.matchHeight-min.js"></script>
-    <script type="text/javascript" src="../static/lib/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="../static/lib/js/dataTables.bootstrap.min.js"></script>
-    <script type="text/javascript" src="../static/lib/js/select2.full.min.js"></script>
-    <script type="text/javascript" src="../static/lib/js/ace/ace.js"></script>
-    <script type="text/javascript" src="../static/lib/js/ace/mode-html.js"></script>
-    <script type="text/javascript" src="../static/lib/js/ace/theme-github.js"></script>
-    <!-- Javascript -->
-    <script type="text/javascript" src="../static/js/app.js"></script>
-    <script type="text/javascript" src="../static/js/alert.js"></script>
-</body>
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
 
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+            <form>
+              <h1>Login Form</h1>
+              <div>
+                <input type="text" class="form-control" placeholder="Username" required="" />
+              </div>
+              <div>
+                <input type="password" class="form-control" placeholder="Password" required="" />
+              </div>
+              <div>
+                <a class="btn btn-default submit" href="index.html">Log in</a>
+                <a class="reset_pass" href="#">Lost your password?</a>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">New to site?
+                  <a href="#signup" class="to_register"> Create Account </a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
+                  <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+
+        <div id="register" class="animate form registration_form">
+          <section class="login_content">
+            <form>
+              <h1>Create Account</h1>
+              <div>
+                <input type="text" class="form-control" placeholder="Username" required="" />
+              </div>
+              <div>
+                <input type="email" class="form-control" placeholder="Email" required="" />
+              </div>
+              <div>
+                <input type="password" class="form-control" placeholder="Password" required="" />
+              </div>
+              <div>
+                <a class="btn btn-default submit" href="index.html">Submit</a>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">Already a member ?
+                  <a href="#signin" class="to_register"> Log in </a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
+                  <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
