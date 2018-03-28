@@ -69,6 +69,10 @@ public enum ResultStatus {
 	PAGE_PARAM_INVALID(4004, "param of PageObj is invalid"),
 
 	SERVICE_CALL_FUSE(5000, "Service call fuse"),
+
+	//后台系统信息
+	CMS_LOGIN_AUTH_FAIL(8001, "login authentication failure"),
+
 	END_EXCEPTION(9999, "");
 
 	private Integer code;

@@ -246,7 +246,7 @@ CREATE TABLE `t_sys_user` (
     `uemail` VARCHAR(100) DEFAULT NULL COMMENT '用户邮箱',
     `uphone` VARCHAR(20) DEFAULT NULL COMMENT '用户手机',
     `uname` VARCHAR(20) DEFAULT NULL COMMENT '用户名',
-    `salt` CHAR(16) COMMENT '用户盐值',
+    `salt` CHAR(8) COMMENT '用户盐值',
     `ustatus` INT(2) DEFAULT 1 COMMENT '用户状态：1-正常，2-密码错误次数过多被锁定，3-管理员锁定，4-注销',
     `createTime` DATETIME COMMENT '创建时间',
     `updateTime` DATETIME COMMENT '修改时间',

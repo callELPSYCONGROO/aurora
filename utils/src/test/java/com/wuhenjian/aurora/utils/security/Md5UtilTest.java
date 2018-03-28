@@ -10,8 +10,9 @@ public class Md5UtilTest {
 
 	@Test
 	public void encodeTest() {
-		String s = "jfdsklfj8923754fsdlkfj";
-		System.out.println(Md5Util.encode(s));
+		String s = "123456789012345678901234";
+		String sa = "jks29sfd";
+		System.out.println(Md5Util.encode(s,sa).length());
 	}
 
 	@Test
