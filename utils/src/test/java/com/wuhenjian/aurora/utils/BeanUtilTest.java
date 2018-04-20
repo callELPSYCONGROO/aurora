@@ -22,7 +22,7 @@ public class BeanUtilTest {
 		PhpProject p = new PhpProject();
 		p.setUpdateTime(new Date());
 		p.setRepoName("dsad");
-		p.setForksCount(111);
+		p.setForksCount(11);
 		System.out.println(BeanUtil.bean2Map(p));
 	}
 
