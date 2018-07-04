@@ -7,6 +7,7 @@ ENV PATH_DATA="/data"
 ENV PATH_BUILD="/tmp/build"
 # 要构建的项目文件路径
 ENV PATH_PROJECT="component/ra"
+ENV APP_NAME="component-ra.jar"
 
 # 创建目录
 RUN mkdir -p $PATH_APP \
@@ -19,9 +20,9 @@ RUN cd $PATH_BUILD \
     # 打包
     && mvn -q -Dmaven.test.skip=true package \
     # 拷贝编译结果到工作目录
-    && mv $PATH_PROJECT/target/*.jar $PATH_APP \
+    && mv $PATH_BUILD/$PATH_PROJECT/target/*.jar $PATH_APP/ \
     # 清除编译文件
-    && rm -fr $PATH_BUILD
+    && rm -fr $PATH_BUILD/
 # 进入工作目录
 WORKDIR $PATH_APP
 # 挂载目录
@@ -29,4 +30,4 @@ VOLUME $PATH_DATA
 # 工作端口
 EXPOSE 7901
 # 运行程序
-CMD java -jar $PATH_APP/component-ra-1.0.jar
+CMD java -jar $PATH_APP/$APP_NAME
