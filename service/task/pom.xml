@@ -26,6 +26,7 @@
     </dependencies>
 
     <build>
+        <finalName>service-task</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

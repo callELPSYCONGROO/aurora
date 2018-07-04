@@ -28,6 +28,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>component-config</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

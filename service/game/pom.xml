@@ -21,6 +21,7 @@
     </dependencies>
 
     <build>
+        <finalName>service-game</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

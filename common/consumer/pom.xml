@@ -50,6 +50,7 @@
     </dependencies>
 
     <build>
+        <finalName>common-consumer</finalName>
         <plugins>
             <!-- 资源文件拷贝插件 -->
             <plugin>
