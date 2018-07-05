@@ -18,11 +18,13 @@ COPY . $PATH_BUILD
 # 构建应用
 RUN cd $PATH_BUILD \
     # 打包
-    && mvn -q -Dmaven.test.skip=true package \
+    && mvn -B -s /usr/share/maven/ref/settings-docker.xml -q -Dmaven.test.skip=true package \
     # 拷贝编译结果到工作目录
     && mv $PATH_BUILD/$PATH_PROJECT/target/*.jar $PATH_APP/ \
     # 清除编译文件
-    && rm -fr $PATH_BUILD/
+    && rm -fr $PATH_BUILD/ \
+	 # 清除maven_repository
+	 && rm -fr /usr/share/maven/ref/repository/
 # 进入工作目录
 WORKDIR $PATH_APP
 # 挂载目录
